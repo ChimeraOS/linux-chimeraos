@@ -59,8 +59,8 @@ prepare() {
   cd $_srcname
 
   echo "Setting version..."
-  echo "-chimeraos-$pkgrel" > localversion.10-pkgrel
-  echo "${pkgbase#linux}" > localversion.20-pkgname
+  echo "${pkgbase#linux}" > localversion.10-pkgname
+  echo "-$pkgrel" > localversion.20-pkgrel
   make defconfig
   make -s kernelrelease > version
   make mrproper
