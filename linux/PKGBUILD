@@ -5,7 +5,7 @@ pkgbase=linux-chimeraos
 pkgver=6.3.8.arch1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
-_srctag=v${pkgver%.*}-${pkgver##*.}
+_srctag=${pkgver%.*}-${pkgver##*.}
 url="https://github.com/ChimeraOS/linux-chimeraos"
 arch=(x86_64)
 license=(GPL2)
@@ -29,7 +29,7 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "$_srcname::git+https://github.com/archlinux/linux?signed#tag=$_srctag"
+  "https://github.com/archlinux/linux/archive/refs/tags/v$_srctag.tar.gz"
   config  # the main kernel config file
   0001-ayaneo-display-quirks.patch
 )
@@ -55,10 +55,11 @@ _make() {
 }
 
 prepare() {
+  mv "linux-${_srctag}" $_srcname
   cd $_srcname
 
   echo "Setting version..."
-  echo "-$pkgrel" > localversion.10-pkgrel
+  echo "-chimeraos-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
   make defconfig
   make -s kernelrelease > version
