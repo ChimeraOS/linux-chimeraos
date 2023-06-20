@@ -1,0 +1,37 @@
+name: Build ChimeraOS Linux Kernel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create build user
+        run: |
+          useradd -m build
+          cp -vR linux /home/build/linux
+          chown -vR build /home/build/linux
+      - name: Set up pacman keyring
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm bc cpio git pahole python
+      - name: Build linux-chimeraos package
+        run: |
+          su build bash -c "cd /home/build/linux && MAKEFLAGS=-j4 makepkg"
+      - name: Upload package as release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            /home/build/linux/*.pkg.tar.zst
