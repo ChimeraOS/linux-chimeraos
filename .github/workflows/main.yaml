@@ -22,7 +22,7 @@ jobs:
           mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
       - name: Install dependencies
         run: |
-          pacman -Syu --noconfirm bc cpio git pahole python
+          pacman -Syu --noconfirm bc cpio git pahole python kmod
       - name: Build linux-chimeraos package
         run: |
           su build bash -c "cd /home/build/linux && MAKEFLAGS=-j4 makepkg"
