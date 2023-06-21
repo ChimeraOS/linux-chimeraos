@@ -32,6 +32,8 @@ source=(
   "https://github.com/archlinux/linux/archive/refs/tags/v$_srctag.tar.gz"
   config  # the main kernel config file
   0001-ayaneo-display-quirks.patch
+  asus-ally-6.3-asus-keys.patch
+  asus-ally-cs35l41-6.3.patch
 )
 
 validpgpkeys=(
@@ -43,6 +45,8 @@ validpgpkeys=(
 b2sums=('SKIP'
         '10f3d6c5c45bdd49b8863f3fb824404f89625c8be4633dce13ae20cd67c542114f73e30b9d09c5365a1728e0ae411f287610d064f3f9039635162191af3292bb'
         'b5e7aa34328d576bae6237470e58be3ef7557504831d219bb2d279b29fbff5573e47ac9adddd1898e9de81d2db572d91356f51c368398d3b562d381d64235c2d'
+        '6c53217d09782a585a2aa4fc75230c750893796fd2c1fa61443a87b8456a7385f74908e310910702c78012ab3c75a43dad75d3f22a2f0cc94529f305db3a11aa'
+        '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
         )
 
 export KBUILD_BUILD_HOST=chimeraos
