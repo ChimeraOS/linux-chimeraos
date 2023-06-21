@@ -14,7 +14,7 @@ index f8ee72375885..e261bac31762 100644
 @@ -2,7 +2,7 @@
  VERSION = 6
  PATCHLEVEL = 3
- SUBLEVEL = 8
+ SUBLEVEL = 9
 -EXTRAVERSION =
 +EXTRAVERSION = -chos1
  NAME = Hurr durr I'ma ninja sloth
