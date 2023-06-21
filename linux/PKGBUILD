@@ -2,10 +2,10 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.3.8.arch1
+pkgver=6.3.8.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
-_srctag=${pkgver%.*}-${pkgver##*.}
+_srctag=${pkgver%.*}
 url="https://github.com/ChimeraOS/linux-chimeraos"
 arch=(x86_64)
 license=(GPL2)
@@ -29,8 +29,16 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://github.com/archlinux/linux/archive/refs/tags/v$_srctag.tar.gz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
   config  # the main kernel config file
+
+  # Arch Linux patches
+  0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+
+  # ChimeraOS specific patches
+  0002-ChimeraOS-Linux-Kernel-v6.3.8.patch
+
+  # Fixes and additions
   0001-ayaneo-display-quirks.patch
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3.patch
@@ -42,14 +50,15 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('SKIP'
+b2sums=('07b1156f9f5a2673ea53308cd1e67eed34b6354b61b1bf4d8fa020da1976824bdf971239c24d28745964798db9d786e65868391431cd26c713e92128f568d47a'
         '10f3d6c5c45bdd49b8863f3fb824404f89625c8be4633dce13ae20cd67c542114f73e30b9d09c5365a1728e0ae411f287610d064f3f9039635162191af3292bb'
+        '239d01bd6fefb4f1b569ffa991c5a78351b85925aca73384c5e93386d104f89a754fde5f1df66aebc0ede286d04a7abb8be3f44a4fa114930f41bf75e9ba3632'
+        'e29bd2d227394ad4139cb744cbfcbdca8c3ba68e93845f0550c7f18d3f736eec52e65256ae0832a6846e642afede375b61c6df4df7a1ce6293265254a9bbdb87'
         'b5e7aa34328d576bae6237470e58be3ef7557504831d219bb2d279b29fbff5573e47ac9adddd1898e9de81d2db572d91356f51c368398d3b562d381d64235c2d'
         '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
-        '6c53217d09782a585a2aa4fc75230c750893796fd2c1fa61443a87b8456a7385f74908e310910702c78012ab3c75a43dad75d3f22a2f0cc94529f305db3a11aa'
-        )
+        '6c53217d09782a585a2aa4fc75230c750893796fd2c1fa61443a87b8456a7385f74908e310910702c78012ab3c75a43dad75d3f22a2f0cc94529f305db3a11aa')
 
-export KBUILD_BUILD_HOST=chimeraos
+export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
