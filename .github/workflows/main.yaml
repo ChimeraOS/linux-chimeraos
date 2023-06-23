@@ -27,12 +27,10 @@ jobs:
       - name: Build linux-chimeraos package
         run: |
           su build bash -c "cd /home/build/linux && makepkg"
-      - name: Upload package as release
-        uses: softprops/action-gh-release@v1
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          prerelease: true
-          fail_on_unmatched_files: true
-          files: |
+          name: linux-package
+          path: |
             /home/build/linux/*.pkg.tar.zst
+          if-no-files-found: error
