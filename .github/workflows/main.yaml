@@ -25,7 +25,7 @@ jobs:
           pacman -Syu --noconfirm bc cpio git pahole python kmod
       - name: Build linux-chimeraos package
         run: |
-          su build bash -c "cd /home/build/linux && MAKEFLAGS=-j4 makepkg"
+          su build bash -c "cd /home/build/linux && makepkg"
       - name: Upload package as release
         uses: softprops/action-gh-release@v1
         with:
