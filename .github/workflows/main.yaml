@@ -3,6 +3,7 @@ name: Build ChimeraOS Linux Kernel
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-kernel:
