@@ -5,10 +5,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-jobs:
-  env:
-    PKGDEST: "/tmp/linux-chimeraos"
+env:
+  PKGDEST: "/tmp/linux-chimeraos"
 
+jobs:
   build-kernel:
     runs-on: ubuntu-latest
 
