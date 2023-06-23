@@ -36,7 +36,7 @@ jobs:
         id: build-kernel-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/linux && makepkg"
+          su build bash -c "cd /home/build/linux && MAKEFLAGS=-j4 makepkg"
           . /home/build/linux/PKGBUILD
           full_version=${pkgver}-${pkgrel}
           echo "::set-output name=full_version::$full_version"
