@@ -40,11 +40,13 @@ jobs:
           su build bash -c "cd /home/build/linux && MAKEFLAGS=-j$(nproc) makepkg"
           . /home/build/linux/PKGBUILD
           full_version=${pkgver}-${pkgrel}
+          echo $full_version
           echo "full_version=$full_version" >> "$GITHUB_OUTPUT"
+          echo "full_version=$full_version" >> "$GITHUB_ENV"
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
         with:
-          name: linux-chimeraos-${{ steps.build-kernel-package.full_version }}
+          name: linux-chimeraos-${{ env.full_version }}
           path: |
             ${{ env.PKGDEST }}/*.pkg.tar.zst
           if-no-files-found: error
@@ -64,7 +66,7 @@ jobs:
         env:
           full_version: ${{ needs.build-kernel.outputs.full_version }}
         with:
-          name: linux-chimeraos-${full_version}
+          name: linux-chimeraos-${{ env.full_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           fail_on_unmatched_files: true
