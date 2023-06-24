@@ -55,16 +55,17 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     needs: [build-kernel]
+    env:
+      full_version: ${{ needs.build-kernel.outputs.full_version }}
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
+          name: linux-chimeraos-${{ env.full_version }}
           path: ${{ env.PKGDEST }}
 
       - name: Make release
         uses: softprops/action-gh-release@v1
-        env:
-          full_version: ${{ needs.build-kernel.outputs.full_version }}
         with:
           name: linux-chimeraos-${{ env.full_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
