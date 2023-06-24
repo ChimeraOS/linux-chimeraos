@@ -37,10 +37,10 @@ jobs:
         id: build-kernel-package
         shell: bash
         run: |
-          su build bash -c "cd /home/build/linux && MAKEFLAGS=-j4 makepkg"
+          su build bash -c "cd /home/build/linux && MAKEFLAGS=-j$(nproc) makepkg"
           . /home/build/linux/PKGBUILD
           full_version=${pkgver}-${pkgrel}
-          echo "::set-output name=full_version::$full_version"
+          echo "full_version=$full_version" >> "$GITHUB_OUTPUT"
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
         with:
@@ -61,8 +61,10 @@ jobs:
 
       - name: Make release
         uses: softprops/action-gh-release@v1
+        env:
+          full_version: ${{ needs.build-kernel.outputs.full_version }}
         with:
-          name: linux-chimeraos-${{ needs.build-kernel.outputs.full_version }}
+          name: linux-chimeraos-${full_version}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           fail_on_unmatched_files: true
