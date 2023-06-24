@@ -7,7 +7,7 @@ on:
 
 env:
   PKGDEST: "/tmp/linux-chimeraos"
-  PKGBUILD: "/tmp/build"
+  BUILDDIR: "/tmp/build"
 
 jobs:
   build-kernel:
