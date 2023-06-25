@@ -31,6 +31,7 @@ _srcname=chimeraos-linux
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
   config  # the main kernel config file
+  chos-config # our custom settings
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
@@ -54,6 +55,7 @@ validpgpkeys=(
 )
 b2sums=('8f2f75272d5d2a23c6694dffa2a20260310b5b958dbaf27c5bf74ce679cd929493116ff01e94444c3f891147869d09e9dee111cb52a04a8957ae5c8d94b4ee71'
         '10f3d6c5c45bdd49b8863f3fb824404f89625c8be4633dce13ae20cd67c542114f73e30b9d09c5365a1728e0ae411f287610d064f3f9039635162191af3292bb'
+        'ba1fcbf72df6877db250a8077993d542508a1f651092abbe0a4ccbe34a1b971e200860decb7c4df87e133d0384c0e761036ab54608df46fca93366c50c85002f'
         '239d01bd6fefb4f1b569ffa991c5a78351b85925aca73384c5e93386d104f89a754fde5f1df66aebc0ede286d04a7abb8be3f44a4fa114930f41bf75e9ba3632'
         '73f038b77bff995aa6b543e5baabbcf8288352d375e7d34442442d97590c5d9cb7da006b7a4372a96914450b83f54c76acad472af26866038715f2e166f1935c'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
@@ -92,7 +94,7 @@ prepare() {
   done
 
   echo "Setting config..."
-  cp ../config .config
+  scripts/kconfig/merge_config.sh -m ../config ../chos-config
   _make olddefconfig
   diff -u ../config .config || :
 

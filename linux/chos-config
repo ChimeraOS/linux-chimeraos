@@ -1,0 +1,10 @@
+##
+## ChimeraOS customizations
+##
+
+
+# PARAVIRT options have overhead, even on bare metal boots. They can cause
+# spinlocks to not be inlined as well. Either way, we don't intend to run this
+# kernel as a guest, so this also clears out a whole bunch of
+# virtualization-specific drivers.
+CONFIG_HYPERVISOR_GUEST=n
