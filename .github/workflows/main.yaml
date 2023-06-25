@@ -42,11 +42,10 @@ jobs:
           full_version=${pkgver}-${pkgrel}
           echo $full_version
           echo "full_version=$full_version" >> "$GITHUB_OUTPUT"
-          echo "full_version=$full_version" >> "$GITHUB_ENV"
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
         with:
-          name: linux-chimeraos-${{ env.full_version }}
+          name: linux-chimeraos-package
           path: |
             ${{ env.PKGDEST }}/*.pkg.tar.zst
           if-no-files-found: error
@@ -59,7 +58,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: linux-chimeraos-${{ needs.build-kernel.outputs.full_version }}
+          name: linux-chimeraos-package
           path: ${{ env.PKGDEST }}
 
       - name: Make release
