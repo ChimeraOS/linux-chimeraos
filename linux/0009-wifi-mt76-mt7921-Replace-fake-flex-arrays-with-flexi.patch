@@ -1,0 +1,89 @@
+From c25c7c71a29e24883752b4bb7969be5a78157f7b Mon Sep 17 00:00:00 2001
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Date: Fri, 17 Mar 2023 14:56:39 -0600
+Subject: [PATCH 09/10] wifi: mt76: mt7921: Replace fake flex-arrays with
+ flexible-array members
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Zero-length arrays as fake flexible arrays are deprecated and we are
+moving towards adopting C99 flexible-array members instead.
+
+Address the following warnings found with GCC-13 and
+-fstrict-flex-arrays=3 enabled:
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:266:25: warning: array subscript 0 is outside array bounds of ‘struct mt7921_asar_dyn_limit_v2[0]’ [-Warray-bounds=]
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:263:25: warning: array subscript 0 is outside array bounds of ‘struct mt7921_asar_dyn_limit[0]’ [-Warray-bounds=]
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:223:28: warning: array subscript <unknown> is outside array bounds of ‘struct mt7921_asar_geo_limit_v2[0]’ [-Warray-bounds=]
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:220:28: warning: array subscript <unknown> is outside array bounds of ‘struct mt7921_asar_geo_limit[0]’ [-Warray-bounds=]
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:334:37: warning: array subscript i is outside array bounds of ‘u8[0]’ {aka ‘unsigned char[]’} [-Warray-bounds=]
+
+Notice that the DECLARE_FLEX_ARRAY() helper allows for flexible-array
+members in unions.
+
+This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+routines on memcpy() and help us make progress towards globally
+enabling -fstrict-flex-arrays=3 [1].
+
+Link: https://github.com/KSPP/linux/issues/21
+Link: https://github.com/KSPP/linux/issues/272
+Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+---
+ drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.h b/drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.h
+index 35268b0890ad..6f2c4a572572 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.h
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.h
+@@ -24,7 +24,7 @@ struct mt7921_asar_dyn {
+ 	u8 names[4];
+ 	u8 enable;
+ 	u8 nr_tbl;
+-	struct mt7921_asar_dyn_limit tbl[0];
++	DECLARE_FLEX_ARRAY(struct mt7921_asar_dyn_limit, tbl);
+ } __packed;
+ 
+ struct mt7921_asar_dyn_limit_v2 {
+@@ -37,7 +37,7 @@ struct mt7921_asar_dyn_v2 {
+ 	u8 enable;
+ 	u8 rsvd;
+ 	u8 nr_tbl;
+-	struct mt7921_asar_dyn_limit_v2 tbl[0];
++	DECLARE_FLEX_ARRAY(struct mt7921_asar_dyn_limit_v2, tbl);
+ } __packed;
+ 
+ struct mt7921_asar_geo_band {
+@@ -55,7 +55,7 @@ struct mt7921_asar_geo {
+ 	u8 names[4];
+ 	u8 version;
+ 	u8 nr_tbl;
+-	struct mt7921_asar_geo_limit tbl[0];
++	DECLARE_FLEX_ARRAY(struct mt7921_asar_geo_limit, tbl);
+ } __packed;
+ 
+ struct mt7921_asar_geo_limit_v2 {
+@@ -69,7 +69,7 @@ struct mt7921_asar_geo_v2 {
+ 	u8 version;
+ 	u8 rsvd;
+ 	u8 nr_tbl;
+-	struct mt7921_asar_geo_limit_v2 tbl[0];
++	DECLARE_FLEX_ARRAY(struct mt7921_asar_geo_limit_v2, tbl);
+ } __packed;
+ 
+ struct mt7921_asar_cl {
+@@ -85,7 +85,7 @@ struct mt7921_asar_fg {
+ 	u8 rsvd;
+ 	u8 nr_flag;
+ 	u8 rsvd1;
+-	u8 flag[0];
++	u8 flag[];
+ } __packed;
+ 
+ struct mt7921_acpi_sar {
+-- 
+2.41.0
+

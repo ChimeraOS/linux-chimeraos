@@ -1,0 +1,154 @@
+From 35e468516eea5ae7ebdfd51a35e321ec4cc14f0d Mon Sep 17 00:00:00 2001
+From: Sean Wang <sean.wang@mediatek.com>
+Date: Wed, 8 Mar 2023 05:50:59 +0800
+Subject: [PATCH 10/10] wifi: mt76: mt7921: enable p2p support
+
+Introduce p2p-go/p2p-client support to mt7921 driver
+
+CONNECTION_P2P_GC/GO is not supported with the current firmware
+so we added mt76_dev to mt76_connac_mcu_sta_basic_tlv signature to
+use CONNECTION_INFRA_STA/AP instead for p2p-client and p2p-go
+respectively to make it work.
+
+Signed-off-by: Sean Wang <sean.wang@mediatek.com>
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+---
+ drivers/net/wireless/mediatek/mt76/mt7615/mcu.c      |  3 ++-
+ drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c |  8 ++++----
+ drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.h |  2 +-
+ drivers/net/wireless/mediatek/mt76/mt7915/mcu.c      |  4 ++--
+ drivers/net/wireless/mediatek/mt76/mt7921/init.c     | 10 +++++++---
+ drivers/net/wireless/mediatek/mt76/mt7996/mcu.c      |  4 ++--
+ 6 files changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c b/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c
+index eea398c79a98..195fe1094d9b 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c
+@@ -861,7 +861,8 @@ mt7615_mcu_wtbl_sta_add(struct mt7615_phy *phy, struct ieee80211_vif *vif,
+ 		else
+ 			mvif->sta_added = true;
+ 	}
+-	mt76_connac_mcu_sta_basic_tlv(sskb, vif, sta, enable, new_entry);
++	mt76_connac_mcu_sta_basic_tlv(&dev->mt76, sskb, vif, sta, enable,
++				      new_entry);
+ 	if (enable && sta)
+ 		mt76_connac_mcu_sta_tlv(phy->mt76, sskb, sta, vif, 0,
+ 					MT76_STA_INFO_STATE_ASSOC);
+diff --git a/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c b/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
+index cb27885b5da7..0f0a519f956f 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
+@@ -363,7 +363,7 @@ void mt76_connac_mcu_bss_omac_tlv(struct sk_buff *skb,
+ }
+ EXPORT_SYMBOL_GPL(mt76_connac_mcu_bss_omac_tlv);
+ 
+-void mt76_connac_mcu_sta_basic_tlv(struct sk_buff *skb,
++void mt76_connac_mcu_sta_basic_tlv(struct mt76_dev *dev, struct sk_buff *skb,
+ 				   struct ieee80211_vif *vif,
+ 				   struct ieee80211_sta *sta,
+ 				   bool enable, bool newly)
+@@ -394,7 +394,7 @@ void mt76_connac_mcu_sta_basic_tlv(struct sk_buff *skb,
+ 	switch (vif->type) {
+ 	case NL80211_IFTYPE_MESH_POINT:
+ 	case NL80211_IFTYPE_AP:
+-		if (vif->p2p)
++		if (vif->p2p && !is_mt7921(dev))
+ 			conn_type = CONNECTION_P2P_GC;
+ 		else
+ 			conn_type = CONNECTION_INFRA_STA;
+@@ -402,7 +402,7 @@ void mt76_connac_mcu_sta_basic_tlv(struct sk_buff *skb,
+ 		basic->aid = cpu_to_le16(sta->aid);
+ 		break;
+ 	case NL80211_IFTYPE_STATION:
+-		if (vif->p2p)
++		if (vif->p2p && !is_mt7921(dev))
+ 			conn_type = CONNECTION_P2P_GO;
+ 		else
+ 			conn_type = CONNECTION_INFRA_AP;
+@@ -1029,7 +1029,7 @@ int mt76_connac_mcu_sta_cmd(struct mt76_phy *phy,
+ 		return PTR_ERR(skb);
+ 
+ 	if (info->sta || !info->offload_fw)
+-		mt76_connac_mcu_sta_basic_tlv(skb, info->vif, info->sta,
++		mt76_connac_mcu_sta_basic_tlv(dev, skb, info->vif, info->sta,
+ 					      info->enable, info->newly);
+ 	if (info->sta && info->enable)
+ 		mt76_connac_mcu_sta_tlv(phy, skb, info->sta,
+diff --git a/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.h b/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.h
+index 9dbfe26e87e0..ac7d5817f345 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.h
++++ b/drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.h
+@@ -1776,7 +1776,7 @@ mt76_connac_mcu_add_tlv(struct sk_buff *skb, int tag, int len)
+ 
+ int mt76_connac_mcu_set_channel_domain(struct mt76_phy *phy);
+ int mt76_connac_mcu_set_vif_ps(struct mt76_dev *dev, struct ieee80211_vif *vif);
+-void mt76_connac_mcu_sta_basic_tlv(struct sk_buff *skb,
++void mt76_connac_mcu_sta_basic_tlv(struct mt76_dev *dev, struct sk_buff *skb,
+ 				   struct ieee80211_vif *vif,
+ 				   struct ieee80211_sta *sta, bool enable,
+ 				   bool newly);
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7915/mcu.c b/drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
+index 5545a8bdf1d0..2e36f408ba6f 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
+@@ -1657,8 +1657,8 @@ int mt7915_mcu_add_sta(struct mt7915_dev *dev, struct ieee80211_vif *vif,
+ 		return PTR_ERR(skb);
+ 
+ 	/* starec basic */
+-	mt76_connac_mcu_sta_basic_tlv(skb, vif, sta, enable,
+-			!rcu_access_pointer(dev->mt76.wcid[msta->wcid.idx]));
++	mt76_connac_mcu_sta_basic_tlv(&dev->mt76, skb, vif, sta, enable,
++				      !rcu_access_pointer(dev->mt76.wcid[msta->wcid.idx]));
+ 	if (!enable)
+ 		goto out;
+ 
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/init.c b/drivers/net/wireless/mediatek/mt76/mt7921/init.c
+index b77f1a22ffc5..682578f61968 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/init.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/init.c
+@@ -31,11 +31,13 @@ static const struct ieee80211_iface_combination if_comb[] = {
+ static const struct ieee80211_iface_limit if_limits_chanctx[] = {
+ 	{
+ 		.max = 2,
+-		.types = BIT(NL80211_IFTYPE_STATION),
++		.types = BIT(NL80211_IFTYPE_STATION) |
++			 BIT(NL80211_IFTYPE_P2P_CLIENT)
+ 	},
+ 	{
+ 		.max = 1,
+-		.types = BIT(NL80211_IFTYPE_AP),
++		.types = BIT(NL80211_IFTYPE_AP) |
++			 BIT(NL80211_IFTYPE_P2P_GO)
+ 	}
+ };
+ 
+@@ -99,7 +101,9 @@ mt7921_init_wiphy(struct ieee80211_hw *hw)
+ 	wiphy->flags &= ~(WIPHY_FLAG_IBSS_RSN | WIPHY_FLAG_4ADDR_AP |
+ 			  WIPHY_FLAG_4ADDR_STATION);
+ 	wiphy->interface_modes = BIT(NL80211_IFTYPE_STATION) |
+-				 BIT(NL80211_IFTYPE_AP);
++				 BIT(NL80211_IFTYPE_AP) |
++				 BIT(NL80211_IFTYPE_P2P_CLIENT) |
++				 BIT(NL80211_IFTYPE_P2P_GO);
+ 	wiphy->max_remain_on_channel_duration = 5000;
+ 	wiphy->max_scan_ie_len = MT76_CONNAC_SCAN_IE_LEN;
+ 	wiphy->max_scan_ssids = 4;
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7996/mcu.c b/drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
+index 9ad6c889549c..c73e13807dba 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
+@@ -1695,8 +1695,8 @@ int mt7996_mcu_add_sta(struct mt7996_dev *dev, struct ieee80211_vif *vif,
+ 		return PTR_ERR(skb);
+ 
+ 	/* starec basic */
+-	mt76_connac_mcu_sta_basic_tlv(skb, vif, sta, enable,
+-			!rcu_access_pointer(dev->mt76.wcid[msta->wcid.idx]));
++	mt76_connac_mcu_sta_basic_tlv(&dev->mt76, skb, vif, sta, enable,
++				      !rcu_access_pointer(dev->mt76.wcid[msta->wcid.idx]));
+ 	if (!enable)
+ 		goto out;
+ 
+-- 
+2.41.0
+

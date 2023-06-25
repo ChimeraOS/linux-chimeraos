@@ -1,0 +1,115 @@
+From 937ad41999fbfe50452f48d99ca9b9b77212ee96 Mon Sep 17 00:00:00 2001
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+Date: Mon, 3 Apr 2023 12:33:59 +0200
+Subject: [PATCH 06/10] wifi: mt76: mt7921: get rid of eeprom.h
+
+eeprom.h is mostly empty for mt7921, so get rid of it.
+
+Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+---
+ .../wireless/mediatek/mt76/mt7921/debugfs.c   |  1 -
+ .../wireless/mediatek/mt76/mt7921/eeprom.h    | 30 -------------------
+ .../net/wireless/mediatek/mt76/mt7921/init.c  |  1 -
+ .../net/wireless/mediatek/mt76/mt7921/mcu.c   |  1 -
+ .../wireless/mediatek/mt76/mt7921/mt7921.h    | 11 +++++++
+ 5 files changed, 11 insertions(+), 33 deletions(-)
+ delete mode 100644 drivers/net/wireless/mediatek/mt76/mt7921/eeprom.h
+
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/debugfs.c b/drivers/net/wireless/mediatek/mt76/mt7921/debugfs.c
+index 29d8883268f6..d6b6edba2fec 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/debugfs.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/debugfs.c
+@@ -2,7 +2,6 @@
+ /* Copyright (C) 2020 MediaTek Inc. */
+ 
+ #include "mt7921.h"
+-#include "eeprom.h"
+ 
+ static int
+ mt7921_reg_set(void *data, u64 val)
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/eeprom.h b/drivers/net/wireless/mediatek/mt76/mt7921/eeprom.h
+deleted file mode 100644
+index 4b647278eb30..000000000000
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/eeprom.h
++++ /dev/null
+@@ -1,30 +0,0 @@
+-/* SPDX-License-Identifier: ISC */
+-/* Copyright (C) 2020 MediaTek Inc. */
+-
+-#ifndef __MT7921_EEPROM_H
+-#define __MT7921_EEPROM_H
+-
+-#include "mt7921.h"
+-
+-enum mt7921_eeprom_field {
+-	MT_EE_CHIP_ID =		0x000,
+-	MT_EE_VERSION =		0x002,
+-	MT_EE_MAC_ADDR =	0x004,
+-	MT_EE_WIFI_CONF =	0x07c,
+-	MT_EE_HW_TYPE =		0x55b,
+-	__MT_EE_MAX =		0x9ff
+-};
+-
+-#define MT_EE_WIFI_CONF_TX_MASK			BIT(0)
+-#define MT_EE_WIFI_CONF_BAND_SEL		GENMASK(3, 2)
+-
+-#define MT_EE_HW_TYPE_ENCAP			BIT(0)
+-
+-enum mt7921_eeprom_band {
+-	MT_EE_NA,
+-	MT_EE_5GHZ,
+-	MT_EE_2GHZ,
+-	MT_EE_DUAL_BAND,
+-};
+-
+-#endif
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/init.c b/drivers/net/wireless/mediatek/mt76/mt7921/init.c
+index c4ce2536d653..95fd9167525d 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/init.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/init.c
+@@ -6,7 +6,6 @@
+ #include "mt7921.h"
+ #include "mac.h"
+ #include "mcu.h"
+-#include "eeprom.h"
+ 
+ static const struct ieee80211_iface_limit if_limits[] = {
+ 	{
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/mcu.c b/drivers/net/wireless/mediatek/mt76/mt7921/mcu.c
+index 48f38dbbb91d..4e3640a41392 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/mcu.c
+@@ -5,7 +5,6 @@
+ #include <linux/firmware.h>
+ #include "mt7921.h"
+ #include "mt7921_trace.h"
+-#include "eeprom.h"
+ #include "mcu.h"
+ #include "mac.h"
+ 
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h b/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
+index f3155d45a774..149acb1662d5 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
+@@ -266,6 +266,17 @@ struct mt7921_phy {
+ 	bool roc_grant;
+ };
+ 
++enum mt7921_eeprom_field {
++	MT_EE_CHIP_ID =		0x000,
++	MT_EE_VERSION =		0x002,
++	MT_EE_MAC_ADDR =	0x004,
++	MT_EE_WIFI_CONF =	0x07c,
++	MT_EE_HW_TYPE =		0x55b,
++	__MT_EE_MAX =		0x9ff
++};
++
++#define MT_EE_HW_TYPE_ENCAP			BIT(0)
++
+ #define mt7921_init_reset(dev)		((dev)->hif_ops->init_reset(dev))
+ #define mt7921_dev_reset(dev)		((dev)->hif_ops->reset(dev))
+ #define mt7921_mcu_init(dev)		((dev)->hif_ops->mcu_init(dev))
+-- 
+2.41.0
+
