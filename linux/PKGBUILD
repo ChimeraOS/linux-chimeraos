@@ -6,6 +6,7 @@ pkgver=6.3.9.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
+_srcpatch=${pkgver##*.}
 url="https://github.com/ChimeraOS/linux-chimeraos"
 arch=(x86_64)
 license=(GPL2)
@@ -36,15 +37,13 @@ source=(
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
 
   # ChimeraOS specific patches
-  0002-ChimeraOS-Linux-Kernel-v6.3.9.patch
-
   # Fixes and additions
   0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
   0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3-v2.patch
-  
+
   # Wi-Fi patches and backports
   0001-wifi-mt76-mt7921-introduce-mt7921_get_mac80211_ops-u.patch
   0002-wifi-mt76-move-irq_tasklet-in-mt76_dev-struct.patch
@@ -57,7 +56,7 @@ source=(
   0009-wifi-mt76-mt7921-Replace-fake-flex-arrays-with-flexi.patch
   0010-wifi-mt76-mt7921-enable-p2p-support.patch
   0011-wifi-mt76-mt7921e-fix-init-command-fail-with-enabled-device.patch
-  
+
   # Asus Ally bluetooth patch
   0004-asus-ally-bluetooth.patch
 )
@@ -71,7 +70,6 @@ validpgpkeys=(
 b2sums=('8f2f75272d5d2a23c6694dffa2a20260310b5b958dbaf27c5bf74ce679cd929493116ff01e94444c3f891147869d09e9dee111cb52a04a8957ae5c8d94b4ee71'
         '10f3d6c5c45bdd49b8863f3fb824404f89625c8be4633dce13ae20cd67c542114f73e30b9d09c5365a1728e0ae411f287610d064f3f9039635162191af3292bb'
         '239d01bd6fefb4f1b569ffa991c5a78351b85925aca73384c5e93386d104f89a754fde5f1df66aebc0ede286d04a7abb8be3f44a4fa114930f41bf75e9ba3632'
-        '9f2e9c718dbd2710c5d83177a744f7969605a9db968ffb8a1762ea4fc419761f06eb26011a04fb565db021cae34799b73047e4f30bb30b6f9fa05d42d6d24aee'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
@@ -106,6 +104,7 @@ prepare() {
   echo "Setting version..."
   echo "${pkgbase#linux}" > localversion.10-pkgname
   echo "-$pkgrel" > localversion.20-pkgrel
+  sed -i "s/EXTRAVERSION =/EXTRAVERSION = -${_srcpatch}/g" Makefile
   make defconfig
   make -s kernelrelease > version
   make mrproper
