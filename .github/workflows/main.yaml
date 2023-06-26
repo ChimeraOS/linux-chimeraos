@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      full_version: ${{ steps.build-kernel-package.full_version }}
+      full_version: ${{ steps.build-kernel-package.outputs.full_version }}
 
     container: archlinux:base-devel
 
@@ -40,7 +40,6 @@ jobs:
           su build bash -c "cd /home/build/linux && MAKEFLAGS=-j$(nproc) makepkg"
           . /home/build/linux/PKGBUILD
           full_version=${pkgver}-${pkgrel}
-          echo $full_version
           echo "full_version=$full_version" >> "$GITHUB_OUTPUT"
       - name: Upload package artifact
         uses: actions/upload-artifact@v3
@@ -64,9 +63,10 @@ jobs:
       - name: Make release
         uses: softprops/action-gh-release@v1
         with:
-          name: "linux-chimeraos-${{ needs.build-kernel.outputs.full_version }}"
+          name: linux-chimeraos-${{needs.build-kernel.outputs.full_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
+          prerelease: true
           fail_on_unmatched_files: true
           files: |
             ${{ env.PKGDEST }}/*.pkg.tar.zst
