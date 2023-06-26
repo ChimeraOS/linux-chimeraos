@@ -44,6 +44,19 @@ source=(
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3.patch
+  
+  # Wi-Fi patches and backports
+  0001-wifi-mt76-mt7921-introduce-mt7921_get_mac80211_ops-u.patch
+  0002-wifi-mt76-move-irq_tasklet-in-mt76_dev-struct.patch
+  0003-wifi-mt76-add-mt76_connac_irq_enable-utility-routine.patch
+  0004-wifi-mt76-get-rid-of-unused-sta_ps-callbacks.patch
+  0005-wifi-mt76-add-mt76_connac_gen_ppe_thresh-utility-rou.patch
+  0006-wifi-mt76-mt7921-get-rid-of-eeprom.h.patch
+  0007-wifi-mt76-move-shared-mac-definitions-in-mt76_connac.patch
+  0008-wifi-mt76-Replace-zero-length-array-with-flexible-ar.patch
+  0009-wifi-mt76-mt7921-Replace-fake-flex-arrays-with-flexi.patch
+  0010-wifi-mt76-mt7921-enable-p2p-support.patch
+  0011-wifi-mt76-mt7921e-fix-init-command-fail-with-enabled-device.patch
 )
 
 validpgpkeys=(
@@ -60,7 +73,18 @@ b2sums=('8f2f75272d5d2a23c6694dffa2a20260310b5b958dbaf27c5bf74ce679cd929493116ff
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
         '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
-        '6c53217d09782a585a2aa4fc75230c750893796fd2c1fa61443a87b8456a7385f74908e310910702c78012ab3c75a43dad75d3f22a2f0cc94529f305db3a11aa')
+        '6c53217d09782a585a2aa4fc75230c750893796fd2c1fa61443a87b8456a7385f74908e310910702c78012ab3c75a43dad75d3f22a2f0cc94529f305db3a11aa'
+        '9afc35bbceec6c5fe0d28ef31aa1e3dbede5851d89560127216360476b412ea669d55acde86f75563497f40272256b09198cb60cc7eccea2fda975f015da4c3c'
+        '71966df1580d2efdd705dcfab85a2d406b1096bfdf3f565fd33331d25f004cd43361c27e408a5538046d587b1ac459fb8fd540075f8c9ce0642ba11014becd83'
+        '54e3013018ad7cfb511efd1b886ca6fa74a7b6c2dfacaaa4c1fbc41f4d9a295dbdac7d2dcbacf6795f4a3caf8c1a117a191767876df0553612a64994554b4065'
+        '4cea85874b65ab428c1e665000a393d3ea64f621eac52275ac78686045304dd07bdd44112ae770b8f211d1c2bc0f7f094d6eca4fa2af007ef5e4a03e57637a71'
+        '829a90edf9d15a42c99d85064b4d6616f8a4728bf6a12577e94395814fe4df1693484761455bfa987c9f3eac0605ba4caad210fe85fa3125f73a65b0922ef8ea'
+        'b27cbde5e57d3aef09fb9400eb156bd88800e31f458f23c99d08762ad34cb8ca3e151725db4cd375ac5a82630d1352eec0101be0cbfd0cc7a2c76a2966c0e717'
+        '60dff56d8a0f2784b46383379e11ba95dca195cf30d370b00d194038de8cb9036d28bbafbbcf43bc59d48238030bb80694845245759741b860337b328aa456e5'
+        'e6e454b773b70ab8c02d9c9436f46a26209184d963754fdce51227cf0d84cde505a3105805fa250d3ab8127cfee98c8e8229dea39006b500eeac90aa0b5ffd7f'
+        '569a17276f864de341c84b972eef8a3d7ff7e1a4dd12dc98907e3c28b226445a3097d75b534ba5a715315d344b6ecba9a05d5df99cbccec0d28c2cf3ebd9e5bd'
+        '161c0c385a2c6d6313ca8fcec9468080e98a8c9d41a1af7a93486a309bb3f98c549bdd0be8b4f707f814c01711e0f0f844a3f357c38734c0e1c35f6bf706b66d'
+        'f97dd9021d5095f75d20cf53b6cd3c6bb017debc0525b5bc5d179557ddc8273050f177f12f95ab211aeada5924b76a21062c0ca0892c00a9e1eabd21bda3981e')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase

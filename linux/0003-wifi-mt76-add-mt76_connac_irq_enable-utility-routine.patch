@@ -1,0 +1,174 @@
+From be69040a623d95138561c7dde4916d152c94e4a0 Mon Sep 17 00:00:00 2001
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+Date: Mon, 3 Apr 2023 12:33:56 +0200
+Subject: [PATCH 03/10] wifi: mt76: add mt76_connac_irq_enable utility routine
+
+Most of connac based drivers (mt7921, mt7615, mt7663) share the same
+code to enable interrupts. Move it in mt76_connac module.
+
+Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+---
+ drivers/net/wireless/mediatek/mt76/mt7615/dma.c    |  5 +++--
+ drivers/net/wireless/mediatek/mt76/mt7615/mmio.c   |  4 +---
+ drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h |  7 -------
+ drivers/net/wireless/mediatek/mt76/mt76_connac.h   |  6 ++++++
+ drivers/net/wireless/mediatek/mt76/mt7921/dma.c    |  8 ++++----
+ drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h |  7 -------
+ drivers/net/wireless/mediatek/mt76/mt7921/pci.c    | 13 ++++++-------
+ 7 files changed, 20 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7615/dma.c b/drivers/net/wireless/mediatek/mt76/mt7615/dma.c
+index f1914431ff7f..0ce01ccc5dce 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7615/dma.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7615/dma.c
+@@ -76,7 +76,8 @@ static int mt7615_poll_tx(struct napi_struct *napi, int budget)
+ 
+ 	mt76_queue_tx_cleanup(dev, dev->mt76.q_mcu[MT_MCUQ_WM], false);
+ 	if (napi_complete(napi))
+-		mt7615_irq_enable(dev, mt7615_tx_mcu_int_mask(dev));
++		mt76_connac_irq_enable(&dev->mt76,
++				       mt7615_tx_mcu_int_mask(dev));
+ 
+ 	mt76_connac_pm_unref(&dev->mphy, &dev->pm);
+ 
+@@ -297,7 +298,7 @@ int mt7615_dma_init(struct mt7615_dev *dev)
+ 	else
+ 	    mask |= MT_INT_MCU_CMD;
+ 
+-	mt7615_irq_enable(dev, mask);
++	mt76_connac_irq_enable(&dev->mt76, mask);
+ 
+ 	mt7615_dma_start(dev);
+ 
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7615/mmio.c b/drivers/net/wireless/mediatek/mt76/mt7615/mmio.c
+index e703400aa551..cb10878dac7e 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7615/mmio.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7615/mmio.c
+@@ -66,9 +66,7 @@ const u32 mt7663e_reg_map[] = {
+ static void
+ mt7615_rx_poll_complete(struct mt76_dev *mdev, enum mt76_rxq_id q)
+ {
+-	struct mt7615_dev *dev = container_of(mdev, struct mt7615_dev, mt76);
+-
+-	mt7615_irq_enable(dev, MT_INT_RX_DONE(q));
++	mt76_connac_irq_enable(mdev, MT_INT_RX_DONE(q));
+ }
+ 
+ static irqreturn_t mt7615_irq_handler(int irq, void *dev_instance)
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h b/drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h
+index 906e756acbd8..2e085fa04af9 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h
++++ b/drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h
+@@ -410,13 +410,6 @@ void mt7615_mcu_rx_event(struct mt7615_dev *dev, struct sk_buff *skb);
+ int mt7615_mcu_rdd_send_pattern(struct mt7615_dev *dev);
+ int mt7615_mcu_fw_log_2_host(struct mt7615_dev *dev, u8 ctrl);
+ 
+-static inline void mt7615_irq_enable(struct mt7615_dev *dev, u32 mask)
+-{
+-	mt76_set_irq_mask(&dev->mt76, 0, 0, mask);
+-
+-	tasklet_schedule(&dev->mt76.irq_tasklet);
+-}
+-
+ static inline bool mt7615_firmware_offload(struct mt7615_dev *dev)
+ {
+ 	return dev->fw_ver > MT7615_FIRMWARE_V2;
+diff --git a/drivers/net/wireless/mediatek/mt76/mt76_connac.h b/drivers/net/wireless/mediatek/mt76/mt76_connac.h
+index b339c50bff20..84974dfe1953 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt76_connac.h
++++ b/drivers/net/wireless/mediatek/mt76/mt76_connac.h
+@@ -279,6 +279,12 @@ static inline u8 mt76_connac_spe_idx(u8 antenna_mask)
+ 	return ant_to_spe[antenna_mask];
+ }
+ 
++static inline void mt76_connac_irq_enable(struct mt76_dev *dev, u32 mask)
++{
++	mt76_set_irq_mask(dev, 0, 0, mask);
++	tasklet_schedule(&dev->irq_tasklet);
++}
++
+ int mt76_connac_pm_wake(struct mt76_phy *phy, struct mt76_connac_pm *pm);
+ void mt76_connac_power_save_sched(struct mt76_phy *phy,
+ 				  struct mt76_connac_pm *pm);
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/dma.c b/drivers/net/wireless/mediatek/mt76/mt7921/dma.c
+index fd57c87a29ae..fe2ef201a724 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/dma.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/dma.c
+@@ -19,7 +19,7 @@ static int mt7921_poll_tx(struct napi_struct *napi, int budget)
+ 
+ 	mt76_connac_tx_cleanup(&dev->mt76);
+ 	if (napi_complete(napi))
+-		mt7921_irq_enable(dev, MT_INT_TX_DONE_ALL);
++		mt76_connac_irq_enable(&dev->mt76, MT_INT_TX_DONE_ALL);
+ 	mt76_connac_pm_unref(&dev->mphy, &dev->pm);
+ 
+ 	return 0;
+@@ -123,9 +123,9 @@ static int mt7921_dma_enable(struct mt7921_dev *dev)
+ 	mt76_set(dev, MT_WFDMA_DUMMY_CR, MT_WFDMA_NEED_REINIT);
+ 
+ 	/* enable interrupts for TX/RX rings */
+-	mt7921_irq_enable(dev,
+-			  MT_INT_RX_DONE_ALL | MT_INT_TX_DONE_ALL |
+-			  MT_INT_MCU_CMD);
++	mt76_connac_irq_enable(&dev->mt76,
++			       MT_INT_RX_DONE_ALL | MT_INT_TX_DONE_ALL |
++			       MT_INT_MCU_CMD);
+ 	mt76_set(dev, MT_MCU2HOST_SW_INT_ENA, MT_MCU_CMD_WAKE_RX_PCIE);
+ 
+ 	return 0;
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h b/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
+index aeb58ad169e6..098230039e9a 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
+@@ -390,13 +390,6 @@ void mt7921_mcu_rx_event(struct mt7921_dev *dev, struct sk_buff *skb);
+ int mt7921_mcu_set_rxfilter(struct mt7921_dev *dev, u32 fif,
+ 			    u8 bit_op, u32 bit_map);
+ 
+-static inline void mt7921_irq_enable(struct mt7921_dev *dev, u32 mask)
+-{
+-	mt76_set_irq_mask(&dev->mt76, 0, 0, mask);
+-
+-	tasklet_schedule(&dev->mt76.irq_tasklet);
+-}
+-
+ static inline u32
+ mt7921_reg_map_l1(struct mt7921_dev *dev, u32 addr)
+ {
+diff --git a/drivers/net/wireless/mediatek/mt76/mt7921/pci.c b/drivers/net/wireless/mediatek/mt76/mt7921/pci.c
+index 13b12567aaad..a6d924729640 100644
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/pci.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/pci.c
+@@ -31,14 +31,12 @@ MODULE_PARM_DESC(disable_aspm, "disable PCI ASPM support");
+ static void
+ mt7921_rx_poll_complete(struct mt76_dev *mdev, enum mt76_rxq_id q)
+ {
+-	struct mt7921_dev *dev = container_of(mdev, struct mt7921_dev, mt76);
+-
+ 	if (q == MT_RXQ_MAIN)
+-		mt7921_irq_enable(dev, MT_INT_RX_DONE_DATA);
++		mt76_connac_irq_enable(mdev, MT_INT_RX_DONE_DATA);
+ 	else if (q == MT_RXQ_MCU_WA)
+-		mt7921_irq_enable(dev, MT_INT_RX_DONE_WM2);
++		mt76_connac_irq_enable(mdev, MT_INT_RX_DONE_WM2);
+ 	else
+-		mt7921_irq_enable(dev, MT_INT_RX_DONE_WM);
++		mt76_connac_irq_enable(mdev, MT_INT_RX_DONE_WM);
+ }
+ 
+ static irqreturn_t mt7921_irq_handler(int irq, void *dev_instance)
+@@ -466,8 +464,9 @@ static int mt7921_pci_resume(struct device *device)
+ 
+ 	/* enable interrupt */
+ 	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+-	mt7921_irq_enable(dev, MT_INT_RX_DONE_ALL | MT_INT_TX_DONE_ALL |
+-			  MT_INT_MCU_CMD);
++	mt76_connac_irq_enable(&dev->mt76,
++			       MT_INT_RX_DONE_ALL | MT_INT_TX_DONE_ALL |
++			       MT_INT_MCU_CMD);
+ 	mt76_set(dev, MT_MCU2HOST_SW_INT_ENA, MT_MCU_CMD_WAKE_RX_PCIE);
+ 
+ 	/* put dma enabled */
+-- 
+2.41.0
+
