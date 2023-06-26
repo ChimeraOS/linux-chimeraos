@@ -57,6 +57,9 @@ source=(
   0009-wifi-mt76-mt7921-Replace-fake-flex-arrays-with-flexi.patch
   0010-wifi-mt76-mt7921-enable-p2p-support.patch
   0011-wifi-mt76-mt7921e-fix-init-command-fail-with-enabled-device.patch
+  
+  # Asus Ally bluetooth patch
+  0004-asus-ally-bluetooth.patch
 )
 
 validpgpkeys=(
@@ -84,7 +87,8 @@ b2sums=('8f2f75272d5d2a23c6694dffa2a20260310b5b958dbaf27c5bf74ce679cd929493116ff
         'e6e454b773b70ab8c02d9c9436f46a26209184d963754fdce51227cf0d84cde505a3105805fa250d3ab8127cfee98c8e8229dea39006b500eeac90aa0b5ffd7f'
         '569a17276f864de341c84b972eef8a3d7ff7e1a4dd12dc98907e3c28b226445a3097d75b534ba5a715315d344b6ecba9a05d5df99cbccec0d28c2cf3ebd9e5bd'
         '161c0c385a2c6d6313ca8fcec9468080e98a8c9d41a1af7a93486a309bb3f98c549bdd0be8b4f707f814c01711e0f0f844a3f357c38734c0e1c35f6bf706b66d'
-        'f97dd9021d5095f75d20cf53b6cd3c6bb017debc0525b5bc5d179557ddc8273050f177f12f95ab211aeada5924b76a21062c0ca0892c00a9e1eabd21bda3981e')
+        'f97dd9021d5095f75d20cf53b6cd3c6bb017debc0525b5bc5d179557ddc8273050f177f12f95ab211aeada5924b76a21062c0ca0892c00a9e1eabd21bda3981e'
+        '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
