@@ -69,4 +69,4 @@ jobs:
           draft: true
           fail_on_unmatched_files: true
           files: |
-            ${{ env.PKGDEST }}/linux-chimeraos-*/*.pkg.tar.zst
+            ${{ env.PKGDEST }}/linux-chimeraos-package/*.pkg.tar.zst
