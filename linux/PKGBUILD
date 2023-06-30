@@ -44,6 +44,7 @@ source=(
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3-v2.patch
   0001-hwmon-oxp-sensors-staged-changes-for-v6.5.patch
+  0001-ACPI-resource-Remove-Zen-specific-match-and-quirks.patch
 
   # Asus Ally bluetooth patch
   0004-asus-ally-bluetooth.patch
@@ -64,6 +65,7 @@ b2sums=('b59eb04a8715af9f686978812e6d4a466172bb859f80657076de14cd0828b4fac15b688
         '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
         '34813c39b3c367ece09860b213744dfb7f2e78a8ff1f398765d2ad1c265d691ccf7e030bb21fc5acbe3141c5931775fa260026e86f3aa26331326e48f5c7452b'
         'd61221e64b7b226b265bde2b75c8938db8c742786ba3e07964804f54aa9a7453de4ade56a139ac7cd059bfd711c610a45f41981743cb17156c1e7b87a29b4d6d'
+        'd575cd8fa9763eae4d69e9fc5260289ae51f2e9a87dbcde08f89cc4db56742e52ecc9dd394139254dc37defcf4aa249fd92f8453147df7d294527035722c7843'
         '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52')
 
 export KBUILD_BUILD_HOST=archlinux
