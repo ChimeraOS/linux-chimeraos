@@ -27,7 +27,7 @@ jobs:
           mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
       - name: Install dependencies
         run: |
-          pacman -Syu --noconfirm bc cpio git pahole python kmod
+          pacman -Syu --noconfirm bc cpio pahole python kmod
       - name: Prepare sources
         shell: bash
         run: |
