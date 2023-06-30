@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.3.9.chos2
+pkgver=6.4.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -44,19 +44,6 @@ source=(
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3-v2.patch
 
-  # Wi-Fi patches and backports
-  0001-wifi-mt76-mt7921-introduce-mt7921_get_mac80211_ops-u.patch
-  0002-wifi-mt76-move-irq_tasklet-in-mt76_dev-struct.patch
-  0003-wifi-mt76-add-mt76_connac_irq_enable-utility-routine.patch
-  0004-wifi-mt76-get-rid-of-unused-sta_ps-callbacks.patch
-  0005-wifi-mt76-add-mt76_connac_gen_ppe_thresh-utility-rou.patch
-  0006-wifi-mt76-mt7921-get-rid-of-eeprom.h.patch
-  0007-wifi-mt76-move-shared-mac-definitions-in-mt76_connac.patch
-  0008-wifi-mt76-Replace-zero-length-array-with-flexible-ar.patch
-  0009-wifi-mt76-mt7921-Replace-fake-flex-arrays-with-flexi.patch
-  0010-wifi-mt76-mt7921-enable-p2p-support.patch
-  0011-wifi-mt76-mt7921e-fix-init-command-fail-with-enabled-device.patch
-
   # Asus Ally bluetooth patch
   0004-asus-ally-bluetooth.patch
 )
@@ -67,25 +54,14 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('8f2f75272d5d2a23c6694dffa2a20260310b5b958dbaf27c5bf74ce679cd929493116ff01e94444c3f891147869d09e9dee111cb52a04a8957ae5c8d94b4ee71'
-        '10f3d6c5c45bdd49b8863f3fb824404f89625c8be4633dce13ae20cd67c542114f73e30b9d09c5365a1728e0ae411f287610d064f3f9039635162191af3292bb'
+b2sums=('b59eb04a8715af9f686978812e6d4a466172bb859f80657076de14cd0828b4fac15b688ff8959f5c65485f7f6bef26590412c66821e720de843cb8666f226c90'
+        '66e3411d77df938089541bb087474b0ebb733a86eb91c8f5e783a92a8156cf4d3addaa6f58048fac17f2a92195aff9b3b0bff77138421f4dd404f71b5daa64ea'
         '239d01bd6fefb4f1b569ffa991c5a78351b85925aca73384c5e93386d104f89a754fde5f1df66aebc0ede286d04a7abb8be3f44a4fa114930f41bf75e9ba3632'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
         '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
         '34813c39b3c367ece09860b213744dfb7f2e78a8ff1f398765d2ad1c265d691ccf7e030bb21fc5acbe3141c5931775fa260026e86f3aa26331326e48f5c7452b'
-        '9afc35bbceec6c5fe0d28ef31aa1e3dbede5851d89560127216360476b412ea669d55acde86f75563497f40272256b09198cb60cc7eccea2fda975f015da4c3c'
-        '71966df1580d2efdd705dcfab85a2d406b1096bfdf3f565fd33331d25f004cd43361c27e408a5538046d587b1ac459fb8fd540075f8c9ce0642ba11014becd83'
-        '54e3013018ad7cfb511efd1b886ca6fa74a7b6c2dfacaaa4c1fbc41f4d9a295dbdac7d2dcbacf6795f4a3caf8c1a117a191767876df0553612a64994554b4065'
-        '4cea85874b65ab428c1e665000a393d3ea64f621eac52275ac78686045304dd07bdd44112ae770b8f211d1c2bc0f7f094d6eca4fa2af007ef5e4a03e57637a71'
-        '829a90edf9d15a42c99d85064b4d6616f8a4728bf6a12577e94395814fe4df1693484761455bfa987c9f3eac0605ba4caad210fe85fa3125f73a65b0922ef8ea'
-        'b27cbde5e57d3aef09fb9400eb156bd88800e31f458f23c99d08762ad34cb8ca3e151725db4cd375ac5a82630d1352eec0101be0cbfd0cc7a2c76a2966c0e717'
-        '60dff56d8a0f2784b46383379e11ba95dca195cf30d370b00d194038de8cb9036d28bbafbbcf43bc59d48238030bb80694845245759741b860337b328aa456e5'
-        'e6e454b773b70ab8c02d9c9436f46a26209184d963754fdce51227cf0d84cde505a3105805fa250d3ab8127cfee98c8e8229dea39006b500eeac90aa0b5ffd7f'
-        '569a17276f864de341c84b972eef8a3d7ff7e1a4dd12dc98907e3c28b226445a3097d75b534ba5a715315d344b6ecba9a05d5df99cbccec0d28c2cf3ebd9e5bd'
-        '161c0c385a2c6d6313ca8fcec9468080e98a8c9d41a1af7a93486a309bb3f98c549bdd0be8b4f707f814c01711e0f0f844a3f357c38734c0e1c35f6bf706b66d'
-        'f97dd9021d5095f75d20cf53b6cd3c6bb017debc0525b5bc5d179557ddc8273050f177f12f95ab211aeada5924b76a21062c0ca0892c00a9e1eabd21bda3981e'
         '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52')
 
 export KBUILD_BUILD_HOST=archlinux
