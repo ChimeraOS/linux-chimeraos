@@ -43,6 +43,7 @@ source=(
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
   0002-asus-ally-cs35l41-6.3.patch
   0003-asus-ally-asus-hid-6.3-v2.patch
+  0001-hwmon-oxp-sensors-staged-changes-for-v6.5.patch
 
   # Asus Ally bluetooth patch
   0004-asus-ally-bluetooth.patch
@@ -62,6 +63,7 @@ b2sums=('b59eb04a8715af9f686978812e6d4a466172bb859f80657076de14cd0828b4fac15b688
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
         '1c9cc5f309299f909478bae80758640ae09337a714da7d9d023a795b4dfc7569e760593c53c4948ebaac835c0cde5fde58776fb69b8d68a4c2f61ce96bb4c996'
         '34813c39b3c367ece09860b213744dfb7f2e78a8ff1f398765d2ad1c265d691ccf7e030bb21fc5acbe3141c5931775fa260026e86f3aa26331326e48f5c7452b'
+        'd61221e64b7b226b265bde2b75c8938db8c742786ba3e07964804f54aa9a7453de4ade56a139ac7cd059bfd711c610a45f41981743cb17156c1e7b87a29b4d6d'
         '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52')
 
 export KBUILD_BUILD_HOST=archlinux
