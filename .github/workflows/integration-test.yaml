@@ -1,0 +1,34 @@
+name: Test patches integration
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  BUILDDIR: "/tmp/build"
+
+jobs:
+  test-intergation:
+    runs-on: ubuntu-latest
+
+    container: archlinux:base-devel
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create build user
+        run: |
+          useradd -m build
+          cp -vR linux /home/build/linux
+          chown -vR build /home/build/linux
+      - name: Set up pacman keyring
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+          mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm bc cpio git pahole python kmod
+      - name: Prepare sources
+        shell: bash
+        run: |
+          su build bash -c "cd /home/build/linux && makepkg --nobuild"
