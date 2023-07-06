@@ -8,7 +8,7 @@ env:
   BUILDDIR: "/tmp/build"
 
 jobs:
-  test-intergation:
+  test-integration:
     runs-on: ubuntu-latest
 
     container: archlinux:base-devel
