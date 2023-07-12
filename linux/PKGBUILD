@@ -2,7 +2,8 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.4.8.chos1
+_mainlinever="6.5-rc1"
+pkgver=${_mainlinever//-/.}.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -30,7 +31,7 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
+  "https://git.kernel.org/torvalds/t/linux-${_mainlinever}.tar.gz"
   config  # the main kernel config file
 
   # Arch Linux patches
@@ -45,11 +46,7 @@ source=(
   0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
   0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
-  0003-asus-ally-asus-hid-6.3-v2.patch
-  0001-hwmon-oxp-sensors-staged-changes-for-v6.5.patch
-
-  # Asus Ally bluetooth patch
-  0004-asus-ally-bluetooth.patch
+  0001-usb-Add-hid_id-and-keys-for-ASUS-ROG-ALLY-handheld.patch
 
   # Aya Neo patches
   0001-ayaneo-geek-headset-fix.patch
@@ -78,10 +75,9 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('d8e776a1ebc58f5f236ed3bf231336d1b1b4724f14dfafe2eeda789e022fcfc08bc6ff28c975ed94ede2145fab8aed551589873daefbd159a6fd7d8acc01e2f1'
-        '0e371dbca78583225badcdd6112c3f9af6fe39f1a94aaa79853f5bbbae3cfd3657ee555f49fd9292a0e9a7ef3e5d8dd8062430ce32ba0a82a516bbac5c0c41aa'
-        '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
-        '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
+b2sums=('f97e884f0e34c53d78de6b9c734b14d38a0d51dcbdfdb47ed8fa11ff333e84338b937c4bc24b074a07d91ef654e6d7cac3fdfc85469b2652dca17481868b60ef'
+        'fd72837c34fa636825b0a0aed9bf732e02d1589cc86bdd301a343fd99e67d704cf7330b8434c2972281575f2c446017c31ab7412ca5b52a8143446c743571360'
+        '2ac7ee27dd8171f53b913211a2db5f0106a90c151d33561380bfba1dd24c8b5abdd2f917f1a0b185a2ef6654c61ec6f1e4f7bdb5cdc94c9c936b7847ef60cca8'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
@@ -114,7 +110,7 @@ _make() {
 }
 
 prepare() {
-  mv "linux-${_srctag}" $_srcname
+  mv "linux-${_mainlinever}" $_srcname
   cd $_srcname
 
   echo "Setting version..."
