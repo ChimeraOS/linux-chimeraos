@@ -2,7 +2,8 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.4.3.chos2
+_mainlinever="6.5-rc1"
+pkgver=${_mainlinever//-/.}.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -30,12 +31,11 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
+  "https://git.kernel.org/torvalds/t/linux-${_mainlinever}.tar.gz"
   config  # the main kernel config file
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -45,16 +45,10 @@ source=(
   0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
   0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
-  0002-ALSA-hda-realtek-add-quirks-asus-ally-cs35l41.patch
-  0003-asus-ally-asus-hid-6.3-v2.patch
-  0001-hwmon-oxp-sensors-staged-changes-for-v6.5.patch
-  0001-ACPI-resource-Remove-Zen-specific-match-and-quirks.patch
-
-  # Asus Ally bluetooth patch
-  0004-asus-ally-bluetooth.patch
+  0001-usb-Add-hid_id-and-keys-for-ASUS-ROG-ALLY-handheld.patch
 
   #HDR patches
-  0001-HDR.patch
+  #0001-HDR.patch
 )
 
 validpgpkeys=(
@@ -63,20 +57,14 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('d38cae9706127fa28cc55b50ceeba7601de3d1db648b934b9d33e0b439324790074b755b1de204586fa098a326f5c88f81550cff76489b2ea6505987fc243c56'
-        '2a44934a12b21f28cbb12dca410d3cca118c906cd94f14865a6243b4497ce4ba4bd07045d37b92b5654909a1d4d1d676f630c96630b2d0b78eb74c0be3a7fcc9'
+b2sums=('f97e884f0e34c53d78de6b9c734b14d38a0d51dcbdfdb47ed8fa11ff333e84338b937c4bc24b074a07d91ef654e6d7cac3fdfc85469b2652dca17481868b60ef'
+        'fd72837c34fa636825b0a0aed9bf732e02d1589cc86bdd301a343fd99e67d704cf7330b8434c2972281575f2c446017c31ab7412ca5b52a8143446c743571360'
         '2ac7ee27dd8171f53b913211a2db5f0106a90c151d33561380bfba1dd24c8b5abdd2f917f1a0b185a2ef6654c61ec6f1e4f7bdb5cdc94c9c936b7847ef60cca8'
-        'dca0be9f3adc515f63721549aa359b40810fe2164157784adb7313ac032f8954ba725e6f6781b44606d0c8377e7fd900da5298a142a09cd8754ac60cf526ed0b'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
-        '3b8eb5599ec14f02c790586f7e3cc84e0035d997eb1b1add8567894b25e12e6cbdb63b0f8164f89cd8abc4fc6b6a4e8b927cb7dbadad215a35ff2ff191cf4695'
-        '34813c39b3c367ece09860b213744dfb7f2e78a8ff1f398765d2ad1c265d691ccf7e030bb21fc5acbe3141c5931775fa260026e86f3aa26331326e48f5c7452b'
-        'd61221e64b7b226b265bde2b75c8938db8c742786ba3e07964804f54aa9a7453de4ade56a139ac7cd059bfd711c610a45f41981743cb17156c1e7b87a29b4d6d'
-        'd575cd8fa9763eae4d69e9fc5260289ae51f2e9a87dbcde08f89cc4db56742e52ecc9dd394139254dc37defcf4aa249fd92f8453147df7d294527035722c7843'
-        '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52'
-        'e82a079ddac373cefb7901f7a43b896a648d3f00535ce021a8ea722f0c84394e31871ec4fd7a8be82f521c9c8ef9836f82a652388af8b7ea46932515c538ff4d')
+        '2492e61169a98510ce77e5a2898bd01555a3ba88eb52308b1d9457570a1470dd28e6e1c01e945e14cb8343d396f41b0e9f4211b6836613f2521afc60c29d9964')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -88,7 +76,7 @@ _make() {
 }
 
 prepare() {
-  mv "linux-${_srctag}" $_srcname
+  mv "linux-${_mainlinever}" $_srcname
   cd $_srcname
 
   echo "Setting version..."
