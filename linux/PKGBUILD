@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.4.3.chos1
+pkgver=6.4.3.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -36,8 +36,6 @@ source=(
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
   0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
-  0003-mm-disable-CONFIG_PER_VMA_LOCK-until-its-fixed.patch
-
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -69,7 +67,6 @@ b2sums=('d38cae9706127fa28cc55b50ceeba7601de3d1db648b934b9d33e0b439324790074b755
         '2a44934a12b21f28cbb12dca410d3cca118c906cd94f14865a6243b4497ce4ba4bd07045d37b92b5654909a1d4d1d676f630c96630b2d0b78eb74c0be3a7fcc9'
         '2ac7ee27dd8171f53b913211a2db5f0106a90c151d33561380bfba1dd24c8b5abdd2f917f1a0b185a2ef6654c61ec6f1e4f7bdb5cdc94c9c936b7847ef60cca8'
         'dca0be9f3adc515f63721549aa359b40810fe2164157784adb7313ac032f8954ba725e6f6781b44606d0c8377e7fd900da5298a142a09cd8754ac60cf526ed0b'
-        'f344694ba28280e825a8b8103ee633db70063e469888a1cda5adaf4fd5d5fe69661ad153f74362cf86047cfb9249dd4f5df1377dda3215e1273e5562cc3f0ffe'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
