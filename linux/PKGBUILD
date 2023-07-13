@@ -104,7 +104,7 @@ prepare() {
   echo "Setting version..."
   echo "${pkgbase#linux}" > localversion.10-pkgname
   echo "-$pkgrel" > localversion.20-pkgrel
-  sed -i "s/EXTRAVERSION =/EXTRAVERSION = -${_srcpatch}/g" Makefile
+  sed -i "s/EXTRAVERSION =[[:space:]]\{0,\}/EXTRAVERSION = -${_srcpatch}/g" Makefile
   make defconfig
   make -s kernelrelease > version
   make mrproper
