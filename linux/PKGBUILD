@@ -35,7 +35,11 @@ source=(
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
+  0002-tpm-tpm_tis-Disable-interrupts-only-for-AEON-UPX-i11.patch
+  0003-tpm-tpm_tis-Disable-interrupts-for-Framework-Laptop-.patch
+  0004-tpm-tpm_tis-Disable-interrupts-for-Framework-Laptop-.patch
+  0005-tpm-tpm_tis-Disable-interrupts-for-Lenovo-L590-devic.patch
+  0006-Bluetooth-btusb-Fix-bluetooth-on-Intel-Macbook-2014.patch
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -65,8 +69,12 @@ validpgpkeys=(
 )
 b2sums=('1ab6c93da986dac6a07a5e3bc764f9d2a5bb9b8989321244455d894690634ac04364e6a3f960e8674f47ae22fc4ed09b18aa60cbf279636083e61aa6524f8a59'
         '2a44934a12b21f28cbb12dca410d3cca118c906cd94f14865a6243b4497ce4ba4bd07045d37b92b5654909a1d4d1d676f630c96630b2d0b78eb74c0be3a7fcc9'
-        '2ac7ee27dd8171f53b913211a2db5f0106a90c151d33561380bfba1dd24c8b5abdd2f917f1a0b185a2ef6654c61ec6f1e4f7bdb5cdc94c9c936b7847ef60cca8'
-        'dca0be9f3adc515f63721549aa359b40810fe2164157784adb7313ac032f8954ba725e6f6781b44606d0c8377e7fd900da5298a142a09cd8754ac60cf526ed0b'
+        'ad5d71652af8dc9dfa262fd60edb209535f4a1dc4abe64939f1924912b9630251311c84c4868ba4633c02062c3678f1deaebe72b1e227d2187f68ea97bdb4432'
+        '0308340dc1d10e7a00fb4111b3c12d5122552e70e6b029f826352bc5995fa8b925a06f5897bf81ada735fae587e675275e2fe129068d866bc7f69ff3835ebac6'
+        'e57a5bdac4b3b87e780964c90d575178ae4f462a73f5f412b23aecc9dc05ffc9d7acaee288b4cab19a6adbad9b14a37b1212a274ce98a979d6038a010fc11879'
+        '1b70b2c7c2010f898bf3cfdd0db0d5c0942f1754b56f32cadcdda9776b338fc444f6ceaa9a5da130a85df17d446dcb62fd567011ddbc1a47e12979417e4a2b9f'
+        '5027c4f9084393a78f8dbef7d93b48c0d2cf484e04bced4e7359a15dbb40a5b0bc61ca9d424eb320fd2f00d52495c30b0886d891338a744c62cfec0d6c0f9db1'
+        '85ca3c2d0b05ae13b3b526eb23523fa8702a728294af65033e4d1be46d38663800f39bdd7ec7b4fc837836b9150a0c76bfc84d1be59e410ec23570613aad697e'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
