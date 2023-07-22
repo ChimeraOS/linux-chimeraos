@@ -1,0 +1,312 @@
+From 01ec536d939545948ec90edb29d7867a1e817124 Mon Sep 17 00:00:00 2001
+From: bouhaa <boukehaarsma23@gmail.com>
+Date: Sat, 22 Jul 2023 11:03:56 +0200
+Subject: [PATCH] k10temp: add power and current monitoring
+
+Mostly based on zenpower3
+---
+ drivers/hwmon/k10temp.c | 202 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 202 insertions(+)
+
+diff --git a/drivers/hwmon/k10temp.c b/drivers/hwmon/k10temp.c
+index 7b177b9fbb097..1eb73161e53a3 100644
+--- a/drivers/hwmon/k10temp.c
++++ b/drivers/hwmon/k10temp.c
+@@ -77,6 +77,29 @@ static DEFINE_MUTEX(nb_smu_ind_mutex);
+ #define ZEN_CUR_TEMP_RANGE_SEL_MASK		BIT(19)
+ #define ZEN_CUR_TEMP_TJ_SEL_MASK		GENMASK(17, 16)
+ 
++/* F17H_M01H_SVI, should be renamed to something generic I think... */
++
++#define F17H_M01H_REPORTED_TEMP_CTRL        0x00059800
++#define F17H_M01H_SVI                       0x0005A000
++#define F17H_M02H_SVI                       0x0006F000
++#define F17H_M01H_SVI_TEL_PLANE0            (F17H_M01H_SVI + 0xC)
++#define F17H_M01H_SVI_TEL_PLANE1            (F17H_M01H_SVI + 0x10)
++#define F17H_M30H_SVI_TEL_PLANE0            (F17H_M01H_SVI + 0x14)
++#define F17H_M30H_SVI_TEL_PLANE1            (F17H_M01H_SVI + 0x10)
++#define F17H_M60H_SVI_TEL_PLANE0            (F17H_M02H_SVI + 0x38)
++#define F17H_M60H_SVI_TEL_PLANE1            (F17H_M02H_SVI + 0x3C)
++#define F17H_M70H_SVI_TEL_PLANE0            (F17H_M01H_SVI + 0x10)
++#define F17H_M70H_SVI_TEL_PLANE1            (F17H_M01H_SVI + 0xC)
++/* ZEN3 SP3/TR */
++#define F19H_M01H_SVI_TEL_PLANE0            (F17H_M01H_SVI + 0x14)
++#define F19H_M01H_SVI_TEL_PLANE1            (F17H_M01H_SVI + 0x10)
++/* ZEN3 Ryzen desktop */
++#define F19H_M21H_SVI_TEL_PLANE0            (F17H_M01H_SVI + 0x10)
++#define F19H_M21H_SVI_TEL_PLANE1            (F17H_M01H_SVI + 0xC)
++/* ZEN3 APU */
++#define F19H_M50H_SVI_TEL_PLANE0            (F17H_M02H_SVI + 0x38)
++#define F19H_M50H_SVI_TEL_PLANE1            (F17H_M02H_SVI + 0x3C)
++
+ struct k10temp_data {
+ 	struct pci_dev *pdev;
+ 	void (*read_htcreg)(struct pci_dev *pdev, u32 *regval);
+@@ -85,7 +108,11 @@ struct k10temp_data {
+ 	u32 temp_adjust_mask;
+ 	u32 show_temp;
+ 	bool is_zen;
++	bool is_zen1;
+ 	u32 ccd_offset;
++	u32 svi_core_addr;
++	u32 svi_soc_addr;
++	bool amps_visible;
+ };
+ 
+ #define TCTL_BIT	0
+@@ -162,6 +189,39 @@ static long get_raw_temp(struct k10temp_data *data)
+ 	return temp;
+ }
+ 
++static u32 plane_to_vcc(u32 p)
++{
++	u32 vdd_cor;
++	vdd_cor = (p >> 16) & 0xff;
++	// U = 1550 - 6.25 * vddcor
++
++	return  1550 - ((625 * vdd_cor) / 100);
++}
++
++static u32 get_core_current(u32 plane, bool zen2)
++{
++	u32 idd_cor, fc;
++	idd_cor = plane & 0xff;
++
++	// I = 1039.211 * iddcor
++	// I =  658.823 * iddcor
++	fc = zen2 ? 658823 : 1039211;
++
++	return  (fc * idd_cor) / 1000;
++}
++
++static u32 get_soc_current(u32 plane, bool zen2)
++{
++	u32 idd_cor, fc;
++	idd_cor = plane & 0xff;
++
++	// I = 360.772 * iddcor
++	// I = 294.3   * iddcor
++	fc = zen2 ? 294300 : 360772;
++
++	return  (fc * idd_cor) / 1000;
++}
++
+ static const char *k10temp_temp_label[] = {
+ 	"Tctl",
+ 	"Tdie",
+@@ -179,6 +239,24 @@ static const char *k10temp_temp_label[] = {
+ 	"Tccd12",
+ };
+ 
++static const char *k10temp_in_label[] = {
++	"",
++	"SVI2_Core",
++	"SVI2_SoC",
++};
++
++static const char *k10temp_curr_label[] = {
++	"",
++	"SVI2_C_Core",
++	"SVI2_C_SoC",
++};
++
++static const char *k10temp_power_label[] = {
++	"",
++	"SVI2_P_Core",
++	"SVI2_P_SoC",
++};
++
+ static int k10temp_read_labels(struct device *dev,
+ 			       enum hwmon_sensor_types type,
+ 			       u32 attr, int channel, const char **str)
+@@ -187,6 +265,15 @@ static int k10temp_read_labels(struct device *dev,
+ 	case hwmon_temp:
+ 		*str = k10temp_temp_label[channel];
+ 		break;
++	case hwmon_in:
++		*str = k10temp_in_label[channel];
++		break;
++	case hwmon_curr:
++		*str = k10temp_curr_label[channel];
++		break;
++	case hwmon_power:
++		*str = k10temp_power_label[channel];
++		break;
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -243,12 +330,57 @@ static int k10temp_read_temp(struct device *dev, u32 attr, int channel,
+ static int k10temp_read(struct device *dev, enum hwmon_sensor_types type,
+ 			u32 attr, int channel, long *val)
+ {
++	struct k10temp_data *data = dev_get_drvdata(dev);
++	u32 plane;
+ 	switch (type) {
+ 	case hwmon_temp:
+ 		return k10temp_read_temp(dev, attr, channel, val);
++	case hwmon_in:
++		if (channel == 0)
++			return -EOPNOTSUPP;
++		channel -= 1;	// hwmon_in has different indexing. Shift accordingly
++		// fall through
++	case hwmon_curr:
++	case hwmon_power:
++		if (attr != hwmon_in_input && attr != hwmon_curr_input &&
++			attr != hwmon_power_input) {
++			return -EOPNOTSUPP;
++		}
++
++		switch (channel) {
++			case 0: // Core SVI2
++				amd_smn_read(amd_pci_dev_to_node_id(data->pdev), data->svi_core_addr, &plane);
++				break;
++			case 1: // SoC SVI2
++				amd_smn_read(amd_pci_dev_to_node_id(data->pdev), data->svi_soc_addr, &plane);
++				break;
++			default:
++				return -EOPNOTSUPP;
++		}
++
++		switch (type) {
++			case hwmon_in:
++				*val = plane_to_vcc(plane);
++				break;
++			case hwmon_curr:
++				*val = (channel == 0) ?
++					get_core_current(plane, !(data->is_zen1)):
++					get_soc_current(plane, !(data->is_zen1));
++				break;
++			case hwmon_power:
++				*val = (channel == 0) ?
++					get_core_current(plane, !(data->is_zen1)) * plane_to_vcc(plane):
++					get_soc_current(plane, !(data->is_zen1)) * plane_to_vcc(plane);
++				break;
++			default:
++				break;
++		}
++		break;
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
++
++	return 0;
+ }
+ 
+ static umode_t k10temp_is_visible(const void *_data,
+@@ -294,6 +426,24 @@ static umode_t k10temp_is_visible(const void *_data,
+ 			return 0;
+ 		}
+ 		break;
++	case hwmon_curr:
++	case hwmon_power:
++		if (data->amps_visible == false)
++			return 0;
++		if (channel == 0 && data->svi_core_addr == 0)
++			return 0;
++		if (channel == 1 && data->svi_soc_addr == 0)
++			return 0;
++		break;
++
++	case hwmon_in:
++		if (channel == 0)	// fake item to align different indexing
++			return 0;
++		if (channel == 1 && data->svi_core_addr == 0)
++			return 0;
++		if (channel == 2 && data->svi_soc_addr == 0)
++			return 0;
++		break;
+ 	default:
+ 		return 0;
+ 	}
+@@ -352,6 +502,22 @@ static const struct hwmon_channel_info * const k10temp_info[] = {
+ 			   HWMON_T_INPUT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_LABEL),
++
++	HWMON_CHANNEL_INFO(in,
++			HWMON_I_LABEL,	// everything is using 1 based indexing except
++							// hwmon_in - that is using 0 based indexing
++							// let's make fake item so corresponding SVI2 data is
++							// associated with same index
++			HWMON_I_INPUT | HWMON_I_LABEL,		// Core Voltage (SVI2)
++			HWMON_I_INPUT | HWMON_I_LABEL),		// SoC Voltage (SVI2)
++
++	HWMON_CHANNEL_INFO(curr,
++			HWMON_C_INPUT | HWMON_C_LABEL,		// Core Current (SVI2)
++			HWMON_C_INPUT | HWMON_C_LABEL),		// SoC Current (SVI2)
++
++	HWMON_CHANNEL_INFO(power,
++			HWMON_P_INPUT | HWMON_P_LABEL,		// Core Power (SVI2)
++			HWMON_P_INPUT | HWMON_P_LABEL),		// SoC Power (SVI2)
+ 	NULL
+ };
+ 
+@@ -404,6 +570,8 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	data->pdev = pdev;
+ 	data->show_temp |= BIT(TCTL_BIT);	/* Always show Tctl */
++	data->amps_visible = false;
++	data->is_zen1 = false;
+ 
+ 	if (boot_cpu_data.x86 == 0x15 &&
+ 	    ((boot_cpu_data.x86_model & 0xf0) == 0x60 ||
+@@ -420,13 +588,32 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		case 0x8:	/* Zen+ */
+ 		case 0x11:	/* Zen APU */
+ 		case 0x18:	/* Zen+ APU */
++			data->amps_visible = true;
++			data->svi_core_addr = F17H_M01H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F17H_M01H_SVI_TEL_PLANE1;
+ 			data->ccd_offset = 0x154;
++			data->is_zen1 = true;
+ 			k10temp_get_ccd_support(pdev, data, 4);
+ 			break;
+ 		case 0x31:	/* Zen2 Threadripper */
++			data->amps_visible = true;
++			data->svi_core_addr = F17H_M30H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F17H_M30H_SVI_TEL_PLANE1;
++			data->ccd_offset = 0x154;
++			k10temp_get_ccd_support(pdev, data, 8);
++			break;
+ 		case 0x60:	/* Renoir */
+ 		case 0x68:	/* Lucienne */
++			data->amps_visible = true;
++			data->svi_core_addr = F17H_M60H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F17H_M60H_SVI_TEL_PLANE1;
++			data->ccd_offset = 0x154;
++			k10temp_get_ccd_support(pdev, data, 8);
++			break;
+ 		case 0x71:	/* Zen2 */
++			data->amps_visible = true;
++			data->svi_core_addr = F17H_M70H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F17H_M70H_SVI_TEL_PLANE1;
+ 			data->ccd_offset = 0x154;
+ 			k10temp_get_ccd_support(pdev, data, 8);
+ 			break;
+@@ -442,8 +629,23 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 		switch (boot_cpu_data.x86_model) {
+ 		case 0x0 ... 0x1:	/* Zen3 SP3/TR */
++			data->amps_visible = true;
++			data->svi_core_addr = F19H_M01H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F19H_M01H_SVI_TEL_PLANE1;
++			data->ccd_offset = 0x154;
++			k10temp_get_ccd_support(pdev, data, 8);
++			break;
+ 		case 0x21:		/* Zen3 Ryzen Desktop */
++			data->amps_visible = true;
++			data->svi_core_addr = F19H_M21H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F19H_M21H_SVI_TEL_PLANE1;
++			data->ccd_offset = 0x154;
++			k10temp_get_ccd_support(pdev, data, 8);
++			break;
+ 		case 0x50 ... 0x5f:	/* Green Sardine */
++			data->amps_visible = true;
++			data->svi_core_addr = F19H_M50H_SVI_TEL_PLANE0;
++			data->svi_soc_addr = F19H_M50H_SVI_TEL_PLANE1;
+ 			data->ccd_offset = 0x154;
+ 			k10temp_get_ccd_support(pdev, data, 8);
+ 			break;
+-- 
+2.41.0
+
