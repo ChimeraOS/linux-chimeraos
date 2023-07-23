@@ -59,6 +59,9 @@ source=(
 
   #HDR patches
   0001-HDR.patch
+
+  #k10temp-power-monitoring
+  0001-k10temp-add-voltage-and-current-monitoring.patch
 )
 
 validpgpkeys=(
@@ -84,7 +87,8 @@ b2sums=('1ab6c93da986dac6a07a5e3bc764f9d2a5bb9b8989321244455d894690634ac04364e6a
         'd61221e64b7b226b265bde2b75c8938db8c742786ba3e07964804f54aa9a7453de4ade56a139ac7cd059bfd711c610a45f41981743cb17156c1e7b87a29b4d6d'
         'd575cd8fa9763eae4d69e9fc5260289ae51f2e9a87dbcde08f89cc4db56742e52ecc9dd394139254dc37defcf4aa249fd92f8453147df7d294527035722c7843'
         '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52'
-        'e82a079ddac373cefb7901f7a43b896a648d3f00535ce021a8ea722f0c84394e31871ec4fd7a8be82f521c9c8ef9836f82a652388af8b7ea46932515c538ff4d')
+        'e82a079ddac373cefb7901f7a43b896a648d3f00535ce021a8ea722f0c84394e31871ec4fd7a8be82f521c9c8ef9836f82a652388af8b7ea46932515c538ff4d'
+        '6b5c7bdfb19c70c66c9995abb57a7223edbc39b4c8b8d7c586aa484afaec5eac1aeb9b5c04145c82f5f473cd4920ab666f4c4f6dfbe0dfc7d21f0e42bc9170e0')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
