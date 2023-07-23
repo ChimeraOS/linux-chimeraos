@@ -1,7 +1,7 @@
 From fd27845c72c49fd4f8e43b2a6e585fac8ec077ae Mon Sep 17 00:00:00 2001
 From: bouhaa <boukehaarsma23@gmail.com>
 Date: Sat, 22 Jul 2023 11:03:56 +0200
-Subject: [PATCH] k10temp: add voltage and current monitoring
+Subject: [PATCH 1/2] k10temp: add voltage and current monitoring
 
 Mostly based on zenpower(3), librehardwaremonitor and older k10temp commits
 ---
@@ -241,6 +241,101 @@ index 7b177b9fbb097..8b9022fc6c833 100644
  			k10temp_get_ccd_support(pdev, data, 8);
  			break;
  		case 0x40 ... 0x4f:	/* Yellow Carp */
+-- 
+2.41.0
+
+
+From 3079e1ac3521d0bbc446ab99bbc24dec43f8ba0b Mon Sep 17 00:00:00 2001
+From: bouhaa <boukehaarsma23@gmail.com>
+Date: Sun, 23 Jul 2023 16:49:57 +0200
+Subject: [PATCH 2/2] k10temp: add power sensor
+
+Doing this in userspace could lead to weird transition phases.
+---
+ drivers/hwmon/k10temp.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/drivers/hwmon/k10temp.c b/drivers/hwmon/k10temp.c
+index 8b9022fc6c833..2e2eb09713cdb 100644
+--- a/drivers/hwmon/k10temp.c
++++ b/drivers/hwmon/k10temp.c
+@@ -218,6 +218,11 @@ static const char *k10temp_curr_label[] = {
+ 	"Isoc",
+ };
+ 
++static const char *k10temp_power_label[] = {
++	"Pcore",
++	"Psoc",
++};
++
+ static int k10temp_read_labels(struct device *dev,
+ 			       enum hwmon_sensor_types type,
+ 			       u32 attr, int channel, const char **str)
+@@ -232,6 +237,9 @@ static int k10temp_read_labels(struct device *dev,
+ 	case hwmon_curr:
+ 		*str = k10temp_curr_label[channel];
+ 		break;
++	case hwmon_power:
++		*str = k10temp_power_label[channel];
++		break;
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -276,6 +284,26 @@ static int k10temp_read_in(struct device *dev, u32 attr, int channel, long *val)
+ 	return 0;
+ }
+ 
++static int k10temp_read_power(struct device *dev, u32 attr, int channel,
++			      long *val)
++{
++	struct k10temp_data *data = dev_get_drvdata(dev);
++	u32 regval;
++	switch (attr) {
++	case hwmon_power_input:
++		amd_smn_read(amd_pci_dev_to_node_id(data->pdev),
++			     data->svi_addr[channel], &regval);
++		*val = DIV_ROUND_CLOSEST(
++			       data->cfactor[channel] * (regval & 0xff), 1000) *
++		       DIV_ROUND_CLOSEST(155000 - ((regval >> 16) & 0xff) * 625,
++					 100);
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++	return 0;
++}
++
+ static int k10temp_read_temp(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+@@ -333,6 +361,8 @@ static int k10temp_read(struct device *dev, enum hwmon_sensor_types type,
+ 		return k10temp_read_in(dev, attr, channel, val);
+ 	case hwmon_curr:
+ 		return k10temp_read_curr(dev, attr, channel, val);
++	case hwmon_power:
++		return k10temp_read_power(dev, attr, channel, val);
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -383,6 +413,7 @@ static umode_t k10temp_is_visible(const void *_data,
+ 		break;
+ 	case hwmon_in:
+ 	case hwmon_curr:
++	case hwmon_power:
+ 		if (!data->show_current)
+ 			return 0;
+ 		break;
+@@ -452,6 +483,10 @@ static const struct hwmon_channel_info * const k10temp_info[] = {
+ 	HWMON_CHANNEL_INFO(curr,
+ 			HWMON_C_INPUT | HWMON_C_LABEL,
+ 			HWMON_C_INPUT | HWMON_C_LABEL),
++
++	HWMON_CHANNEL_INFO(power,
++			HWMON_P_INPUT | HWMON_P_LABEL,
++			HWMON_P_INPUT | HWMON_P_LABEL),
+ 	NULL
+ };
+ 
 -- 
 2.41.0
 
