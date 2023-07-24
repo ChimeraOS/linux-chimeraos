@@ -3,7 +3,7 @@
 
 pkgbase=linux-chimeraos
 pkgver=6.4.5.chos1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
 _srcpatch=${pkgver##*.}
