@@ -1,7 +1,7 @@
-From 8584658bd8648ea1bdc0b91a2a63ccfc377d0cb2 Mon Sep 17 00:00:00 2001
+From 063c563b7e7d0e87acb092680bcc7c1e210fe60a Mon Sep 17 00:00:00 2001
 From: Harry Wentland <harry.wentland@amd.com>
 Date: Tue, 29 Mar 2022 11:26:23 -0400
-Subject: [PATCH 01/51] drm/amd/display: Set colorspace for HDMI infoframe
+Subject: [PATCH 01/54] drm/amd/display: Set colorspace for HDMI infoframe
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -26,10 +26,10 @@ Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ff0a217b9d567..6a39e1b99a865 100644
+index 0fa739fd6a9ca..e847f39a82e1a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5481,6 +5481,7 @@ static void fill_stream_properties_from_drm_display_mode(
+@@ -5424,6 +5424,7 @@ static void fill_stream_properties_from_drm_display_mode(
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
  		drm_hdmi_avi_infoframe_from_display_mode(&avi_frame, (struct drm_connector *)connector, mode_in);
  		timing_out->vic = avi_frame.video_code;
@@ -41,10 +41,10 @@ index ff0a217b9d567..6a39e1b99a865 100644
 2.41.0
 
 
-From d0141e77ca873cd843bcb976a35b16d669a95dd9 Mon Sep 17 00:00:00 2001
+From b641e8948e095c5d777c7debf16b8bf6a60b70b2 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Tue, 10 Jan 2023 19:26:07 +0000
-Subject: [PATCH 02/51] drm/amd/display: Use COLORIMETRYEX_BT2020YCC for
+Subject: [PATCH 02/54] drm/amd/display: Use COLORIMETRYEX_BT2020YCC for
  COLOR_SPACE_2020_YCBCR for avi info frame
 
 Signed-off-by: Joshua Ashton <joshua@froggi.es>
@@ -77,10 +77,10 @@ index 2f3d9a698486d..ea91c6d31272b 100644
 2.41.0
 
 
-From 04695cb86fc036db674064303cad8c6d7b286ba5 Mon Sep 17 00:00:00 2001
+From 4695494d48dd66a70bb8e49cef86d12c8567348d Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Mon, 16 Jan 2023 04:20:17 +0000
-Subject: [PATCH 03/51] drm/amd/display: Hook up content_type property
+Subject: [PATCH 03/54] drm/amd/display: Hook up content_type property
 
 Signed-off-by: Joshua Ashton <joshua@froggi.es>
 (cherry picked from commit dc91bc9addbe058894a78ae72a13b20d76636b0c)
@@ -92,10 +92,10 @@ Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
  3 files changed, 43 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6a39e1b99a865..cb1870032e14c 100644
+index e847f39a82e1a..ea0606446b2b9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5388,6 +5388,24 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
+@@ -5330,6 +5330,24 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
  	return color_space;
  }
  
@@ -120,7 +120,7 @@ index 6a39e1b99a865..cb1870032e14c 100644
  static bool adjust_colour_depth_from_display_info(
  	struct dc_crtc_timing *timing_out,
  	const struct drm_display_info *info)
-@@ -5522,6 +5540,7 @@ static void fill_stream_properties_from_drm_display_mode(
+@@ -5465,6 +5483,7 @@ static void fill_stream_properties_from_drm_display_mode(
  	}
  
  	stream->output_color_space = get_output_color_space(timing_out, connector_state);
@@ -128,7 +128,7 @@ index 6a39e1b99a865..cb1870032e14c 100644
  }
  
  static void fill_audio_info(struct audio_info *audio_info,
-@@ -7348,6 +7367,8 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+@@ -7294,6 +7313,8 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
  				adev->mode_info.abm_level_property, 0);
  	}
  
@@ -243,10 +243,10 @@ index 3697ea1d14c1b..8a32a8922be04 100644
 2.41.0
 
 
-From 06343235921638c06e20becd5d73ec0cc3a2a2e6 Mon Sep 17 00:00:00 2001
+From 24f2b8102b60ca1afe4ce922c29f938c919bdf52 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Tue, 17 Jan 2023 06:03:02 +0000
-Subject: [PATCH 04/51] drm/amd/display: Remove unused display_content_support
+Subject: [PATCH 04/54] drm/amd/display: Remove unused display_content_support
 
 This was never filled in and thus never truly used.
 
@@ -308,10 +308,10 @@ index 0ce7728a5a4be..eaa5938aaf635 100644
 2.41.0
 
 
-From a79cd4ccdd95392963721877317d1c242f8d1a12 Mon Sep 17 00:00:00 2001
+From 3b268b4ff52a240d23021b25ecdeccfe54b02c3d Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Fri, 21 Apr 2023 22:39:34 -0100
-Subject: [PATCH 05/51] drm/drm_mode_object: increase max objects to
+Subject: [PATCH 05/54] drm/drm_mode_object: increase max objects to
  accommodate new color props
 
 DRM_OBJECT_MAX_PROPERTY limits the number of properties to be attached
@@ -350,10 +350,10 @@ index 912f1e4156853..08d7a7f0188fe 100644
 2.41.0
 
 
-From 0b7db277251f3861d49d846ee91d4764de15b888 Mon Sep 17 00:00:00 2001
+From 2a0d101c1933e1a434ee35750c13df6001e0f084 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Fri, 12 May 2023 15:15:26 -0100
-Subject: [PATCH 06/51] drm/drm_property: make replace_property_blob_from_id a
+Subject: [PATCH 06/54] drm/drm_property: make replace_property_blob_from_id a
  DRM helper
 
 Place it in drm_property where drm_property_replace_blob and
@@ -551,10 +551,10 @@ index 65bc9710a4702..082f29156b3e3 100644
 2.41.0
 
 
-From 347c973ec11e45e6ed1b0d5c1db4756fdbdfaa97 Mon Sep 17 00:00:00 2001
+From c692aecb3f4e26f1d862843064cc0da47772b222 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Tue, 21 Mar 2023 15:30:20 -0100
-Subject: [PATCH 07/51] drm/drm_plane: track color mgmt changes per plane
+Subject: [PATCH 07/54] drm/drm_plane: track color mgmt changes per plane
 
 We will add color mgmt properties to DRM planes in the next patches and
 we want to track when one of this properties change to define atomic
@@ -614,10 +614,10 @@ index 51291983ea445..52c3287da0daa 100644
 2.41.0
 
 
-From 43ee7fdd5025256814d58bffd81d0e36c4bde373 Mon Sep 17 00:00:00 2001
+From 5e5a0506db7eb6b8d488682a9637aede6fa97814 Mon Sep 17 00:00:00 2001
 From: Harry Wentland <harry.wentland@amd.com>
 Date: Wed, 29 Mar 2023 11:30:31 -0400
-Subject: [PATCH 08/51] drm/amd/display: fix segment distribution for linear
+Subject: [PATCH 08/54] drm/amd/display: fix segment distribution for linear
  LUTs
 
 The region and segment calculation was incapable of dealing
@@ -759,10 +759,10 @@ index 3538973bd0c6c..04b2e04b68f33 100644
 2.41.0
 
 
-From e428fe5241a5358a64978051008bbfce60a3fbb4 Mon Sep 17 00:00:00 2001
+From 7d2f4aba38019b91ec6304b0c5b04ba856f2b47c Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 22 May 2023 14:21:23 -0100
-Subject: [PATCH 09/51] drm/amd/display: add CRTC driver-specific property for
+Subject: [PATCH 09/54] drm/amd/display: add CRTC driver-specific property for
  gamma TF
 
 Hook up driver-specific atomic operations for managing AMD color
@@ -858,10 +858,10 @@ index 32fe05c810c6f..156067c53c21a 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 4561f55afa99d..83f88dfe01c68 100644
+index 9fb5bb3a75a77..061886f9ba901 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -695,6 +695,20 @@ static inline void amdgpu_dm_set_mst_status(uint8_t *status,
+@@ -702,6 +702,20 @@ static inline void amdgpu_dm_set_mst_status(uint8_t *status,
  
  extern const struct amdgpu_ip_block_version dm_ip_block;
  
@@ -882,7 +882,7 @@ index 4561f55afa99d..83f88dfe01c68 100644
  struct dm_plane_state {
  	struct drm_plane_state base;
  	struct dc_plane_state *dc_state;
-@@ -722,6 +736,14 @@ struct dm_crtc_state {
+@@ -729,6 +743,14 @@ struct dm_crtc_state {
  	struct dc_info_packet vrr_infopacket;
  
  	int abm_level;
@@ -1012,10 +1012,10 @@ index 30d4c6fd95f53..f56fcf3b72fc7 100644
 2.41.0
 
 
-From 5283e43b5e3e09d67d234d01baae51c992adbec4 Mon Sep 17 00:00:00 2001
+From 0356130771cd472674dd1b8f820489278d66d646 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Tue, 16 May 2023 14:55:28 -0100
-Subject: [PATCH 10/51] drm/amd/display: add plane driver-specific properties
+Subject: [PATCH 10/54] drm/amd/display: add plane driver-specific properties
  for degamma LUT
 
 Create and attach driver-private properties for plane color management.
@@ -1079,10 +1079,10 @@ index 156067c53c21a..f420799e38593 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 83f88dfe01c68..a71765de40bc0 100644
+index 061886f9ba901..54458ddcdd9db 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -712,6 +712,15 @@ enum drm_transfer_function {
+@@ -719,6 +719,15 @@ enum drm_transfer_function {
  struct dm_plane_state {
  	struct drm_plane_state base;
  	struct dc_plane_state *dc_state;
@@ -1217,10 +1217,10 @@ index 3226689737479..e9cedc4068f13 100644
 2.41.0
 
 
-From a8c863800f68f0fcc5938ba71bce59fa4ca7b467 Mon Sep 17 00:00:00 2001
+From 6f70ba6d4d0c67232afde7f1e4ab750f0945fb46 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 20 Apr 2023 15:07:34 -0100
-Subject: [PATCH 11/51] drm/amd/display: add plane degamma TF driver-specific
+Subject: [PATCH 11/54] drm/amd/display: add plane degamma TF driver-specific
  property
 
 Allow userspace to tell the kernel driver the input space and,
@@ -1274,10 +1274,10 @@ index f420799e38593..58cc91ec3100d 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index a71765de40bc0..2f4aa491c3c43 100644
+index 54458ddcdd9db..015112bbb1460 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -721,6 +721,13 @@ struct dm_plane_state {
+@@ -728,6 +728,13 @@ struct dm_plane_state {
  	 * The blob (if not NULL) is an array of &struct drm_color_lut.
  	 */
  	struct drm_property_blob *degamma_lut;
@@ -1373,10 +1373,10 @@ index e9cedc4068f13..6b71777a525ce 100644
 2.41.0
 
 
-From 20e62c82de290d7629f93447022bb155fefdb907 Mon Sep 17 00:00:00 2001
+From 572c402ef42dd039967c9149f4a28efc02716c06 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 20 Apr 2023 15:33:22 -0100
-Subject: [PATCH 12/51] drm/amd/display: add plane HDR multiplier
+Subject: [PATCH 12/54] drm/amd/display: add plane HDR multiplier
  driver-specific property
 
 Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
@@ -1428,7 +1428,7 @@ index 58cc91ec3100d..899708f1e7d85 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 2f4aa491c3c43..bf3a25dd5a797 100644
+index 015112bbb1460..e98347135c960 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 @@ -51,6 +51,7 @@
@@ -1439,7 +1439,7 @@ index 2f4aa491c3c43..bf3a25dd5a797 100644
  /*
  #include "include/amdgpu_dal_power_if.h"
  #include "amdgpu_dm_irq.h"
-@@ -728,6 +729,17 @@ struct dm_plane_state {
+@@ -735,6 +736,17 @@ struct dm_plane_state {
  	 * linearize.
  	 */
  	enum drm_transfer_function degamma_tf;
@@ -1513,10 +1513,10 @@ index 6b71777a525ce..bbbf25dd2515b 100644
 2.41.0
 
 
-From 5ae3b2d8c559d50192971c61aba54567b7432443 Mon Sep 17 00:00:00 2001
+From f44df0606386913a80a83ce9c3ce22417c7da19a Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Thu, 20 Apr 2023 16:03:11 -0100
-Subject: [PATCH 13/51] drm/amd/display: add plane 3D LUT driver-specific
+Subject: [PATCH 13/54] drm/amd/display: add plane 3D LUT driver-specific
  properties
 
 Add 3D LUT property for plane gamma correction using a 3D lookup table.
@@ -1583,10 +1583,10 @@ index 899708f1e7d85..cde06717360a0 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index bf3a25dd5a797..3149c7c0560f5 100644
+index e98347135c960..078b7fbd8294a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -740,6 +740,11 @@ struct dm_plane_state {
+@@ -747,6 +747,11 @@ struct dm_plane_state {
  	 * S31.32 sign-magnitude.
  	 */
  	__u64 hdr_mult;
@@ -1598,7 +1598,7 @@ index bf3a25dd5a797..3149c7c0560f5 100644
  };
  
  struct dm_crtc_state {
-@@ -833,6 +838,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -840,6 +845,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  
  void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
  
@@ -1675,10 +1675,10 @@ index bbbf25dd2515b..5fc3855448d04 100644
 2.41.0
 
 
-From 2a1cbbdc4ddd37944c8531a12123bcb1cc1a5642 Mon Sep 17 00:00:00 2001
+From e825cb87f15ac28ff77459926bab6be4c4f1fa6f Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Thu, 20 Apr 2023 16:30:39 -0100
-Subject: [PATCH 14/51] drm/amd/display: add plane shaper LUT driver-specific
+Subject: [PATCH 14/54] drm/amd/display: add plane shaper LUT driver-specific
  properties
 
 On AMD HW, 3D LUT always assumes a preceding shaper 1D LUT used for
@@ -1740,10 +1740,10 @@ index cde06717360a0..52dfffafe23f9 100644
  	 * @plane_lut3d_property: Plane property for gamma correction using a
  	 * 3D LUT (pre-blending).
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 3149c7c0560f5..19e3621a8ff0f 100644
+index 078b7fbd8294a..40303d9c21784 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -740,6 +740,11 @@ struct dm_plane_state {
+@@ -747,6 +747,11 @@ struct dm_plane_state {
  	 * S31.32 sign-magnitude.
  	 */
  	__u64 hdr_mult;
@@ -1818,10 +1818,10 @@ index 5fc3855448d04..abc5b9a353a03 100644
 2.41.0
 
 
-From 328aff613620c288e9764df3b0d33461abf37ebb Mon Sep 17 00:00:00 2001
+From 54bfff69b20cae9799c0e245110f31fef96920d1 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Thu, 20 Apr 2023 16:36:46 -0100
-Subject: [PATCH 15/51] drm/amd/display: add plane shaper TF driver-private
+Subject: [PATCH 15/54] drm/amd/display: add plane shaper TF driver-private
  property
 
 Add property to set predefined transfer function to enable delinearizing
@@ -1874,10 +1874,10 @@ index 52dfffafe23f9..1154babd2b671 100644
  	 * @plane_lut3d_property: Plane property for gamma correction using a
  	 * 3D LUT (pre-blending).
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 19e3621a8ff0f..737d955af79f3 100644
+index 40303d9c21784..ac8e2f23844bf 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -745,6 +745,12 @@ struct dm_plane_state {
+@@ -752,6 +752,12 @@ struct dm_plane_state {
  	 * array of &struct drm_color_lut.
  	 */
  	struct drm_property_blob *shaper_lut;
@@ -1945,10 +1945,10 @@ index abc5b9a353a03..61e47bdecde4e 100644
 2.41.0
 
 
-From 29cf97db87384c10d9158c7345e13c0cf07ebe49 Mon Sep 17 00:00:00 2001
+From 889c3a80e123e4ae184feb1ebe65a4e434e3c386 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 20 Apr 2023 16:54:38 -0100
-Subject: [PATCH 16/51] drm/amd/display: add plane blend LUT and TF
+Subject: [PATCH 16/54] drm/amd/display: add plane blend LUT and TF
  driver-specific properties
 
 Blend 1D LUT or a predefined transfer function can be set to linearize
@@ -2030,10 +2030,10 @@ index 1154babd2b671..34291cd134a1b 100644
  
  #define AMDGPU_MAX_BL_LEVEL 0xFF
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 737d955af79f3..1ed84bb417ee7 100644
+index ac8e2f23844bf..d91038e0cfb85 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -756,6 +756,18 @@ struct dm_plane_state {
+@@ -763,6 +763,18 @@ struct dm_plane_state {
  	 * &struct drm_color_lut.
  	 */
  	struct drm_property_blob *lut3d;
@@ -2142,10 +2142,10 @@ index 61e47bdecde4e..ea13b49fa0215 100644
 2.41.0
 
 
-From fdf0b628c5f226c9beb86dc7801a582ef014265b Mon Sep 17 00:00:00 2001
+From 9bd398a0b3fc2795242b9e75ef862700b6a85bc2 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 22 Aug 2022 19:07:56 -0100
-Subject: [PATCH 17/51] drm/amd/display: add comments to describe DM crtc color
+Subject: [PATCH 17/54] drm/amd/display: add comments to describe DM crtc color
  mgmt behavior
 
 Describe some expected behavior of the AMD DM color mgmt programming.
@@ -2188,10 +2188,10 @@ index a4cb23d059bd6..fe779d10834e7 100644
 2.41.0
 
 
-From 8eea792ee7a2201a5d8b2d77b4b80ebd032fdb7e Mon Sep 17 00:00:00 2001
+From 8469af4ee662c31769c016cebb6778b1d7c950cb Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Thu, 9 Mar 2023 13:28:18 -0100
-Subject: [PATCH 18/51] drm/amd/display: encapsulate atomic regamma operation
+Subject: [PATCH 18/54] drm/amd/display: encapsulate atomic regamma operation
 
 We will wire up MPC 3D LUT to DM CRTC color pipeline in the next patch,
 but so far, only for atomic interface. By checking
@@ -2283,10 +2283,10 @@ index fe779d10834e7..fe03f1ec326e7 100644
 2.41.0
 
 
-From 10b1b4e3670a570d566b29bf1b7bc7223dc3f7e7 Mon Sep 17 00:00:00 2001
+From aee2cbc14b3af4788d80e0e81b8abdd7ac876a98 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Wed, 31 Aug 2022 23:39:29 -0100
-Subject: [PATCH 19/51] drm/amd/display: update lut3d and shaper lut to stream
+Subject: [PATCH 19/54] drm/amd/display: update lut3d and shaper lut to stream
 
 It follows the same path of out_transfer_func for stream updates, since
 shaper LUT and 3D LUT is programmed in funcs.set_output_transfer_func()
@@ -2295,13 +2295,22 @@ update_flags.bits.out_tf is set.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index d133e4186a520..db044142bcd4a 100644
+index d133e4186a520..caf0fe360d962 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2637,7 +2637,7 @@ static enum surface_update_type check_update_surfaces_for_stream(
+ 			stream_update->integer_scaling_update)
+ 			su_flags->bits.scaling = 1;
+ 
+-		if (dc->debug.enable_legacy_fast_update && stream_update->out_transfer_func)
++		if (dc->debug.enable_legacy_fast_update && (stream_update->out_transfer_func || stream_update->lut3d_func))
+ 			su_flags->bits.out_tf = 1;
+ 
+ 		if (stream_update->abm_level)
 @@ -2995,6 +2995,14 @@ static void copy_stream_update_to_stream(struct dc *dc,
  		       sizeof(struct dc_transfer_func_distributed_points));
  	}
@@ -2321,10 +2330,10 @@ index d133e4186a520..db044142bcd4a 100644
 2.41.0
 
 
-From 953fa435f8af04ced27179af42fb3ef1e48a739b Mon Sep 17 00:00:00 2001
+From cec8ff63a2e3f294064202da4ee43809b5d0e6a1 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Tue, 20 Dec 2022 16:29:13 -0100
-Subject: [PATCH 20/51] drm/amd/display: copy 3D LUT settings from crtc state
+Subject: [PATCH 20/54] drm/amd/display: copy 3D LUT settings from crtc state
  to stream_update
 
 When commiting planes, we copy color mgmt resources to the stream state.
@@ -2338,10 +2347,10 @@ Signed-off-by: Joshua Ashton <joshua@froggi.es>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index cb1870032e14c..a9f402d8846c6 100644
+index ea0606446b2b9..86e609615e574 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8286,6 +8286,10 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+@@ -8238,6 +8238,10 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
  				&acrtc_state->stream->csc_color_matrix;
  			bundle->stream_update.out_transfer_func =
  				acrtc_state->stream->out_transfer_func;
@@ -2356,10 +2365,10 @@ index cb1870032e14c..a9f402d8846c6 100644
 2.41.0
 
 
-From ae3fd7f13b0c43c861cf35d5839d7c14c45a2ad7 Mon Sep 17 00:00:00 2001
+From a2ab4655832541e53c476036af7620c111e43743 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Wed, 15 Mar 2023 12:43:16 -0100
-Subject: [PATCH 21/51] drm/amd/display: allow BYPASS 3D LUT but keep shaper
+Subject: [PATCH 21/54] drm/amd/display: allow BYPASS 3D LUT but keep shaper
  LUT settings
 
 HW allows us to program shaper LUT without 3D LUT settings and it is
@@ -2403,10 +2412,10 @@ index bf8864bc8a99e..b3d1406fe58c9 100644
 2.41.0
 
 
-From c12301cdbe586649f92cc498088b2757f3b240fa Mon Sep 17 00:00:00 2001
+From 695b1fbde2000edfd420b234eb02b6c24a9f51c9 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 5 Dec 2022 15:01:48 -0100
-Subject: [PATCH 22/51] drm/amd/display: handle MPC 3D LUT resources for a
+Subject: [PATCH 22/54] drm/amd/display: handle MPC 3D LUT resources for a
  given context
 
 In the original dc_acquire_release_mpc_3dlut(), only current ctx is
@@ -2422,7 +2431,7 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 47 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index db044142bcd4a..bf63b64cb3e16 100644
+index caf0fe360d962..dd34de6577eec 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
 @@ -2153,6 +2153,45 @@ bool dc_acquire_release_mpc_3dlut(
@@ -2494,10 +2503,10 @@ index 63948170fd6d9..44d42fc3f2c9d 100644
 2.41.0
 
 
-From a8a8441e16a6ab40640bfac012c6a490f265fa73 Mon Sep 17 00:00:00 2001
+From 523c0054e99b550b518ba637c969401513f4adfa Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Tue, 14 Mar 2023 15:08:34 -0100
-Subject: [PATCH 23/51] drm/amd/display: dynamically acquire 3DLUT resources
+Subject: [PATCH 23/54] drm/amd/display: dynamically acquire 3DLUT resources
  for color changes
 
 dc_acquire_release_mpc_3dlut_for_ctx initializes the bits required to
@@ -2518,10 +2527,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  4 files changed, 87 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a9f402d8846c6..d6022c0242935 100644
+index 86e609615e574..c339d4f84865d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9486,7 +9486,12 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+@@ -9433,7 +9433,12 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
  	 */
  	if (dm_new_crtc_state->base.color_mgmt_changed ||
  	    drm_atomic_crtc_needs_modeset(new_crtc_state)) {
@@ -2536,10 +2545,10 @@ index a9f402d8846c6..d6022c0242935 100644
  			goto fail;
  	}
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 1ed84bb417ee7..d7e4c9a0d9a04 100644
+index d91038e0cfb85..f1fc409b45765 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -871,7 +871,8 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+@@ -878,7 +878,8 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
  
  void amdgpu_dm_init_color_mod(void);
  int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
@@ -2637,7 +2646,7 @@ index fe03f1ec326e7..161807e198869 100644
  		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
  						 regamma_size, has_rom);
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
-index 3485fbb1093ef..d70ba374e1ab6 100644
+index 1bee9a4636e62..c0f6a5ff99bdd 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
 @@ -1234,6 +1234,30 @@ static struct display_stream_compressor *dcn301_dsc_create(
@@ -2684,10 +2693,10 @@ index 3485fbb1093ef..d70ba374e1ab6 100644
 2.41.0
 
 
-From 06366a4e43ad3233f200ddddd89bebe75eb861e4 Mon Sep 17 00:00:00 2001
+From ff0cddb987c2a3988670089d3793ff8aefa0da8a Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 22 Aug 2022 22:02:09 -0100
-Subject: [PATCH 24/51] drm/amd/display: add CRTC 3D LUT support
+Subject: [PATCH 24/54] drm/amd/display: add CRTC 3D LUT support
 
 Wire up DC 3D LUT to DM CRTC color management (post-blending). On AMD
 display HW, we have to set a shaper LUT to delinearize or normalize the
@@ -2703,10 +2712,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  3 files changed, 180 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index d6022c0242935..c1545a01c3c29 100644
+index c339d4f84865d..0c8604da2b496 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10052,6 +10052,12 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+@@ -10002,6 +10002,12 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  			goto fail;
  		}
  
@@ -2720,10 +2729,10 @@ index d6022c0242935..c1545a01c3c29 100644
  			continue;
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index d7e4c9a0d9a04..f6ba14bbde11e 100644
+index f1fc409b45765..4838692c2f35c 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -793,6 +793,21 @@ struct dm_crtc_state {
+@@ -800,6 +800,21 @@ struct dm_crtc_state {
  
  	int abm_level;
  
@@ -2745,7 +2754,7 @@ index d7e4c9a0d9a04..f6ba14bbde11e 100644
          /**
  	 * @regamma_tf:
  	 *
-@@ -864,6 +879,8 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+@@ -871,6 +886,8 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
  /* 3D LUT max size is 17x17x17 */
  #define MAX_COLOR_3DLUT_ENTRIES 4913
  #define MAX_COLOR_3DLUT_BITDEPTH 12
@@ -2951,10 +2960,10 @@ index 161807e198869..cef8d0d7f37b5 100644
 2.41.0
 
 
-From d3fed27114ffbd740a5d07f994093eef6af981a1 Mon Sep 17 00:00:00 2001
+From 8579dd97e3b3850931e273d0957454b3c0e20f8f Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 22 Aug 2022 22:08:18 -0100
-Subject: [PATCH 25/51] drm/amd/display: add CRTC shaper LUT support
+Subject: [PATCH 25/54] drm/amd/display: add CRTC shaper LUT support
 
 Map DC shaper LUT to DM CRTC color management. Shaper LUT can be used to
 delinearize and/or normalize the color space for computational
@@ -2970,10 +2979,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 47 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index f6ba14bbde11e..e58e41f0ba5ef 100644
+index 4838692c2f35c..691eecc5fbbf8 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -799,6 +799,13 @@ struct dm_crtc_state {
+@@ -806,6 +806,13 @@ struct dm_crtc_state {
  	 * has a larger set of post-blending color calibration. Here, DC MPC
  	 * color caps are wired up to DM CRTC state:
  	 */
@@ -3100,10 +3109,10 @@ index cef8d0d7f37b5..934636d7b8d3f 100644
 2.41.0
 
 
-From 3d4d2b7a1a0af2a6bafe49291a05385f0788aafb Mon Sep 17 00:00:00 2001
+From 9998babce40f78a5fcdeba5d2cb48cdb197ab32f Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Wed, 12 Apr 2023 22:17:56 -0100
-Subject: [PATCH 26/51] drm/amd/display: add CRTC regamma TF support
+Subject: [PATCH 26/54] drm/amd/display: add CRTC regamma TF support
 
 Add predefined transfer function programming. There is no out gamma ROM,
 but we can use AMD color modules to program LUT parameters from a
@@ -3253,10 +3262,10 @@ index 934636d7b8d3f..146363363ef07 100644
 2.41.0
 
 
-From ea40cdeecdce0d01d11193a85b0b0f34bf502581 Mon Sep 17 00:00:00 2001
+From df86291e5a8de544fdbc0358506099e830129896 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 16 Mar 2023 14:14:39 +0000
-Subject: [PATCH 27/51] drm/amd/display: set sdr_ref_white_level to 80 for
+Subject: [PATCH 27/54] drm/amd/display: set sdr_ref_white_level to 80 for
  out_transfer_func
 
 Otherwise this is just initialized to 0. This needs to actually have a
@@ -3293,10 +3302,10 @@ index 146363363ef07..7cf35ac3fad38 100644
 2.41.0
 
 
-From da038dd7291f2d50b0b216d6a38d9df8fb46abd7 Mon Sep 17 00:00:00 2001
+From 994ac85d2f64525aac2a9f7a578feb28cc1ca394 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Wed, 12 Apr 2023 22:01:43 -0100
-Subject: [PATCH 28/51] drm/amd/display: add CRTC shaper TF support
+Subject: [PATCH 28/54] drm/amd/display: add CRTC shaper TF support
 
 Inspired by regamma TF, follow similar steps to add TF + 1D LUT for
 shaper func. Reuse regamma_tf property, since the driver doesn't support
@@ -3369,10 +3378,10 @@ index 7cf35ac3fad38..5650b85cc28ec 100644
 2.41.0
 
 
-From 6769be3e714516fbd56a9a8fe8b06b27d0629865 Mon Sep 17 00:00:00 2001
+From 201445f8c716aa120440e2749f623eae0faed97b Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Fri, 14 Apr 2023 22:19:49 -0100
-Subject: [PATCH 29/51] drm/amd/display: mark plane as needing reset if plane
+Subject: [PATCH 29/54] drm/amd/display: mark plane as needing reset if plane
  color mgmt changes
 
 We took a similar path for CRTC color mgmt changes, since we remap CRTC
@@ -3388,10 +3397,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c1545a01c3c29..0667e48f3fddb 100644
+index 0c8604da2b496..7c8044bdb708e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9547,6 +9547,9 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+@@ -9494,6 +9494,9 @@ static bool should_reset_plane(struct drm_atomic_state *state,
  	if (drm_atomic_crtc_needs_modeset(new_crtc_state))
  		return true;
  
@@ -3405,10 +3414,10 @@ index c1545a01c3c29..0667e48f3fddb 100644
 2.41.0
 
 
-From ab36c1821630df262d530a9c2b5f559642ed5c62 Mon Sep 17 00:00:00 2001
+From e61a266d9aaca812863691dcfcbaf532b73ed0e7 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Fri, 14 Apr 2023 16:06:42 -0100
-Subject: [PATCH 30/51] drm/amd/display: decouple steps for mapping CRTC
+Subject: [PATCH 30/54] drm/amd/display: decouple steps for mapping CRTC
  degamma to DC plane
 
 The next patch adds pre-blending degamma to AMD color mgmt pipeline, but
@@ -3518,10 +3527,10 @@ index 5650b85cc28ec..246f12532c48f 100644
 2.41.0
 
 
-From f4bac0bff3ef139b6a35ac50698eea7258277678 Mon Sep 17 00:00:00 2001
+From 43c4f549210f0c20452307dd1362056170c51c6b Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Wed, 12 Apr 2023 10:04:27 -0100
-Subject: [PATCH 31/51] drm/amd/display: add support for plane degamma TF and
+Subject: [PATCH 31/54] drm/amd/display: add support for plane degamma TF and
  LUT properties
 
 Set DC plane with user degamma LUT or predefined TF from driver-specific
@@ -3540,10 +3549,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  3 files changed, 69 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 0667e48f3fddb..eb294377546bf 100644
+index 7c8044bdb708e..87873ce6a30cc 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5051,7 +5051,9 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
+@@ -4993,7 +4993,9 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
  	 * Always set input transfer function, since plane state is refreshed
  	 * every time.
  	 */
@@ -3555,10 +3564,10 @@ index 0667e48f3fddb..eb294377546bf 100644
  		return ret;
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index e58e41f0ba5ef..34c7cb5a36653 100644
+index 691eecc5fbbf8..dd06146b5fb57 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -898,6 +898,7 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
+@@ -905,6 +905,7 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
  int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
  				     struct dc_state *ctx);
  int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
@@ -3674,10 +3683,10 @@ index 246f12532c48f..89178b7f636f1 100644
 2.41.0
 
 
-From 6fa5fe77805260bdd7877e6d9042886f3d7bd086 Mon Sep 17 00:00:00 2001
+From eb6de999078da7028900ac56284a8d86b43d8589 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Fri, 14 Apr 2023 16:50:34 -0100
-Subject: [PATCH 32/51] drm/amd/display: reject atomic commit if setting both
+Subject: [PATCH 32/54] drm/amd/display: reject atomic commit if setting both
  plane and CRTC degamma
 
 DC only has pre-blending degamma caps (plane/DPP) that is currently in
@@ -3720,10 +3729,10 @@ index 89178b7f636f1..8452519cabe8b 100644
 2.41.0
 
 
-From 2b6db3892c41f1a5cb919680e5b981439d585f1e Mon Sep 17 00:00:00 2001
+From 3521d8b17347544f13e7a6a571622f68abe1615a Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 16 Mar 2023 12:00:59 +0000
-Subject: [PATCH 33/51] drm/amd/display: add dc_fixpt_from_s3132 helper
+Subject: [PATCH 33/54] drm/amd/display: add dc_fixpt_from_s3132 helper
 
 Detach value translation from CTM to reuse it for programming HDR
 multiplier property.
@@ -3788,10 +3797,10 @@ index d4cf7ead1d877..84da1dd34efd1 100644
 2.41.0
 
 
-From 9feee32baeca404a053958bf27406baae848199d Mon Sep 17 00:00:00 2001
+From 58368b437419ff874694d8b65867bb349d18ce8b Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Wed, 12 Apr 2023 21:42:51 -0100
-Subject: [PATCH 34/51] drm/adm/display: add HDR multiplier support
+Subject: [PATCH 34/54] drm/adm/display: add HDR multiplier support
 
 With `dc_fixpt_from_s3132()` translation, we can just use it to set
 hdr_mult.
@@ -3804,10 +3813,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index eb294377546bf..21a7dffbb1a65 100644
+index 87873ce6a30cc..704305188358a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8087,6 +8087,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+@@ -8032,6 +8032,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
  			bundle->surface_updates[planes_count].gamma = dc_plane->gamma_correction;
  			bundle->surface_updates[planes_count].in_transfer_func = dc_plane->in_transfer_func;
  			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
@@ -3840,10 +3849,10 @@ index 629ba10fbee93..57d6aab762954 100644
 2.41.0
 
 
-From 8bcc0a521cb99aed3ab9e0dd84f71ab263469cba Mon Sep 17 00:00:00 2001
+From cb18a2cc680fbff8ea24ca654852c345ac48cf39 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Wed, 22 Mar 2023 18:37:12 -0100
-Subject: [PATCH 35/51] drm/amd/display: add plane shaper/3D LUT and shaper TF
+Subject: [PATCH 35/54] drm/amd/display: add plane shaper/3D LUT and shaper TF
  support
 
 We already have the steps to program post-blending shaper/3D LUT on AMD
@@ -3858,10 +3867,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 33 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 21a7dffbb1a65..060eb83a13b3e 100644
+index 704305188358a..ee535a736b4d9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8088,6 +8088,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+@@ -8033,6 +8033,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
  			bundle->surface_updates[planes_count].in_transfer_func = dc_plane->in_transfer_func;
  			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
  			bundle->surface_updates[planes_count].hdr_mult = dc_plane->hdr_mult;
@@ -3939,10 +3948,10 @@ index 57d6aab762954..b075c9f6e7179 100644
 2.41.0
 
 
-From 4a0b80198ef5cd6fd96884dc4a29168e2b84bd50 Mon Sep 17 00:00:00 2001
+From d909a8e5491eecb0de11f16e6ac3f11de0d4c079 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Sun, 2 Apr 2023 22:46:46 +0100
-Subject: [PATCH 36/51] drm/amd/display: handle empty LUTs in __set_input_tf
+Subject: [PATCH 36/54] drm/amd/display: handle empty LUTs in __set_input_tf
 
 Unlike degamma, blend gamma doesn't support hardcoded curve
 (predefined/ROM), but we can use AMD color module to fill blend gamma
@@ -3993,10 +4002,10 @@ index b075c9f6e7179..a441c02380f24 100644
 2.41.0
 
 
-From 5450fd4ef07ae3f4b33617c7adac002b45c2da79 Mon Sep 17 00:00:00 2001
+From 42b6b93dd3412fc4ea23481cf4e4e98211fac115 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Wed, 12 Apr 2023 21:53:32 -0100
-Subject: [PATCH 37/51] drm/amd/display: add DRM plane blend LUT and TF support
+Subject: [PATCH 37/54] drm/amd/display: add DRM plane blend LUT and TF support
 
 Map DRM plane blend properties to DPP blend gamma. Plane blend is a
 post-3D LUT curve that linearizes color space for blending. It may be
@@ -4012,10 +4021,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 56 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 060eb83a13b3e..c64d0eeb3f678 100644
+index ee535a736b4d9..e06e7640ee215 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8090,6 +8090,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+@@ -8035,6 +8035,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
  			bundle->surface_updates[planes_count].hdr_mult = dc_plane->hdr_mult;
  			bundle->surface_updates[planes_count].func_shaper = dc_plane->in_shaper_func;
  			bundle->surface_updates[planes_count].lut3d_func = dc_plane->lut3d_func;
@@ -4111,10 +4120,10 @@ index a441c02380f24..4a2b66568451f 100644
 2.41.0
 
 
-From ab9894649bcf8fb11baed7fac2313b207cf466c7 Mon Sep 17 00:00:00 2001
+From 40fea87cc88423ca3e7576fd48b9f762c776f142 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Fri, 21 Apr 2023 01:05:39 +0100
-Subject: [PATCH 38/51] drm/amd/display: allow newer DC hardware to use degamma
+Subject: [PATCH 38/54] drm/amd/display: allow newer DC hardware to use degamma
  ROM for PQ/HLG
 
 Need to funnel the color caps through to these functions so it can check
@@ -4273,10 +4282,10 @@ index 4a2b66568451f..714f07bb9c9ca 100644
 2.41.0
 
 
-From 243096f5881650aa43f06a10b855e3eeb27a01d7 Mon Sep 17 00:00:00 2001
+From eb2cf5f4be022e8777df694bf61deddfcf602775 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Thu, 20 Apr 2023 20:39:00 -0100
-Subject: [PATCH 39/51] HACK: Prefix new color mgmt properties with VALVE1_
+Subject: [PATCH 39/54] HACK: Prefix new color mgmt properties with VALVE1_
 
 Plane color mgmt properties, predefined transfer functions and CRTC
 shaper/3D LUT aren't upstream properties yet, add a prefix to indicate
@@ -4403,10 +4412,10 @@ index b66df2c809224..8ef4808e83b18 100644
 2.41.0
 
 
-From edf3f7e74e9a1c21028dfe9d66092a1f27bdbb7b Mon Sep 17 00:00:00 2001
+From 89ab17da9bba33d84fef5eaebbc41b21016a87db Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Fri, 12 May 2023 18:43:46 +0000
-Subject: [PATCH 40/51] drm/amd/display: Reset CRTC color mgmt state if commit
+Subject: [PATCH 40/54] drm/amd/display: Reset CRTC color mgmt state if commit
  fails
 
 If we failed our commit, if our new crtc was dirty color-wise, make
@@ -4428,10 +4437,10 @@ Signed-off-by: Joshua Ashton <joshua@froggi.es>
  3 files changed, 34 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c64d0eeb3f678..8f86e515c97f5 100644
+index e06e7640ee215..286497892c7af 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10046,6 +10046,21 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+@@ -9996,6 +9996,21 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  			}
  		}
  	}
@@ -4453,7 +4462,7 @@ index c64d0eeb3f678..8f86e515c97f5 100644
  	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
  		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
  
-@@ -10397,6 +10412,23 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+@@ -10347,6 +10362,23 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  	return ret;
  
  fail:
@@ -4478,10 +4487,10 @@ index c64d0eeb3f678..8f86e515c97f5 100644
  		DRM_DEBUG_DRIVER("Atomic check stopped to avoid deadlock.\n");
  	else if (ret == -EINTR || ret == -EAGAIN || ret == -ERESTARTSYS)
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 34c7cb5a36653..aeb207eb98a9f 100644
+index dd06146b5fb57..65efc9d7385f2 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -792,6 +792,7 @@ struct dm_crtc_state {
+@@ -799,6 +799,7 @@ struct dm_crtc_state {
  	struct dc_info_packet vrr_infopacket;
  
  	int abm_level;
@@ -4505,10 +4514,10 @@ index f56fcf3b72fc7..4438889ca4a7c 100644
 2.41.0
 
 
-From 53cfd285e976c577ebd4edb16ce7ce5c3e735299 Mon Sep 17 00:00:00 2001
+From 028581876b4f441260f009229cc74dc977ae439f Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Sat, 22 Apr 2023 14:08:47 -0100
-Subject: [PATCH 41/51] HACK: add KConfig to enable driver-specific color mgmt
+Subject: [PATCH 41/54] HACK: add KConfig to enable driver-specific color mgmt
  props
 
 We are enabling a large set of color calibration features to enhance KMS
@@ -4630,10 +4639,10 @@ index ea13b49fa0215..5a03fba687b42 100644
 2.41.0
 
 
-From 2ce23c5dc06a1b2a0f8031e2e9623df0270be99c Mon Sep 17 00:00:00 2001
+From a84a40927b983c955e6cb9f3a57d01b2645fbafd Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Sun, 11 Jun 2023 13:34:02 -0100
-Subject: [PATCH 42/51] Revert "drm/amd/display: mark plane as needing reset if
+Subject: [PATCH 42/54] Revert "drm/amd/display: mark plane as needing reset if
  plane color mgmt changes"
 
 This reverts commit f3a18707a984d82ab842bd8b8666a442c1943d59.
@@ -4642,10 +4651,10 @@ This reverts commit f3a18707a984d82ab842bd8b8666a442c1943d59.
  1 file changed, 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 8f86e515c97f5..e0bc6bdeae57f 100644
+index 286497892c7af..967d104c8cb2e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9553,9 +9553,6 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+@@ -9500,9 +9500,6 @@ static bool should_reset_plane(struct drm_atomic_state *state,
  	if (drm_atomic_crtc_needs_modeset(new_crtc_state))
  		return true;
  
@@ -4659,10 +4668,10 @@ index 8f86e515c97f5..e0bc6bdeae57f 100644
 2.41.0
 
 
-From 9fd1041eac286cfc49fdee6e6a86ec561a0c7f38 Mon Sep 17 00:00:00 2001
+From aa70780b1b8021c5126a6821f55c22f63ce676b1 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Fri, 14 Apr 2023 22:19:49 -0100
-Subject: [PATCH 43/51] drm/amd/display: mark plane as needing reset if color
+Subject: [PATCH 43/54] drm/amd/display: mark plane as needing reset if color
  props change
 
 Co-developed-by: Melissa Wen <mwen@igalia.com>
@@ -4673,10 +4682,10 @@ Signed-off-by: Joshua Ashton <joshua@froggi.es>
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e0bc6bdeae57f..3e447ef1a1ba1 100644
+index 967d104c8cb2e..3ebfd3a5502c9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9563,6 +9563,11 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+@@ -9510,6 +9510,10 @@ static bool should_reset_plane(struct drm_atomic_state *state,
  	 */
  	for_each_oldnew_plane_in_state(state, other, old_other_state, new_other_state, i) {
  		struct amdgpu_framebuffer *old_afb, *new_afb;
@@ -4687,8 +4696,7 @@ index e0bc6bdeae57f..3e447ef1a1ba1 100644
  
  		if (other->type == DRM_PLANE_TYPE_CURSOR)
  			continue;
- 
-@@ -9598,6 +9603,17 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+@@ -9546,6 +9550,17 @@ static bool should_reset_plane(struct drm_atomic_state *state,
  		    old_other_state->color_encoding != new_other_state->color_encoding)
  			return true;
  
@@ -4710,10 +4718,37 @@ index e0bc6bdeae57f..3e447ef1a1ba1 100644
 2.41.0
 
 
-From 8453ca32f9c1d09cd64ccd0ecb9a8e4988a6ab94 Mon Sep 17 00:00:00 2001
+From fd31edee728e1f30bd505d17b0d1a518e55c3786 Mon Sep 17 00:00:00 2001
+From: Joshua Ashton <joshua@froggi.es>
+Date: Wed, 19 Apr 2023 02:09:11 +0100
+Subject: [PATCH 44/54] drm/amd/display: Always use high res segments (TEST)
+
+---
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+index 04b2e04b68f33..099e84f312a7b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+@@ -335,7 +335,8 @@ bool cm_helper_translate_curve_to_hw_format(struct dc_context *ctx,
+ 	memset(lut_params, 0, sizeof(struct pwl_params));
+ 	memset(seg_distr, 0, sizeof(seg_distr));
+ 
+-	if (output_tf->tf == TRANSFER_FUNCTION_PQ || output_tf->tf == TRANSFER_FUNCTION_GAMMA22) {
++	//if (output_tf->tf == TRANSFER_FUNCTION_PQ || output_tf->tf == TRANSFER_FUNCTION_GAMMA22) {
++	if (true) {
+ 		/* 32 segments
+ 		 * segments are from 2^-25 to 2^7
+ 		 */
+-- 
+2.41.0
+
+
+From 220232e00069709f5fac84916f18ecb94a0de7c4 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Sat, 8 Jul 2023 22:38:23 +0100
-Subject: [PATCH 44/51] drm/amd/display: Enable 3 plane for DCN 3.01
+Subject: [PATCH 45/54] drm/amd/display: Enable 3 plane for DCN 3.01
 
 Steam Deck/Gamescope wants to take advantage of more planes which is
 possible on VanGogh but was not previously exposed.
@@ -4724,7 +4759,7 @@ Signed-off-by: Joshua Ashton <joshua@froggi.es>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
-index d70ba374e1ab6..955473c8eb224 100644
+index c0f6a5ff99bdd..fee6e41dbcebc 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
 @@ -1449,9 +1449,9 @@ static bool dcn301_resource_construct(
@@ -4744,10 +4779,10 @@ index d70ba374e1ab6..955473c8eb224 100644
 2.41.0
 
 
-From 856b7cfa04a8015ec80f5a2c41a3af1318568ba8 Mon Sep 17 00:00:00 2001
+From 3322e93ef385c44d20203d58652002ddfbd70a7b Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Sun, 9 Jul 2023 02:23:32 +0100
-Subject: [PATCH 45/51] drm/amd/display: Implement zpos property
+Subject: [PATCH 46/54] drm/amd/display: Implement zpos property
 
 Despite certain GPUs supporting multiple overlay planes already in
 AMDGPU, the driver did not expose the zpos property which is required
@@ -4786,10 +4821,10 @@ index 5a03fba687b42..e0f1703e78115 100644
 2.41.0
 
 
-From 5d2db0d6019002fa22aa3890fe08006cd7b79b2e Mon Sep 17 00:00:00 2001
+From 59959b651967de0f250db30fa4950dcf1cce1f4f Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Sat, 8 Jul 2023 22:41:46 +0100
-Subject: [PATCH 46/51] drm/amd/display: Expose more formats for overlay planes
+Subject: [PATCH 47/54] drm/amd/display: Expose more formats for overlay planes
  on DCN
 
 DCN planes are universal and therefore overlay planes can use the same
@@ -4883,10 +4918,10 @@ index e0f1703e78115..803ebed490df1 100644
 2.41.0
 
 
-From 77c59b954128d4f3dc34495957d2d83038df8c89 Mon Sep 17 00:00:00 2001
+From 89e6c2b6f9ee020a557bad1ed32d662c88a77e1e Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 12 Jun 2023 06:31:18 -0100
-Subject: [PATCH 47/51] draft: drm/amd/display: add plane CTM driver-specific
+Subject: [PATCH 48/54] draft: drm/amd/display: add plane CTM driver-specific
  property
 
 Plane CTM for color space conversion.
@@ -4931,10 +4966,10 @@ index 34291cd134a1b..6d24493146842 100644
  	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
  	 * that converts color content before 3D LUT.
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index aeb207eb98a9f..6593fe0c157f6 100644
+index 65efc9d7385f2..787abdd5a1742 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -740,6 +740,13 @@ struct dm_plane_state {
+@@ -747,6 +747,13 @@ struct dm_plane_state {
  	 * S31.32 sign-magnitude.
  	 */
  	__u64 hdr_mult;
@@ -5009,10 +5044,10 @@ index 803ebed490df1..d7188f512d6c2 100644
 2.41.0
 
 
-From 39a240d2a2f54f42d174e5eb5650055be8d4f899 Mon Sep 17 00:00:00 2001
+From bae1aee73d9e215b1de39988e083d4c87eba7aab Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 12 Jun 2023 06:39:04 -0100
-Subject: [PATCH 48/51] draft: drm/amd/display: switch priority for DPP gamut
+Subject: [PATCH 49/54] draft: drm/amd/display: switch priority for DPP gamut
  remap matrix
 
 DCN2 family and older only support pre-blending DPP gamut remap matrix.
@@ -5033,7 +5068,7 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index a50309039d083..f68ad013e03d2 100644
+index 9834b75f1837b..7bbe7927b2482 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 @@ -2485,17 +2485,17 @@ void dcn10_program_gamut_remap(struct pipe_ctx *pipe_ctx)
@@ -5074,10 +5109,10 @@ index a50309039d083..f68ad013e03d2 100644
 2.41.0
 
 
-From 9cdad1537fb9a22a3de4dd1369a68df3a1275577 Mon Sep 17 00:00:00 2001
+From bf73f940fa30f7b8e72b15d51dd0faa51722caa7 Mon Sep 17 00:00:00 2001
 From: Melissa Wen <mwen@igalia.com>
 Date: Mon, 12 Jun 2023 06:48:32 -0100
-Subject: [PATCH 49/51] draft: drm/amd/display: add plane CTM support
+Subject: [PATCH 50/54] draft: drm/amd/display: add plane CTM support
 
 We map the plane CTM driver-specific property to DC plane, instead of DC
 stream and it's already programmed to DPP block on DC shared-code.
@@ -5089,10 +5124,10 @@ Signed-off-by: Melissa Wen <mwen@igalia.com>
  2 files changed, 26 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3e447ef1a1ba1..2aadd890157ec 100644
+index 3ebfd3a5502c9..52b7371f0450d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9607,6 +9607,7 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+@@ -9554,6 +9554,7 @@ static bool should_reset_plane(struct drm_atomic_state *state,
  		if (dm_old_other_state->degamma_tf != dm_new_other_state->degamma_tf ||
  		    dm_old_other_state->degamma_lut != dm_new_other_state->degamma_lut ||
  		    dm_old_other_state->hdr_mult != dm_new_other_state->hdr_mult ||
@@ -5147,10 +5182,10 @@ index 714f07bb9c9ca..67b187fe6f648 100644
 2.41.0
 
 
-From c3997b6c00b9b16ad17d0be762beefdb17408182 Mon Sep 17 00:00:00 2001
+From 974fbc826b9630f4f685900e0bf9fdf1a726fa45 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Sun, 9 Jul 2023 20:57:40 +0100
-Subject: [PATCH 50/51] drm/amd/display: Use 3x4 CTM for plane CTM
+Subject: [PATCH 51/54] drm/amd/display: Use 3x4 CTM for plane CTM
 
 Signed-off-by: Joshua Ashton <joshua@froggi.es>
 ---
@@ -5259,10 +5294,10 @@ index 43691058d28fb..23fc194009980 100644
 2.41.0
 
 
-From aacb8cbdcc78fa7b7bb7a48c713f1168a3d58d19 Mon Sep 17 00:00:00 2001
+From 32433d3577bf5eae8e54f6b467ceb71bd5f6ae47 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Mon, 10 Jul 2023 02:09:21 +0100
-Subject: [PATCH 51/51] drm/amd/display: Pass color caps to degamma_params
+Subject: [PATCH 52/54] drm/amd/display: Pass color caps to degamma_params
 
 Fixes segmentation/banding when not using a degamma LUT but using a degamma TF.
 
@@ -5288,10 +5323,10 @@ index e4cbe90978e18..d7f9ee65aa0ec 100644
 2.41.0
 
 
-From 3e4bdf01f3d39263d5e2249396c61921ff6870a2 Mon Sep 17 00:00:00 2001
+From dde95887355a9b326aefacc22f51cfebd1a57be7 Mon Sep 17 00:00:00 2001
 From: Joshua Ashton <joshua@froggi.es>
 Date: Tue, 11 Jul 2023 00:01:13 +0100
-Subject: [PATCH 69/70] drm/amd/display: HACK crtc color_mgmt_changed isn't
+Subject: [PATCH 53/54] drm/amd/display: HACK crtc color_mgmt_changed isn't
  working in some rare instances
 
 ---
@@ -5299,10 +5334,10 @@ Subject: [PATCH 69/70] drm/amd/display: HACK crtc color_mgmt_changed isn't
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 7b830addad300..8b36726a65250 100644
+index 52b7371f0450d..c8f69a26b77aa 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9396,6 +9396,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+@@ -9438,6 +9438,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
  	 * when a modeset is needed, to ensure it gets reprogrammed.
  	 */
  	if (dm_new_crtc_state->base.color_mgmt_changed ||
@@ -5314,22 +5349,23 @@ index 7b830addad300..8b36726a65250 100644
 2.41.0
 
 
-From 7c219c55c72c91ef0c9c3a322ed0488bd0058874 Mon Sep 17 00:00:00 2001
+From 9248ff346e98162eab51e5250ba0defce4522c8e Mon Sep 17 00:00:00 2001
 From: John Schoenick <johns@valvesoftware.com>
 Date: Tue, 11 Jul 2023 14:53:38 -0700
-Subject: [PATCH 70/70] drm/amd/display: Typo fix for color_mgmt_changed hack
+Subject: [PATCH 54/54] drm/amd/display: Typo fix for color_mgmt_changed hack
 
 Fixes: 8812bd08d34a ("drm/amd/display: HACK crtc color_mgmt_changed isn't working in some rare instances")
-(cherry picked from commit 0b2f46c407ed3406a0406cf7a0ee49fc2ca5a605)
+(cherry picked from commit 07fe7b3d04ca026fb6940bc12e3de7c204406038)
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 8b36726a65250..d2ddd8d0fe99a 100644
+index c8f69a26b77aa..5f7ee25b8558d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9396,7 +9396,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+@@ -9438,7 +9438,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
  	 * when a modeset is needed, to ensure it gets reprogrammed.
  	 */
  	if (dm_new_crtc_state->base.color_mgmt_changed ||
