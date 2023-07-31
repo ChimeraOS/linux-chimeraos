@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.5.0-chos2 -rc1 Kernel Configuration
+# Linux/x86 6.5.0-chos1-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 13.2.1 20230801"
 CONFIG_CC_IS_GCC=y
@@ -10219,7 +10219,6 @@ CONFIG_QUOTA_TREE=m
 CONFIG_QFMT_V1=m
 CONFIG_QFMT_V2=m
 CONFIG_QUOTACTL=y
-CONFIG_AUTOFS4_FS=y
 CONFIG_AUTOFS_FS=y
 CONFIG_FUSE_FS=m
 CONFIG_CUSE=m
