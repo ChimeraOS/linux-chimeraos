@@ -27,9 +27,12 @@ jobs:
         run: |
           df -h
           rm -rf /usr-host/share/dotnet
+          rm -rf /usr-host/share/swift
+          rm -rf /usr-host/share/java
           rm -rf /usr-host/local/lib/android
           rm -rf /opt-host/ghc
-          rm -rf /opt/hostedtoolcache/CodeQL
+          rm -rf /opt-host/hostedtoolcache
+          rm -rf /opt-host/az
           df -h
       - uses: actions/checkout@v3
       - name: Create build user
