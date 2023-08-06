@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.4.7.chos4
+pkgver=6.4.8.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -35,6 +35,7 @@ source=(
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+  0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -57,11 +58,7 @@ source=(
   #HDR patches
   0001-HDR.patch
 
-  #k10temp-power-monitoring
-  0001-k10temp-add-voltage-and-current-monitoring.patch
-  
   # Fixup sleep cs35l41
-  
   0001-ALSA-cs35l41-Use-mbox-command-to-enable-speaker-outp.patch
   0002-ALSA-cs35l41-Poll-for-Power-Up-Down-rather-than-wait.patch
   0003-ALSA-hda-cs35l41-Check-mailbox-status-of-pause-comma.patch
@@ -81,9 +78,10 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('2ec02cd9c178c3cd46c01019dd36c9a5244e540ca4793d2715f14fdd3dd9fccde2cf129295cfe200206671f8db97169642177719ad2277513a9de65234cf9942'
-        '831ee09aceca5f08c15a90ecdbe456d04c5d07540627ced7f053102eb1993bf89289fee341252a25a331b1209a1213a80ffc40d6d4cb27f5e75ce696832388cd'
-        '93e30619fdc63bae36a510f34026c07a8f06805d23343497c09d082520c6858aeae9cb39b98a8c4daa4ca8f1899d1823413b5518d64ef39f2a8fbc897b745d02'
+b2sums=('d8e776a1ebc58f5f236ed3bf231336d1b1b4724f14dfafe2eeda789e022fcfc08bc6ff28c975ed94ede2145fab8aed551589873daefbd159a6fd7d8acc01e2f1'
+        '7e9fd84d5736fa60b94c07bd60f17d5ab1a385d542e0ff1696e3a20ffaa1ba7220cec1df316a01cc37e60cff8c87fa50a94013f2578c3e305f70b8e6e2220f3d'
+        '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
+        '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
@@ -94,7 +92,6 @@ b2sums=('2ec02cd9c178c3cd46c01019dd36c9a5244e540ca4793d2715f14fdd3dd9fccde2cf129
         '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
         'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e'
         '065b33cdc3f92a145f9c88e3a31c3a0b8a1e1ba1c02039e9140c70694efda374c8904a34a1d8a47c95e2f950ac51492b8e4958f09f8d342688aa5917b638f76c'
-        '26a01a27452b01c2e97fd2da926b9726d30b258241ffd01bc94c4d62e92ec057e1c8b90562e9ba649fa34bca5de2dcc34f97506e215babe5b72703c2b320e838'
         'a2549254930b31e2b1eea76120c74a61787abdb845d46a8532a02e1dde785a236708f3332555a3af839235d54de1146f86f0bf60b5d86d3af2ec044ecc88886a'
         '525576f349d77ae5aab136b3effd283e7acbc4eab3553d103d50f12878bc8bbcf5acee74b8ea829ff85f6a08e460066a2aef931df2fd4565f22826a64d1b6313'
         '4364b0e987618790db9d5aa7bcb7a0a5b68e1f9720e360c101162626f5dbc3115273ad3c7ae388414bdb1cdb328367fdf986084f9a906631bcc61d0c501f0c6c'
