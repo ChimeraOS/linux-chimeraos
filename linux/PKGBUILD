@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-_mainlinever="6.5-rc4"
+_mainlinever="6.5-rc5"
 pkgver=${_mainlinever//-/.}.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
@@ -75,7 +75,7 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('21530d34bc89c9450ebd348755a357a1455809fd75cdd1db4063d991fc4802293648055ad862a99ea3e65931778cb0811be0981299f0f6d8c1bcf6cec62b7365'
+b2sums=('b223fcf348431cb25b3c48c99675c1055908aff1b30b329886fe8105e656c7f11c7b9799113d9bca161791b3b0fbe7bd74fa19cfd61e1e992014042f7f1c7267'
         '0f53472ad6749c5ed837ead2865c55c9bdc634ff55692a4e9d9fccaaeb73c40448e7986ccceda06231e39aba2fbb1b0492cdf6cb057c387805e3d7b9d32972a3'
         '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
         '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
