@@ -1,0 +1,47 @@
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8a310f8ff20f..cce4ddf9a589 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -252,6 +252,7 @@
+ 
+ #define USB_VENDOR_ID_BIGBEN   0x146b
+ #define USB_DEVICE_ID_BIGBEN_PS3OFMINIPAD      0x0902
++#define USB_DEVICE_ID_BIGBEN_REVOLUTION_UNLIMITED_PRO_PS4 0x0d08
+ 
+ #define USB_VENDOR_ID_BTC              0x046e
+ #define USB_DEVICE_ID_BTC_EMPREX_REMOTE        0x5578
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index 8ac8f7b8e317..1dcc17e7ddfc 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -2657,7 +2657,8 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 
+        if (hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER ||
+                hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_2 ||
+-               hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE) {
++               hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE ||
++               hdev->product == USB_DEVICE_ID_BIGBEN_REVOLUTION_UNLIMITED_PRO_PS4) {
+                dev = dualshock4_create(hdev);
+                if (IS_ERR(dev)) {
+                        hid_err(hdev, "Failed to create dualshock4.\n");
+@@ -2704,6 +2705,8 @@ static const struct hid_device_id ps_devices[] = {
+        { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE) },
++       /* Third party DualShock 4 controllers for PS4*/
++       { HID_USB_DEVICE(USB_VENDOR_ID_BIGBEN,USB_DEVICE_ID_BIGBEN_REVOLUTION_UNLIMITED_PRO_PS4) },
+        /* Sony DualSense controllers for PS5 */
+        { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 3983b4f282f8..c416f2a47288 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -666,6 +666,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+        { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE) },
++       { HID_USB_DEVICE(USB_VENDOR_ID_BIGBEN, USB_DEVICE_ID_BIGBEN_REVOLUTION_UNLIMITED_PRO_PS4) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_VAIO_VGX_MOUSE) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_VAIO_VGP_MOUSE) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_SINO_LITE, USB_DEVICE_ID_SINO_LITE_CONTROLLER) },
