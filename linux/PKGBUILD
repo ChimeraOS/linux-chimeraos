@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
-pkgbase=linux-chimeraos
-pkgver=6.4.11.chos1
+pkgbase=linux-lts-chimeraos
+pkgver=6.1.46.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -32,44 +32,6 @@ _srcname=chimeraos-linux
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
   config  # the main kernel config file
-
-  # Arch Linux patches
-  0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
-
-  # ChimeraOS specific patches
-  # Some patches from TKG Team
-  0001-mm-Support-soft-dirty-flag-reset-for-VA-range.patch
-
-  # Fixes and additions
-  0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
-  0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
-  0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
-  0003-asus-ally-asus-hid-6.3-v2.patch
-  0001-hwmon-oxp-sensors-staged-changes-for-v6.5.patch
-
-  # Asus Ally bluetooth patch
-  0004-asus-ally-bluetooth.patch
-
-  # Aya Neo patches
-  0001-ayaneo-geek-headset-fix.patch
-  0002-ayaneo-2-headphone-fix.patch
-
-  #HDR patches
-  #0001-HDR.patch
-
-  # Fixup sleep cs35l41
-  0001-ALSA-cs35l41-Use-mbox-command-to-enable-speaker-outp.patch
-  0002-ALSA-cs35l41-Poll-for-Power-Up-Down-rather-than-wait.patch
-  0003-ALSA-hda-cs35l41-Check-mailbox-status-of-pause-comma.patch
-  0004-ALSA-hda-cs35l41-Ensure-we-correctly-re-sync-regmap-.patch
-  0005-ALSA-hda-cs35l41-Ensure-we-pass-up-any-errors-during.patch
-  0006-ALSA-hda-cs35l41-Move-Play-and-Pause-into-separate-f.patch
-  0007-ALSA-hda-hda_component-Add-pre-and-post-playback-hoo.patch
-  0008-ALSA-hda-cs35l41-Use-pre-and-post-playback-hooks.patch
-  0009-ALSA-hda-cs35l41-Rework-System-Suspend-to-ensure-cor.patch
-  0010-ALSA-hda-cs35l41-Add-device_link-between-HDA-and-cs3.patch
-  0011-ALSA-hda-cs35l41-Ensure-amp-is-only-unmuted-during-p.patch
 )
 
 validpgpkeys=(
@@ -301,3 +263,5 @@ for _p in "${pkgname[@]}"; do
 done
 
 # vim:set ts=8 sts=2 sw=2 et:
+b2sums=('07a069c04919899ce2b0859d0a528ee13b154ec8c9e868a2a0e64f6bdcc0ce30ea4fd002f1b58e62eebfaf8216e528e26b79c7a99c67f208e4d36eca590836bf'
+        '0e371dbca78583225badcdd6112c3f9af6fe39f1a94aaa79853f5bbbae3cfd3657ee555f49fd9292a0e9a7ef3e5d8dd8062430ce32ba0a82a516bbac5c0c41aa')
