@@ -142,10 +142,10 @@ index 3cec6fbef725..7c7865028f10 100644
  		}
 
  		if (type == CLEAR_REFS_SOFT_DIRTY) {
--			for_each_vma(vmi, vma) {
+-			mas_for_each(&mas, vma, ULONG_MAX) {
 -				if (!(vma->vm_flags & VM_SOFTDIRTY))
 -					continue;
--				vm_flags_clear(vma, VM_SOFTDIRTY);
+-				vma->vm_flags &= ~VM_SOFTDIRTY;
 -				vma_set_page_prot(vma);
 +			if (mmap_read_lock_killable(mm)) {
 +				count = -EINTR;
@@ -153,7 +153,7 @@ index 3cec6fbef725..7c7865028f10 100644
  			}
 -
 +			if (!clear_range)
-+				for_each_vma(vmi, vma) {
++				mas_for_each(&mas, vma, ULONG_MAX) {
 +				    if (!(vma->vm_flags & VM_SOFTDIRTY))
 +					    continue;
 +				    mmap_read_unlock(mm);
@@ -161,8 +161,8 @@ index 3cec6fbef725..7c7865028f10 100644
 +					    count = -EINTR;
 +					    goto out_mm;
 +				    }
-+				    for_each_vma(vmi, vma) {
-+					    vm_flags_clear(vma, VM_SOFTDIRTY);
++				    mas_for_each(&mas, vma, ULONG_MAX) {
++					    vma->vm_flags &= ~VM_SOFTDIRTY;
 +					    vma_set_page_prot(vma);
 +				    }
 +				    mmap_write_downgrade(mm);
@@ -170,8 +170,8 @@ index 3cec6fbef725..7c7865028f10 100644
 +				}
  			inc_tlb_flush_pending(mm);
  			mmu_notifier_range_init(&range, MMU_NOTIFY_SOFT_DIRTY,
--						0, mm, 0, -1UL);
-+						0, mm, start, end);
+-						0, NULL, mm, 0, -1UL);
++						0, NULL, mm, start, end);
  			mmu_notifier_invalidate_range_start(&range);
  		}
 -		walk_page_range(mm, 0, -1, &clear_refs_walk_ops, &cp);

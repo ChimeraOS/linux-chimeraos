@@ -34,6 +34,39 @@ source=(
   config  # the main kernel config file
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+  0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
+
+  # ChimeraOS specific patches
+  # Some patches from TKG Team
+  0001-mm-Support-soft-dirty-flag-reset-for-VA-range.patch
+  0002-mm-Support-soft-dirty-flag-read-with-reset.patch
+
+  # Fixes and additions
+  0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
+  0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
+  0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
+  0003-asus-ally-asus-hid-6.3-v2.patch
+  0001-hwmon-oxp-sensors-v6.5.patch
+
+  # Asus Ally bluetooth patch
+  0004-asus-ally-bluetooth.patch
+
+  # Aya Neo patches
+  0001-ayaneo-geek-headset-fix.patch
+  0002-ayaneo-2-headphone-fix.patch
+
+  # Fixup sleep cs35l41
+  #0001-ALSA-cs35l41-Use-mbox-command-to-enable-speaker-outp.patch
+  #0002-ALSA-cs35l41-Poll-for-Power-Up-Down-rather-than-wait.patch
+  #0003-ALSA-hda-cs35l41-Check-mailbox-status-of-pause-comma.patch
+  #0004-ALSA-hda-cs35l41-Ensure-we-correctly-re-sync-regmap-.patch
+  #0005-ALSA-hda-cs35l41-Ensure-we-pass-up-any-errors-during.patch
+  #0006-ALSA-hda-cs35l41-Move-Play-and-Pause-into-separate-f.patch
+  #0007-ALSA-hda-hda_component-Add-pre-and-post-playback-hoo.patch
+  #0008-ALSA-hda-cs35l41-Use-pre-and-post-playback-hooks.patch
+  #0009-ALSA-hda-cs35l41-Rework-System-Suspend-to-ensure-cor.patch
+  #0010-ALSA-hda-cs35l41-Add-device_link-between-HDA-and-cs3.patch
+  #0011-ALSA-hda-cs35l41-Ensure-amp-is-only-unmuted-during-p.patch
 )
 
 validpgpkeys=(
@@ -44,7 +77,18 @@ validpgpkeys=(
 )
 b2sums=('07a069c04919899ce2b0859d0a528ee13b154ec8c9e868a2a0e64f6bdcc0ce30ea4fd002f1b58e62eebfaf8216e528e26b79c7a99c67f208e4d36eca590836bf'
         'c80650189e216c4b18cfe33d802278fb639e19092be71db4ea9af4cb0962908ccbdecb7d702124e5710f121626771c0180b6012dc25e5d523cfc1c90df0c61a1'
-        'a24a263f414e04b03358fac492fced4b1ca142eb5da20b9a2de77aa8fe2021b4e17ec2e28624e89ceb31aa6c64168a5fcbe989046ba442f0694709309e65e219')
+        'a24a263f414e04b03358fac492fced4b1ca142eb5da20b9a2de77aa8fe2021b4e17ec2e28624e89ceb31aa6c64168a5fcbe989046ba442f0694709309e65e219'
+        '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
+        '6c71ed5212d6d2381db9b3abddbbbe9284505e8b6603d359cda7d49554442a961420cc5304dc5339eaa10ef91c4da0df85d92214ebc9ff8ab0f3e6efcf7afafb'
+        '7eabe64e52478cb4262993794a4f9586ffbf42b367305a614479e4fa01f3f5574ec56b053e88ac27fdd94fcb606e41f52b15573d1c5f8ebdc9b3dd5d1cc44285'
+        '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
+        '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
+        '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
+        '7e918baee2c0f5b36df13cca4ecd905e82902887a467b3d4e1851f2b3591790b955878b084ebbea0e75d78496bbf9452c66a1f30a00eaa96fd637c0b1d4497c2'
+        'ca31216c7c6e4b1e0f700e1dba05490a49f6c00cf53e4e09c5f73b657d67a4727caf26c9aa1ff5522b14fb7b4da4509cc0021add5bc4e615a729a1ab1f04d5d9'
+        '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52'
+        '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
+        'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
