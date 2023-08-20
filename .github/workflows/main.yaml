@@ -79,7 +79,7 @@ jobs:
         with:
           name: linux-chimeraos-${{needs.build-kernel.outputs.full_version}}
           token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
+          draft: false
           prerelease: true
           fail_on_unmatched_files: true
           files: |
