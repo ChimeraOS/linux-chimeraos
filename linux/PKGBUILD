@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.4.11.chos4
+pkgver=6.4.12.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -53,9 +53,6 @@ source=(
   0001-Cirrus-no-dsdt.patch
   0001-ALSA-hda-cs35l41-Support-ASUS-2023-laptops-with-miss.patch
 
-  # Asus Ally bluetooth patch
-  0004-asus-ally-bluetooth.patch
-
   # Aya Neo patches
   0001-ayaneo-geek-headset-fix.patch
   0002-ayaneo-2-headphone-fix.patch
@@ -86,7 +83,7 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('dfb97f2c9905a150c0890b9c3d464bc13986bec7bcd038c333f4dce443e0a1988a9075554219f9f419ef71af98827c05fad4a62aba1e58aa7f2ef8249f140175'
+b2sums=('0d8b6e447a7fe390b44967ab8dc2e116de29b6fac15a91fe8398d091f5803984495dea595d53938e75f0213b5268bbdb63a86284463552c8e59ffb02cb98ce17'
         '0e371dbca78583225badcdd6112c3f9af6fe39f1a94aaa79853f5bbbae3cfd3657ee555f49fd9292a0e9a7ef3e5d8dd8062430ce32ba0a82a516bbac5c0c41aa'
         '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
         '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
@@ -99,7 +96,6 @@ b2sums=('dfb97f2c9905a150c0890b9c3d464bc13986bec7bcd038c333f4dce443e0a1988a90755
         'd61221e64b7b226b265bde2b75c8938db8c742786ba3e07964804f54aa9a7453de4ade56a139ac7cd059bfd711c610a45f41981743cb17156c1e7b87a29b4d6d'
         'dd15d7f518760782cad382c3bbadbecf219ccc787d0b1dde7cbb3bf9a0bedb1b27ec624f76eab1223be44e3c1034c0d02fb9523e44e96468efd318a060709619'
         'a2b4806b38b45c585abfda86d12702a01fcf89fd85a8b01a36d77a526cd0fc6536799b879e2081c4c75ae2470d5e8c0bb3eafecc12879d5406d353e0577e2ad2'
-        '41162c86f54fcdf7dfbe575e23f8bde4efa8886b5db311945e03bccb353286e70f6e4e83aadc5e81102cfcb8cf1ddab31cbbe016df4237abc07e7a69bc8e5c52'
         '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
         'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e'
         '16c00f512da12b42b68ab4ea9f66a559755c2a6cfaf07e69b4045b07fdcd16d10896e203c88bdaa726c7c800cc1917f85ab22e59eadde245b1b55b3de5f1b766'
