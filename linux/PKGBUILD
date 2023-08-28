@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-_mainlinever="6.5-rc6"
+_mainlinever="6.5"
 pkgver=${_mainlinever//-/.}.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
@@ -31,7 +31,7 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://git.kernel.org/torvalds/t/linux-${_mainlinever}.tar.gz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_mainlinever.tar.xz"
   config  # the main kernel config file
 
   # Arch Linux patches
@@ -48,6 +48,10 @@ source=(
   0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
   0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
   0001-usb-Add-hid_id-and-keys-for-ASUS-ROG-ALLY-handheld.patch
+
+  # No overrides ROG ally
+  0001-Cirrus-no-dsdt.patch
+  0001-ALSA-hda-cs35l41-Support-ASUS-2023-laptops-with-miss.patch
 
   # Aya Neo patches
   0001-ayaneo-geek-headset-fix.patch
@@ -79,18 +83,21 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('8623a7cc34057d514f8782ba8da8fbaf514c1978975595272521abdcaeca321aca2c0cab2337f699bf884c78145fde70aab62919b7619369721032087d2b2cd9'
-        '0f53472ad6749c5ed837ead2865c55c9bdc634ff55692a4e9d9fccaaeb73c40448e7986ccceda06231e39aba2fbb1b0492cdf6cb057c387805e3d7b9d32972a3'
+b2sums=('2e641b79a080e8f4ce283bcf6b74e2c6f15a374367f1c4c875c663868dbe801317340824fb3adb46b3a51d3b7e1f67cc4e8144d367621ec43ffba5c4eb8abb39'
+        '3249ae9922a9db4be8af51096be094a100c3dc7515839201c7626e67627a24c0c9dfd23bb03a0697b36e9f5f3ee7f2605bf62c8103d1db7980c114a4ca10c7a7'
         '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
         '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
+        '786a02f742015903c6c6fd852552d272912f4740e15847618a86e217f71f5419d25e1031afee585313896444934eb04b903a685b1448b755d56f701afe9be2ce'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
         'a6d60509b28acbe8310239c6e38d043a3f0f73badff08ad153bc62262d7ae49431ff3e12d0d8dba7d40cd63c817c07f603e498b4a691ebb61391834b8fe0359f'
+        'dd15d7f518760782cad382c3bbadbecf219ccc787d0b1dde7cbb3bf9a0bedb1b27ec624f76eab1223be44e3c1034c0d02fb9523e44e96468efd318a060709619'
+        'a2b4806b38b45c585abfda86d12702a01fcf89fd85a8b01a36d77a526cd0fc6536799b879e2081c4c75ae2470d5e8c0bb3eafecc12879d5406d353e0577e2ad2'
         '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
         'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e'
-        '52990bb72c6c1863c287b88696020d6acc6c174eae264e6edc5f4e6f063ac30ffe43935b3061a613f6722b14f8ae9462d7a16f6296660a02b76613ccbd7d3d84'
+        '16c00f512da12b42b68ab4ea9f66a559755c2a6cfaf07e69b4045b07fdcd16d10896e203c88bdaa726c7c800cc1917f85ab22e59eadde245b1b55b3de5f1b766'
         'a2549254930b31e2b1eea76120c74a61787abdb845d46a8532a02e1dde785a236708f3332555a3af839235d54de1146f86f0bf60b5d86d3af2ec044ecc88886a'
         '525576f349d77ae5aab136b3effd283e7acbc4eab3553d103d50f12878bc8bbcf5acee74b8ea829ff85f6a08e460066a2aef931df2fd4565f22826a64d1b6313'
         '4364b0e987618790db9d5aa7bcb7a0a5b68e1f9720e360c101162626f5dbc3115273ad3c7ae388414bdb1cdb328367fdf986084f9a906631bcc61d0c501f0c6c'
