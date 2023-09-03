@@ -32,6 +32,7 @@ _srcname=chimeraos-linux
 source=(
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
   config  # the main kernel config file
+  config-chimera # our config that will be merged
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
@@ -86,6 +87,7 @@ validpgpkeys=(
 )
 b2sums=('9d44c188bb7b5d35c685b5718d61a3b5a0b6a335019a8c549ca79f48ea85884dd535f2eb15ab5e0fab841e9861007d706f2424d7bb1ee96f494afa884838a9c8'
         'd062b02a97b7d8ea58c6020ee5f45136941cc4c19b4f08befb1f63da5b8f8e99b90b75386ef56633b8571919697b985df4099c951785e1029acf63abbf15b43c'
+        'b1653bee12c29f1d6b183d4365542ed05b4a1309f76e6722dd1cbce784e771979e655e0ceeb0ca89cd230fb62d005de198861f565654588435bc0137d5f10cba'
         '1ef41b2b0d6f77bc3cab6b0cdb030bc7aa14bbbec359f5263b9f89193f2d17373e8b29531ff7211cb4d3e01659f09813e24ef3e0b0a479091161c5740f9a06c1'
         '43e9629ca17c8c46b08427c8c28225d8ba28865a6241d795d61b63ba4e416b8a0f9a7ba6288c3bf4e0f71f1da38718f1341e3e2f0bdb3a30692ff994b9cb9c52'
         '074fb4357c67bfb5edb4db2c0e78db56d3642caae90da80f962fdecf52a6161c7c43c5c5de15914520441fdc912be9ec15c22e4829abb27363d68b4a8eef41cb'
@@ -146,6 +148,7 @@ prepare() {
   echo "Setting config..."
   cp ../config .config
   _make olddefconfig
+  scripts/kconfig/merge_config.sh -m .config ../config-chimera
   diff -u ../config .config || :
 
   echo "Prepared $pkgbase version $(<version)"
