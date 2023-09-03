@@ -2,8 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-_mainlinever="6.5"
-pkgver=${_mainlinever//-/.}.chos1
+pkgver=6.5.1.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -31,7 +30,7 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_mainlinever.tar.xz"
+  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
   config  # the main kernel config file
 
   # Arch Linux patches
@@ -83,8 +82,8 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('2e641b79a080e8f4ce283bcf6b74e2c6f15a374367f1c4c875c663868dbe801317340824fb3adb46b3a51d3b7e1f67cc4e8144d367621ec43ffba5c4eb8abb39'
-        '3249ae9922a9db4be8af51096be094a100c3dc7515839201c7626e67627a24c0c9dfd23bb03a0697b36e9f5f3ee7f2605bf62c8103d1db7980c114a4ca10c7a7'
+b2sums=('9d44c188bb7b5d35c685b5718d61a3b5a0b6a335019a8c549ca79f48ea85884dd535f2eb15ab5e0fab841e9861007d706f2424d7bb1ee96f494afa884838a9c8'
+        'd062b02a97b7d8ea58c6020ee5f45136941cc4c19b4f08befb1f63da5b8f8e99b90b75386ef56633b8571919697b985df4099c951785e1029acf63abbf15b43c'
         '58a1ece6f571de737beeca21f6c21a5f4522f363bad5ae3ee00a4a93f62822d8870ff8de7fd9127ec3912afcee493728edf98b9e5eb354a8a2fed90d58804a3a'
         '39f934b74836ac1a2587eb2a0bb115b0cea3e3ab2c1fad5059fef86eac33a803621e77912642b28bcca113081c0fea73091da9e16c75f7469d1f0f26114a4eee'
         '786a02f742015903c6c6fd852552d272912f4740e15847618a86e217f71f5419d25e1031afee585313896444934eb04b903a685b1448b755d56f701afe9be2ce'
@@ -120,7 +119,7 @@ _make() {
 }
 
 prepare() {
-  mv "linux-${_mainlinever}" $_srcname
+  mv "linux-${_srctag}" $_srcname
   cd $_srcname
 
   echo "Setting version..."
