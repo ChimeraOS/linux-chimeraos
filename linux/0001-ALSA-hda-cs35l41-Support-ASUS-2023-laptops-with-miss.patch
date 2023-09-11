@@ -1,4 +1,4 @@
-From d99738ad5dd159028f354c1ece9eddabd16a0ed9 Mon Sep 17 00:00:00 2001
+From 6631924d1843f2ef18b6dfaf5bed4b56c4fdd78c Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 23 Aug 2023 11:05:59 +1200
 Subject: [PATCH] ALSA: hda: cs35l41: Support ASUS 2023 laptops with missing
@@ -28,17 +28,17 @@ Signed-off-by: Jonathan LoBue <jlobue10@gmail.com>
 Co-developed-by: Luke D. Jones <luke@ljones.dev>
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- sound/pci/hda/cs35l41_hda_property.c | 54 ++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ sound/pci/hda/cs35l41_hda_property.c | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
 diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 673f23257a09..2bf2365cef50 100644
+index b62a4e6968e26..bd0437c347bb2 100644
 --- a/sound/pci/hda/cs35l41_hda_property.c
 +++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -43,6 +43,49 @@ static int lenovo_legion_no_acpi(struct cs35l41_hda *cs35l41, struct device *phy
+@@ -73,6 +73,48 @@ static int hp_vision_acpi_fix(struct cs35l41_hda *cs35l41, struct device *physde
+ 
  	return 0;
  }
- 
 +static int asus_rog_2023_i2c_no_acpi(struct cs35l41_hda *cs35l41, struct device *physdev, int id,
 +				const char *hid)
 +{
@@ -81,14 +81,13 @@ index 673f23257a09..2bf2365cef50 100644
 +
 +	return 0;
 +}
-+
+ 
  struct cs35l41_prop_model {
  	const char *hid;
- 	const char *ssid;
-@@ -53,6 +96,17 @@ struct cs35l41_prop_model {
- const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+@@ -85,6 +127,17 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
  	{ "CLSA0100", NULL, lenovo_legion_no_acpi },
  	{ "CLSA0101", NULL, lenovo_legion_no_acpi },
+ 	{ "CSC3551", "103C89C6", hp_vision_acpi_fix },
 +	{ "CSC3551", "10431433", asus_rog_2023_i2c_no_acpi }, // ASUS GS650P
 +	{ "CSC3551", "10431463", asus_rog_2023_i2c_no_acpi }, // ASUS GA402X
 +	{ "CSC3551", "10431473", asus_rog_2023_spi_no_acpi }, // ASUS GU604V

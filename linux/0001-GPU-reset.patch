@@ -1,4 +1,4 @@
-From 69dfc1d574d2faddf770a40cf5d1f9715da33fd2 Mon Sep 17 00:00:00 2001
+From 77a5abd60bd6e7ac2f1fe24bc47638d6c5b1c1fc Mon Sep 17 00:00:00 2001
 From: Shashank Sharma <shashank.sharma@amd.com>
 Date: Mon, 7 Mar 2022 12:32:49 +0100
 Subject: [PATCH 1/3] drm: Add GPU reset sysfs event
@@ -33,10 +33,10 @@ Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
  2 files changed, 41 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 430e00b16eeca..4cf1b9b40e707 100644
+index b169b3e44a921..5b3835b3ce428 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -434,6 +434,37 @@ void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
+@@ -486,6 +486,37 @@ void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
  }
  EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
  
@@ -72,10 +72,10 @@ index 430e00b16eeca..4cf1b9b40e707 100644
 +EXPORT_SYMBOL(drm_sysfs_reset_event);
 +
  /**
-  * drm_sysfs_connector_status_event - generate a DRM uevent for connector
-  * property status change
+  * drm_sysfs_connector_property_event - generate a DRM uevent for connector
+  * property change
 diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
-index 6273cac44e479..8c37d6a529328 100644
+index 96a5d858404b0..725bea791151d 100644
 --- a/include/drm/drm_sysfs.h
 +++ b/include/drm/drm_sysfs.h
 @@ -1,17 +1,27 @@
@@ -103,14 +103,14 @@ index 6273cac44e479..8c37d6a529328 100644
  void drm_sysfs_hotplug_event(struct drm_device *dev);
  void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
 +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_event *reset_info);
- void drm_sysfs_connector_status_event(struct drm_connector *connector,
- 				      struct drm_property *property);
+ void drm_sysfs_connector_property_event(struct drm_connector *connector,
+ 					struct drm_property *property);
  #endif
 -- 
 2.41.0
 
 
-From b717d62ae484fe8fc2f87478960e95cad838f574 Mon Sep 17 00:00:00 2001
+From b7b16f1355db919581a84e7f3c562950d2d17a9a Mon Sep 17 00:00:00 2001
 From: Shashank Sharma <shashank.sharma@amd.com>
 Date: Mon, 7 Mar 2022 15:33:00 +0100
 Subject: [PATCH 2/3] drm/amdgpu: add work function for GPU reset event
@@ -142,10 +142,10 @@ Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
  2 files changed, 16 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 2eca58220550e..5c376f7f51f4f 100644
+index dc2d53081e806..01fe6cfca5543 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -60,6 +60,7 @@
+@@ -57,6 +57,7 @@
  #include <drm/amdgpu_drm.h>
  #include <drm/drm_gem.h>
  #include <drm/drm_ioctl.h>
@@ -153,7 +153,7 @@ index 2eca58220550e..5c376f7f51f4f 100644
  
  #include <kgd_kfd_interface.h>
  #include "dm_pp_interface.h"
-@@ -1002,6 +1003,7 @@ struct amdgpu_device {
+@@ -1017,6 +1018,7 @@ struct amdgpu_device {
  
  	int asic_reset_res;
  	struct work_struct		xgmi_reset_work;
@@ -161,8 +161,8 @@ index 2eca58220550e..5c376f7f51f4f 100644
  	struct list_head		reset_list;
  
  	long				gfx_timeout;
-@@ -1035,6 +1037,7 @@ struct amdgpu_device {
- 	pci_channel_state_t		pci_channel_state;
+@@ -1051,6 +1053,7 @@ struct amdgpu_device {
+ 	bool				barrier_has_auto_waitcnt;
  
  	struct amdgpu_reset_control     *reset_cntl;
 +	struct drm_reset_event		reset_event_info;
@@ -170,18 +170,18 @@ index 2eca58220550e..5c376f7f51f4f 100644
  
  	bool				ram_is_direct_mapped;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index f1e9663b40510..08aa72743dfce 100644
+index 3f001a50b34a6..ac702672ce3ef 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -76,6 +76,7 @@
+@@ -80,6 +80,7 @@
  #include <linux/pm_runtime.h>
  
  #include <drm/drm_drv.h>
 +#include <drm/drm_sysfs.h>
  
- MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
- MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
-@@ -3355,6 +3356,17 @@ bool amdgpu_device_has_dc_support(struct amdgpu_device *adev)
+ #if IS_ENABLED(CONFIG_X86)
+ #include <asm/intel-family.h>
+@@ -3358,6 +3359,17 @@ bool amdgpu_device_has_dc_support(struct amdgpu_device *adev)
  	return amdgpu_device_asic_has_dc_support(adev->asic_type);
  }
  
@@ -199,7 +199,7 @@ index f1e9663b40510..08aa72743dfce 100644
  static void amdgpu_device_xgmi_reset_func(struct work_struct *__work)
  {
  	struct amdgpu_device *adev =
-@@ -3606,6 +3618,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+@@ -3629,6 +3641,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
  			  amdgpu_device_delay_enable_gfx_off);
  
  	INIT_WORK(&adev->xgmi_reset_work, amdgpu_device_xgmi_reset_func);
@@ -211,7 +211,7 @@ index f1e9663b40510..08aa72743dfce 100644
 2.41.0
 
 
-From b65228799e5ac96211b0e4c342d0a4478a1b6410 Mon Sep 17 00:00:00 2001
+From 6881ac7c2e0d6703c538ddca2696c3495e6df00a Mon Sep 17 00:00:00 2001
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 Date: Thu, 10 Mar 2022 11:31:44 +0530
 Subject: [PATCH 3/3] drm/amdgpu: schedule GPU reset event work function
@@ -228,10 +228,10 @@ Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 08aa72743dfce..47ff7a56c6848 100644
+index ac702672ce3ef..3d39ed483a96e 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4924,6 +4924,20 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
+@@ -4996,6 +4996,20 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
  						reset_context->job->vm->task_info;
  				amdgpu_reset_capture_coredumpm(tmp_adev);
  #endif

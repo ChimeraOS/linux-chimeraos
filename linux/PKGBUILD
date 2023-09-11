@@ -2,10 +2,10 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.5.2.chos1
+pkgver=6.6.rc1.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
-_srctag=${pkgver%.*}
+_srctag=6.6-rc1
 _srcpatch=${pkgver##*.}
 url="https://github.com/ChimeraOS/linux-chimeraos"
 arch=(x86_64)
@@ -30,16 +30,15 @@ makedepends=(
 options=('!strip')
 _srcname=chimeraos-linux
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
+  https://git.kernel.org/torvalds/t/linux-$_srctag.tar.gz
   config  # the main kernel config file
   config-chimera # our config that will be merged
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
   0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
-  0003-tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch
-  0004-sphinx-kfigure.py-Convert-outdir-to-str-before-using.patch
-  0005-Revert-ASoC-Intel-soc-acpi-add-tables-for-Dell-SKU-0.patch
+  0003-sphinx-kfigure.py-Convert-outdir-to-str-before-using.patch
+  0004-Revert-ASoC-Intel-soc-acpi-add-tables-for-Dell-SKU-0.patch
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -52,7 +51,6 @@ source=(
   0001-usb-Add-hid_id-and-keys-for-ASUS-ROG-ALLY-handheld.patch
 
   # No overrides ROG ally
-  0001-Cirrus-no-dsdt.patch
   0001-ALSA-hda-cs35l41-Support-ASUS-2023-laptops-with-miss.patch
 
   # Aya Neo patches
@@ -64,19 +62,6 @@ source=(
 
   #HDR patches
   #0001-HDR.patch
-
-  # Fixup sleep cs35l41
-  0001-ALSA-cs35l41-Use-mbox-command-to-enable-speaker-outp.patch
-  0002-ALSA-cs35l41-Poll-for-Power-Up-Down-rather-than-wait.patch
-  0003-ALSA-hda-cs35l41-Check-mailbox-status-of-pause-comma.patch
-  0004-ALSA-hda-cs35l41-Ensure-we-correctly-re-sync-regmap-.patch
-  0005-ALSA-hda-cs35l41-Ensure-we-pass-up-any-errors-during.patch
-  0006-ALSA-hda-cs35l41-Move-Play-and-Pause-into-separate-f.patch
-  0007-ALSA-hda-hda_component-Add-pre-and-post-playback-hoo.patch
-  0008-ALSA-hda-cs35l41-Use-pre-and-post-playback-hooks.patch
-  0009-ALSA-hda-cs35l41-Rework-System-Suspend-to-ensure-cor.patch
-  0010-ALSA-hda-cs35l41-Add-device_link-between-HDA-and-cs3.patch
-  0011-ALSA-hda-cs35l41-Ensure-amp-is-only-unmuted-during-p.patch
 )
 
 validpgpkeys=(
@@ -85,12 +70,11 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('74a4f998987780001e924e28f8a3f585cd50da9d87d120bcb33fe1fd4fccccc2301fbc3c84c62e914e4694b5eb138e33cacda515db51d5a3997d114154449be3'
-        'd062b02a97b7d8ea58c6020ee5f45136941cc4c19b4f08befb1f63da5b8f8e99b90b75386ef56633b8571919697b985df4099c951785e1029acf63abbf15b43c'
+b2sums=('2b184709626a2513bfbcf4a06bb473266371b01e6b3cb9b9c185fc3624ea01a044353c1728ec0bbd984fac34865a42cf141ebaf5a9bc124f096c7040c410ac88'
+        'b43a951b54335d346467f55091c9dc4317d276b2be31ddaf531affdef21241fa4859300964cf281f6fd175c73bb63fa91e73883b1b1cbd05e501a3291e68a83d'
         'b1653bee12c29f1d6b183d4365542ed05b4a1309f76e6722dd1cbce784e771979e655e0ceeb0ca89cd230fb62d005de198861f565654588435bc0137d5f10cba'
         '1ef41b2b0d6f77bc3cab6b0cdb030bc7aa14bbbec359f5263b9f89193f2d17373e8b29531ff7211cb4d3e01659f09813e24ef3e0b0a479091161c5740f9a06c1'
         '43e9629ca17c8c46b08427c8c28225d8ba28865a6241d795d61b63ba4e416b8a0f9a7ba6288c3bf4e0f71f1da38718f1341e3e2f0bdb3a30692ff994b9cb9c52'
-        '074fb4357c67bfb5edb4db2c0e78db56d3642caae90da80f962fdecf52a6161c7c43c5c5de15914520441fdc912be9ec15c22e4829abb27363d68b4a8eef41cb'
         '8bde0d883cb8127f292d591cc0f0cf6378132765b0fc8ff1760cf14c1673436fbd73768b81b22355ee5d58042149ef6cefec6788f0142cfee8bf217df70d16b8'
         'd62af7121dc9ea797adf73d87f1ee7a1d5c666794b77b085d24ab5b03f475ae8f7bb5b3a0b62df5fe778bfc3693a0ee32376a5b3052f7ae706ba1accc0776ea5'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
@@ -98,22 +82,10 @@ b2sums=('74a4f998987780001e924e28f8a3f585cd50da9d87d120bcb33fe1fd4fccccc2301fbc3
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
         '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
         'a6d60509b28acbe8310239c6e38d043a3f0f73badff08ad153bc62262d7ae49431ff3e12d0d8dba7d40cd63c817c07f603e498b4a691ebb61391834b8fe0359f'
-        'dd15d7f518760782cad382c3bbadbecf219ccc787d0b1dde7cbb3bf9a0bedb1b27ec624f76eab1223be44e3c1034c0d02fb9523e44e96468efd318a060709619'
-        'a2b4806b38b45c585abfda86d12702a01fcf89fd85a8b01a36d77a526cd0fc6536799b879e2081c4c75ae2470d5e8c0bb3eafecc12879d5406d353e0577e2ad2'
+        '980175815721386f746f260106c7dfd4286683017d5f13f66e816920818986f5ecdc67caabeb6e0855502246876cf0684a447b5a0af1eab85d15e161b3d61281'
         '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
         'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e'
-        '16c00f512da12b42b68ab4ea9f66a559755c2a6cfaf07e69b4045b07fdcd16d10896e203c88bdaa726c7c800cc1917f85ab22e59eadde245b1b55b3de5f1b766'
-        'a2549254930b31e2b1eea76120c74a61787abdb845d46a8532a02e1dde785a236708f3332555a3af839235d54de1146f86f0bf60b5d86d3af2ec044ecc88886a'
-        '525576f349d77ae5aab136b3effd283e7acbc4eab3553d103d50f12878bc8bbcf5acee74b8ea829ff85f6a08e460066a2aef931df2fd4565f22826a64d1b6313'
-        '4364b0e987618790db9d5aa7bcb7a0a5b68e1f9720e360c101162626f5dbc3115273ad3c7ae388414bdb1cdb328367fdf986084f9a906631bcc61d0c501f0c6c'
-        '6e436702abb401c9a1c79795af8298d22b08e720a4554b0ca262a9b7e0797f0ac63e78804466d70b0dc5c129609973685f8a7df5f90c6270ebccbd0843c11549'
-        'f2158133ad6db45c55693ac0d2463674bd7b1afca99067d54e4fd528b3f54f61cd7db41d682daf54adf261727ac802edf6d429d63601dfa90ded949e86ebcca6'
-        '3fd557cc45ec996c16f34d669cec40ab66b5a9aed3019c434e67b6c5a5950d3ade68a015a46993cff6d782e7b79fea176ce90aff8e8abdb05d25d5a2fc25d63d'
-        'd5ca9d31b3441a13a38906af74c89f47ffb337a8aef21d1467f59ccd0b2f5bb66f7f02d9e6dd4184c8508cd90735472a60d901ff075fbb129aa1c58b3b3da7dc'
-        '7629db696517d9e3fc0872c30523c6af1dd32fc7ebb182bf42e63f9cba0eb4796a5ca89d28b5b720dbe998d09d3d4d526c6b69bcc52aa98e6630e3ff73b1b42c'
-        '1bd3458a041b53b9e914a2ca75c06e767545cd8dc16f5a1e5bfe602819176b8cccb1f771ec922f37f790cd3eb0236be880cef12794195bf5c80a65f14360f0cb'
-        '1cdc104776559a119ac4f0d9afd33a0cbc8ac01576b1a79158ac0c2ce63ba89b021522081b8b6739c2b87b722f060a67b5262a257b1ffadf34f19942db6148a1'
-        '9691fc6d6b6f5c19d5b6e6f8d4f59dbb3380f78818b2750f9e440e1d00175768175effb9252fb91e8821b0fd806ac80096727ed30defa1e43f7b23575504ed8a')
+        '17b62ff530ffb77ff19f93274fe7a90cb5fc09cd53fd9a4c43051a57c14f880ac509c763ca8695c457f953aa886eb0017bcf767a1ba2c858442bf28093f77c6b')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
