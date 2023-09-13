@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.5.2.chos1
+pkgver=6.5.3.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -37,9 +37,12 @@ source=(
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
   0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
-  0003-tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch
-  0004-sphinx-kfigure.py-Convert-outdir-to-str-before-using.patch
-  0005-Revert-ASoC-Intel-soc-acpi-add-tables-for-Dell-SKU-0.patch
+  0003-sphinx-kfigure.py-Convert-outdir-to-str-before-using.patch
+  0004-ASoC-Intel-soc-acpi-fix-Dell-SKU-0B34.patch
+  0005-btrfs-wait-on-uncached-block-groups-on-every-allocat.patch
+  0006-btrfs-set-last-dir-index-to-the-current-last-index-w.patch
+  0007-btrfs-refresh-dir-last-index-during-a-rewinddir-3-ca.patch
+  0008-btrfs-fix-race-between-reading-a-directory-and-addin.patch
 
   # ChimeraOS specific patches
   # Some patches from TKG Team
@@ -85,14 +88,17 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('74a4f998987780001e924e28f8a3f585cd50da9d87d120bcb33fe1fd4fccccc2301fbc3c84c62e914e4694b5eb138e33cacda515db51d5a3997d114154449be3'
-        'd062b02a97b7d8ea58c6020ee5f45136941cc4c19b4f08befb1f63da5b8f8e99b90b75386ef56633b8571919697b985df4099c951785e1029acf63abbf15b43c'
+b2sums=('7673a5375b0a715eca2dcff5b4f6fca13c8564a930b3b7ee112b67ed51541277378408abed1e1b128610f0db3425abbb30cd3751ce30ff73795cf594fb508142'
+        '07152aa6ad7b89d583cfd9cf97f4d56cb8d5b46385fd818861b10ad11a964370cc4bc334bd275ff0f4610c006d8b7dc51bf4ca63dfe64301e7196f2a745b4416'
         'b1653bee12c29f1d6b183d4365542ed05b4a1309f76e6722dd1cbce784e771979e655e0ceeb0ca89cd230fb62d005de198861f565654588435bc0137d5f10cba'
-        '1ef41b2b0d6f77bc3cab6b0cdb030bc7aa14bbbec359f5263b9f89193f2d17373e8b29531ff7211cb4d3e01659f09813e24ef3e0b0a479091161c5740f9a06c1'
-        '43e9629ca17c8c46b08427c8c28225d8ba28865a6241d795d61b63ba4e416b8a0f9a7ba6288c3bf4e0f71f1da38718f1341e3e2f0bdb3a30692ff994b9cb9c52'
-        '074fb4357c67bfb5edb4db2c0e78db56d3642caae90da80f962fdecf52a6161c7c43c5c5de15914520441fdc912be9ec15c22e4829abb27363d68b4a8eef41cb'
-        '8bde0d883cb8127f292d591cc0f0cf6378132765b0fc8ff1760cf14c1673436fbd73768b81b22355ee5d58042149ef6cefec6788f0142cfee8bf217df70d16b8'
-        'd62af7121dc9ea797adf73d87f1ee7a1d5c666794b77b085d24ab5b03f475ae8f7bb5b3a0b62df5fe778bfc3693a0ee32376a5b3052f7ae706ba1accc0776ea5'
+        'bbb99e347a55d14265d4d7c2914f708bb3d25c6d8c18e382e90c9e207903584d124c71f4adcb19ba456887eb55e6fafc5ea9c452c5e956294501ebd816e5870e'
+        '133d299e407795acaffcca145382a6941c2be86714d1a949d5b4e368884f3b5195ecd164c1d12834e478cdec0585cc3c25a223b1f1f9dbb5481d132254336509'
+        '9178ca3920404af359eaf1882af1ad4669ca4b84784d0899679ceb192da140cea3fd493f605b770657c24039be76012985213b2892fa94a244c7d5bbed356e24'
+        'e330f1e7e9ceae0e1c026fbab7c8a2d4408d57997a3550e6ee5384c734dcfcc42eaf9b45dabb4a837b79963a3fb36cd9d626e801bd4b84030f1acf9b0b2ed582'
+        '09daf201cab41fe1bbd56108cd6469860666e59aed0a6b8c91fbf01524ebf9649ee40da0fbcfb0b086cec577dfb2823ef27152a6e94f2e04e78045e769e0ac89'
+        '6f9f647ccca27820247fc210f4b031a74bc7bb105deec722df2eae90d61af25cef94412ae36fdb3559c24c05d52186c0e2cda92bdd825a8aae80a3c74bfb6a4d'
+        '20c2bb8b0c7d79b705853d1864bfaae8d5b036bd46a0c0af3816d95c6e8ced82d0e5d7b7f22e6e5a487ea9f5c5988f4a21584f6bd76f82a238179025db68417c'
+        '556eb3d85c0bebd362ab32c57be27ebb3576f5dbecf6cf37d15652beba7f80668787a40e63cd6c2f36cca5d3dc3bb301bd2ca26185c9ba179b0f60ce4d269f87'
         'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
         '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
         '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
