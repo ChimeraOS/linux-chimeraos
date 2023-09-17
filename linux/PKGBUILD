@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.5.3.chos1
+pkgver=6.5.3.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=${pkgver%.*}
@@ -80,6 +80,9 @@ source=(
   0009-ALSA-hda-cs35l41-Rework-System-Suspend-to-ensure-cor.patch
   0010-ALSA-hda-cs35l41-Add-device_link-between-HDA-and-cs3.patch
   0011-ALSA-hda-cs35l41-Ensure-amp-is-only-unmuted-during-p.patch
+
+  #HID patches
+  0001-HID.patch
 )
 
 validpgpkeys=(
@@ -119,7 +122,8 @@ b2sums=('7673a5375b0a715eca2dcff5b4f6fca13c8564a930b3b7ee112b67ed51541277378408a
         '7629db696517d9e3fc0872c30523c6af1dd32fc7ebb182bf42e63f9cba0eb4796a5ca89d28b5b720dbe998d09d3d4d526c6b69bcc52aa98e6630e3ff73b1b42c'
         '1bd3458a041b53b9e914a2ca75c06e767545cd8dc16f5a1e5bfe602819176b8cccb1f771ec922f37f790cd3eb0236be880cef12794195bf5c80a65f14360f0cb'
         '1cdc104776559a119ac4f0d9afd33a0cbc8ac01576b1a79158ac0c2ce63ba89b021522081b8b6739c2b87b722f060a67b5262a257b1ffadf34f19942db6148a1'
-        '9691fc6d6b6f5c19d5b6e6f8d4f59dbb3380f78818b2750f9e440e1d00175768175effb9252fb91e8821b0fd806ac80096727ed30defa1e43f7b23575504ed8a')
+        '9691fc6d6b6f5c19d5b6e6f8d4f59dbb3380f78818b2750f9e440e1d00175768175effb9252fb91e8821b0fd806ac80096727ed30defa1e43f7b23575504ed8a'
+        'd41417b3526f52b7a6bd41825cf4b6d86dfd5a07b0e005331373d9249dd409cb56f4122a3d2e80602e510c65dfc58bc39980a1d4a1322cf2aee6b96629f30054')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
