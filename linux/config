@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.6.0-chos1-rc1 Kernel Configuration
+# Linux/x86 6.6.0-chos1-rc2 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 13.2.1 20230801"
 CONFIG_CC_IS_GCC=y
@@ -4689,7 +4689,6 @@ CONFIG_I2C_MUX_REG=m
 CONFIG_I2C_MUX_MLXCPLD=m
 # end of Multiplexer I2C Chip support
 
-# CONFIG_I2C_ATR is not set
 CONFIG_I2C_HELPER_AUTO=y
 CONFIG_I2C_SMBUS=m
 CONFIG_I2C_ALGOBIT=m
