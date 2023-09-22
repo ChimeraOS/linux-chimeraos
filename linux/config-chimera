@@ -1,0 +1,5 @@
+# Chimera specific config flags
+# Enable support for OXP sensors
+CONFIG_SENSORS_OXP=m
+# Enable support for AMDGPU color calibration features
+CONFIG_DRM_AMD_COLOR_STEAMDECK=y
