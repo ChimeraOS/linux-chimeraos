@@ -2,12 +2,11 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.5.4.chos1
+pkgver=6.5.5.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
-_srctag=${pkgver%.*}
-_srcpatch=${pkgver##*.}
-url="https://github.com/ChimeraOS/linux-chimeraos"
+_srctag=v${pkgver%.*}-${pkgver##*.}
+url="https://github.com/ChimeraOS/linux/commits/$_srctag"
 arch=(x86_64)
 license=(GPL2)
 makedepends=(
@@ -28,61 +27,13 @@ makedepends=(
   #texlive-latexextra
 )
 options=('!strip')
-_srcname=chimeraos-linux
+_srcname=linux-chimeraos
 source=(
-  "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$_srctag.tar.xz"
+  "linux-chimeraos.tar.gz::https://github.com/ChimeraOS/linux/archive/refs/tags/$_srctag.tar.gz"
   config  # the main kernel config file
   config-chimera # our config that will be merged
-
-  # Arch Linux patches
-  0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
-  0003-sphinx-kfigure.py-Convert-outdir-to-str-before-using.patch
-  0004-ASoC-Intel-soc-acpi-fix-Dell-SKU-0B34.patch
-  0005-btrfs-wait-on-uncached-block-groups-on-every-allocat.patch
-  0006-btrfs-set-last-dir-index-to-the-current-last-index-w.patch
-  0007-btrfs-refresh-dir-last-index-during-a-rewinddir-3-ca.patch
-  0008-btrfs-fix-race-between-reading-a-directory-and-addin.patch
-
-  # ChimeraOS specific patches
-  # Some patches from TKG Team
-  0001-mm-Support-soft-dirty-flag-reset-for-VA-range.patch
-
-  # Fixes and additions
-  0001-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-2.patch
-  0002-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-F.patch
-  0003-drm-panel-orientation-quirks-Add-quirk-for-AYA-NEO-G.patch
-  0001-usb-Add-hid_id-and-keys-for-ASUS-ROG-ALLY-handheld.patch
-
-  # No overrides ROG ally
-  0001-Cirrus-no-dsdt.patch
-  0001-ALSA-hda-cs35l41-Support-ASUS-2023-laptops-with-miss.patch
-
-  # Aya Neo patches
-  0001-ayaneo-geek-headset-fix.patch
-  0002-ayaneo-2-headphone-fix.patch
-
-  # GPU reset through sysfs
-  0001-GPU-reset.patch
-
   #HDR patches
   #0001-HDR.patch
-
-  # Fixup sleep cs35l41
-  0001-ALSA-cs35l41-Use-mbox-command-to-enable-speaker-outp.patch
-  0002-ALSA-cs35l41-Poll-for-Power-Up-Down-rather-than-wait.patch
-  0003-ALSA-hda-cs35l41-Check-mailbox-status-of-pause-comma.patch
-  0004-ALSA-hda-cs35l41-Ensure-we-correctly-re-sync-regmap-.patch
-  0005-ALSA-hda-cs35l41-Ensure-we-pass-up-any-errors-during.patch
-  0006-ALSA-hda-cs35l41-Move-Play-and-Pause-into-separate-f.patch
-  0007-ALSA-hda-hda_component-Add-pre-and-post-playback-hoo.patch
-  0008-ALSA-hda-cs35l41-Use-pre-and-post-playback-hooks.patch
-  0009-ALSA-hda-cs35l41-Rework-System-Suspend-to-ensure-cor.patch
-  0010-ALSA-hda-cs35l41-Add-device_link-between-HDA-and-cs3.patch
-  0011-ALSA-hda-cs35l41-Ensure-amp-is-only-unmuted-during-p.patch
-
-  #HID patches
-  0001-HID.patch
 )
 
 validpgpkeys=(
@@ -91,39 +42,9 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('99df210ee8f244de9059c9699648f7aad8e520030ce14e61971ba95365635e698e7c66074aa3f5c57bd75f1058e1c1dbaecea66d0b381202f239b3a04a396371'
+b2sums=('1b8049a30b75a2e472ddf2a1217f3bb6286846a70c181d774fe811fdbe615c54123f645c445aa63dfc20ebc941d4e8fdddef6216e8aed561735e9dd3c322ae1f'
         '2517b552e065f2a34073feeebc3a48cfa5ccaea77dd2bde297b26603a92b0e9e57d091d9df84777193a4c8fc4d4dd2214ce0b97a6b7e22533c7af387f4f55dc1'
-        'b1653bee12c29f1d6b183d4365542ed05b4a1309f76e6722dd1cbce784e771979e655e0ceeb0ca89cd230fb62d005de198861f565654588435bc0137d5f10cba'
-        'bbb99e347a55d14265d4d7c2914f708bb3d25c6d8c18e382e90c9e207903584d124c71f4adcb19ba456887eb55e6fafc5ea9c452c5e956294501ebd816e5870e'
-        '133d299e407795acaffcca145382a6941c2be86714d1a949d5b4e368884f3b5195ecd164c1d12834e478cdec0585cc3c25a223b1f1f9dbb5481d132254336509'
-        '9178ca3920404af359eaf1882af1ad4669ca4b84784d0899679ceb192da140cea3fd493f605b770657c24039be76012985213b2892fa94a244c7d5bbed356e24'
-        'e330f1e7e9ceae0e1c026fbab7c8a2d4408d57997a3550e6ee5384c734dcfcc42eaf9b45dabb4a837b79963a3fb36cd9d626e801bd4b84030f1acf9b0b2ed582'
-        '09daf201cab41fe1bbd56108cd6469860666e59aed0a6b8c91fbf01524ebf9649ee40da0fbcfb0b086cec577dfb2823ef27152a6e94f2e04e78045e769e0ac89'
-        '6f9f647ccca27820247fc210f4b031a74bc7bb105deec722df2eae90d61af25cef94412ae36fdb3559c24c05d52186c0e2cda92bdd825a8aae80a3c74bfb6a4d'
-        '20c2bb8b0c7d79b705853d1864bfaae8d5b036bd46a0c0af3816d95c6e8ced82d0e5d7b7f22e6e5a487ea9f5c5988f4a21584f6bd76f82a238179025db68417c'
-        '556eb3d85c0bebd362ab32c57be27ebb3576f5dbecf6cf37d15652beba7f80668787a40e63cd6c2f36cca5d3dc3bb301bd2ca26185c9ba179b0f60ce4d269f87'
-        'e2e364387efe34a1a392cdf9801b6f164d84de428edd8e43ccb1f12690019078db297b9dcf61a5dd4a83ca40dca8f25d9117e240c1ffd8b969d81e4dc6e972fd'
-        '0aabd614b3318880fe940d4f3eb93f8b7f0e91892864f95d5b12eabfce1650ef036bf4e2ccee8b391c8a3cef4ff1ff7661b118a4f72d82214dbf713743809f78'
-        '5a578620cc03574218a22c1eebbba91047815f0c7b0b3f2f3d1eb5534aa17254f0ea5f061cadfe7bbe3b32f0a20b2008e28a494cfd7be84600c4b6a89afd6940'
-        '4f8305d7b15763206e868d313b31372cc7e0df1b634d73f958d3c357c6859fd26e9490d0179f316b282b4058baae5365f5735eae157cceaa1a3acd7ee5e8d1c6'
-        'a6d60509b28acbe8310239c6e38d043a3f0f73badff08ad153bc62262d7ae49431ff3e12d0d8dba7d40cd63c817c07f603e498b4a691ebb61391834b8fe0359f'
-        'dd15d7f518760782cad382c3bbadbecf219ccc787d0b1dde7cbb3bf9a0bedb1b27ec624f76eab1223be44e3c1034c0d02fb9523e44e96468efd318a060709619'
-        'a2b4806b38b45c585abfda86d12702a01fcf89fd85a8b01a36d77a526cd0fc6536799b879e2081c4c75ae2470d5e8c0bb3eafecc12879d5406d353e0577e2ad2'
-        '974db55c733545223d97e003e2608b3f6c0138cf5c4aeaae1409c64deb4b97b2dd00debcf3487705ad99b8a0bc6aad3df7d117622581710db9a8afc4404f15a1'
-        'c0aeabea11aa929178ee8ddcf7959fee90ce054a9f029895cdf9e13d440030243285866889da892b0e97980592d30bfbac57190b427bbe29839d56b0062a6d4e'
-        '16c00f512da12b42b68ab4ea9f66a559755c2a6cfaf07e69b4045b07fdcd16d10896e203c88bdaa726c7c800cc1917f85ab22e59eadde245b1b55b3de5f1b766'
-        'a2549254930b31e2b1eea76120c74a61787abdb845d46a8532a02e1dde785a236708f3332555a3af839235d54de1146f86f0bf60b5d86d3af2ec044ecc88886a'
-        '525576f349d77ae5aab136b3effd283e7acbc4eab3553d103d50f12878bc8bbcf5acee74b8ea829ff85f6a08e460066a2aef931df2fd4565f22826a64d1b6313'
-        '4364b0e987618790db9d5aa7bcb7a0a5b68e1f9720e360c101162626f5dbc3115273ad3c7ae388414bdb1cdb328367fdf986084f9a906631bcc61d0c501f0c6c'
-        '6e436702abb401c9a1c79795af8298d22b08e720a4554b0ca262a9b7e0797f0ac63e78804466d70b0dc5c129609973685f8a7df5f90c6270ebccbd0843c11549'
-        'f2158133ad6db45c55693ac0d2463674bd7b1afca99067d54e4fd528b3f54f61cd7db41d682daf54adf261727ac802edf6d429d63601dfa90ded949e86ebcca6'
-        '3fd557cc45ec996c16f34d669cec40ab66b5a9aed3019c434e67b6c5a5950d3ade68a015a46993cff6d782e7b79fea176ce90aff8e8abdb05d25d5a2fc25d63d'
-        'd5ca9d31b3441a13a38906af74c89f47ffb337a8aef21d1467f59ccd0b2f5bb66f7f02d9e6dd4184c8508cd90735472a60d901ff075fbb129aa1c58b3b3da7dc'
-        '7629db696517d9e3fc0872c30523c6af1dd32fc7ebb182bf42e63f9cba0eb4796a5ca89d28b5b720dbe998d09d3d4d526c6b69bcc52aa98e6630e3ff73b1b42c'
-        '1bd3458a041b53b9e914a2ca75c06e767545cd8dc16f5a1e5bfe602819176b8cccb1f771ec922f37f790cd3eb0236be880cef12794195bf5c80a65f14360f0cb'
-        '1cdc104776559a119ac4f0d9afd33a0cbc8ac01576b1a79158ac0c2ce63ba89b021522081b8b6739c2b87b722f060a67b5262a257b1ffadf34f19942db6148a1'
-        '9691fc6d6b6f5c19d5b6e6f8d4f59dbb3380f78818b2750f9e440e1d00175768175effb9252fb91e8821b0fd806ac80096727ed30defa1e43f7b23575504ed8a'
-        'd41417b3526f52b7a6bd41825cf4b6d86dfd5a07b0e005331373d9249dd409cb56f4122a3d2e80602e510c65dfc58bc39980a1d4a1322cf2aee6b96629f30054')
+        'b1653bee12c29f1d6b183d4365542ed05b4a1309f76e6722dd1cbce784e771979e655e0ceeb0ca89cd230fb62d005de198861f565654588435bc0137d5f10cba')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -135,13 +56,12 @@ _make() {
 }
 
 prepare() {
-  mv "linux-${_srctag}" $_srcname
+  mv linux-${pkgver%.*}-${pkgver##*.} $_srcname
   cd $_srcname
 
   echo "Setting version..."
   echo "${pkgbase#linux}" > localversion.10-pkgname
   echo "-$pkgrel" > localversion.20-pkgrel
-  sed -i "s/EXTRAVERSION =[[:space:]]\{0,\}/EXTRAVERSION = -${_srcpatch}/g" Makefile
   make defconfig
   make -s kernelrelease > version
   make mrproper
