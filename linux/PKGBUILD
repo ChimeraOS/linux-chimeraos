@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.6.1.chos1
+pkgver=6.6.1.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
@@ -32,8 +32,6 @@ source=(
   "linux-chimeraos.tar.gz::https://github.com/ChimeraOS/linux/archive/refs/tags/$_srctag.tar.gz"
   config  # the main kernel config file
   config-chimera # our config that will be merged
-  #HDR patches
-  #0001-HDR.patch
 )
 
 validpgpkeys=(
