@@ -54,7 +54,7 @@ _make() {
 }
 
 prepare() {
-  mv linux-${pkgver%.*}-${pkgver##*.} $_srcname
+  mv 'linux-6.1.52-valve14-chos1' $_srcname
   cd $_srcname
 
   echo "Setting version..."
