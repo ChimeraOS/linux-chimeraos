@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.1.52.valve14.chos1
+pkgver=6.1.52.valve14.chos2
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=v6.1.52-valve14-chos1
@@ -54,7 +54,7 @@ _make() {
 }
 
 prepare() {
-  mv 'linux-6.1.52-valve14-chos1' $_srcname
+  mv 'linux-6.1.52-valve14-chos2' $_srcname
   cd $_srcname
 
   echo "Setting version..."
