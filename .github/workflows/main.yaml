@@ -47,7 +47,7 @@ jobs:
           mkdir -p /etc/gnupg && echo "auto-key-retrieve" >> /etc/gnupg/gpg.conf
       - name: Install dependencies
         run: |
-          pacman -Syu --noconfirm bc cpio pahole python kmod
+          pacman -Syu --noconfirm bc cpio pahole python kmod git
       - name: Build linux-chimeraos package
         id: build-kernel-package
         shell: bash
