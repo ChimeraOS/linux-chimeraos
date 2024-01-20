@@ -1,5 +1,14 @@
 # Chimera specific config flags
 
+# Disable radeon module
+# CONFIG_DRM_RADEON is not set
+
+# PARAVIRT options have overhead, even on bare metal boots. They can cause
+# spinlocks to not be inlined as well. Either way, we don't intend to run this
+# kernel as a guest, so this also clears out a whole bunch of
+# virtualization-specific drivers.
+CONFIG_HYPERVISOR_GUEST=n
+
 # Disable AMD_PSTATE
 CONFIG_X86_AMD_PSTATE=n
 
