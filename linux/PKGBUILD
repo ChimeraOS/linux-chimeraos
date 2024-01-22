@@ -2,10 +2,10 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.6.13.chos1
+pkgver=6.8.rc1.chos1
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
-_srctag=v${pkgver%.*}-${pkgver##*.}
+_srctag=v6.8-rc1-chos1
 url="https://github.com/ChimeraOS/linux/commits/$_srctag"
 arch=(x86_64)
 license=(GPL2)
@@ -40,7 +40,7 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('98d24a74eb18730034a02e3e98750177eb4cf7d4384982e8ad3fb598993e275ecccbb513a905a75ff4ff24c683b24874a43b291a87332a707e9bdb4b0bb81bfc'
+b2sums=('ccc00c4fe4f851a9c21ff46a1f22a0f6fed45ec759a36c71f6fd934357100ca1340dbb0e1abbe7b917dccc825dede6547509d4bd489f6037ea062d09f6339b9a'
         'b96ca6608e20c24cc72c70ed3bd8ebf4523b17f1359d2528d386faf3e25bc3d6a7c2b64d475dc5af03b0bfb6df7f5666abd64f4a5794bdc8518bee260c5deed9'
         'da4c9f4a8483b4eb93b929852ac70a661b47dad5695de177472c664d9ca2a2f93a4fecc57b5338eeba79893c2b5f0e4b79c6a471280b924ecb79f7a0a6e989be')
 
@@ -54,7 +54,7 @@ _make() {
 }
 
 prepare() {
-  mv linux-${pkgver%.*}-${pkgver##*.} $_srcname
+  mv linux-6.8-rc1-chos1 $_srcname
   cd $_srcname
 
   echo "Setting version..."
