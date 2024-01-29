@@ -9,8 +9,5 @@
 # virtualization-specific drivers.
 CONFIG_HYPERVISOR_GUEST=n
 
-# Disable AMD_PSTATE
-CONFIG_X86_AMD_PSTATE=n
-
 # Enable support for AMDGPU color calibration features
 CONFIG_DRM_AMD_COLOR_STEAMDECK=y
