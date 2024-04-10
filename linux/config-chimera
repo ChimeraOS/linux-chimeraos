@@ -11,3 +11,6 @@ CONFIG_HYPERVISOR_GUEST=n
 
 # Enable support for AMDGPU color calibration features
 CONFIG_DRM_AMD_COLOR_STEAMDECK=y
+
+# Enable BMI260 as module
+CONFIG_BMI260_I2C=m
