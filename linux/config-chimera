@@ -11,3 +11,6 @@ CONFIG_HYPERVISOR_GUEST=n
 
 # Enable support for AMDGPU color calibration features
 CONFIG_DRM_AMD_COLOR_STEAMDECK=y
+
+# Enable AW87XXX as module
+CONFIG_SND_SOC_AW87XXX=m
