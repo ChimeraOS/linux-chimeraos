@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.8.5.chos2
+pkgver=6.8.5.chos3
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
@@ -40,7 +40,7 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('2c0790097faa86eb004fc1cf8be44d53c5bf9b0722ba97dfefb2270748ddd78de3989b7f18d992e9417d53817340c4a9c72720f68830be87ffcfa73ddb9188d7'
+b2sums=('393fb5252dcc1960b73b47361cd5f20d0d6ce8b5baeff177bb9550c749fa853fdde7596888db6137e888d7e57d2526f5430f292cea3f32bdc3824a394133014e'
         '167299818c921749eafeb83327eeddbfe4db9f5659e297d86cfd8ceb6006c504d8dd772f32b0fe13935cb2ed8937324fca122510bf07f107db0b270e2f26906a'
         '58bc6bdfabecea35a6a2bf86bca55f690bf4c7f6761320cf7b4947f4b3fbea686c0a1fff081eddc72b78e9e9ef39a6664a4090c31b8a5641294f931de582a0e3')
 
