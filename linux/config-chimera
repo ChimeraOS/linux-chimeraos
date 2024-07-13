@@ -9,6 +9,20 @@
 # virtualization-specific drivers.
 CONFIG_HYPERVISOR_GUEST=n
 
+# As running as a guest is not allowed disable guest drivers too
+CONFIG_HYPERVISOR_GUEST=n
+CONFIG_VIRT_DRIVERS=n
+CONFIG_DRM_QXL=n
+
+# AGP GPUs are not supported
+CONFIG_AGP=n
+
+# Old unsupported GPU
+CONFIG_DRM_MGAG200=n
+
+# ReiserFS is being deprecated ( https://lore.kernel.org/lkml/b98b29cf-27d9-49e0-b10b-1848399badfd@kittens.ph/T/#u )
+CONFIG_REISERFS_FS=n
+
 # Enable support for AMDGPU color calibration features
 CONFIG_DRM_AMD_COLOR_STEAMDECK=y
 
