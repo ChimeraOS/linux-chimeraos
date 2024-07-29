@@ -1,5 +1,6 @@
 # Chimera specific config flags
 
+CONFIG_HID_ASUS_ALLY_X=m
 # Disable radeon module
 # CONFIG_DRM_RADEON is not set
 
