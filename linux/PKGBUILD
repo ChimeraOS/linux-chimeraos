@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.9.12.chos2
+pkgver=6.9.12.chos3
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
@@ -40,9 +40,9 @@ validpgpkeys=(
   A2FF3A36AAA56654109064AB19802F8B0D70FC30  # Jan Alexander Steffens (heftig)
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
-b2sums=('340218ac046770671dc57d916fae1b6545e18eeeef1dc1df215f6f3ee8314483532892a2b4001d9231bdae1259d28d607d4b4fbceb77c3cb608b9eaa81391b88'
-        '3295faa43eab01828363a7af3721bb30a237b9a2e7dc654dbab973e961ee382328539a5851ac7a4cd276ea316d9fbf7a3c2cae9cde5351f14b99b001dad58ac2'
-        'ccca6ba086cbaf1be18748e36905beefd276c384397461b88b63738e7d933469fae1bb6e1ff2e4d72f7406ebc3f3f89b89d5b6c8f335b3793cd14e082380af06')
+b2sums=('24f5e905d32af00cc183d7ad98b51d199c77ad08d13f1c75bad50ae4c56756346386c49919a1873190b49757626d484830779bd57676315657522818d9fd7d23'
+        'fe16adf75b8d5160670f1b516084a0f22057403413c5a752b1958ba1f6dc5fed612d3e4ec5ca59c1bd7b0741302fb45b27da78ed85eb3c21b068074240af2f34'
+        '30eff459f141bb3287df3af559076808748b475da267869a3c02c99ec96f83569c8007edaef8c8a1834b024300bb4cbf4500f66824ab47ef2e0e06775fac3f40')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase

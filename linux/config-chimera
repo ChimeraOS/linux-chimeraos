@@ -32,6 +32,9 @@ CONFIG_BMI260_I2C=m
 # Enable AW87XXX as module
 CONFIG_SND_SOC_AW87XXX=m
 
+# Enable ASUS ROG Ally module
+CONFIG_HID_ASUS_ALLY=m
+
 # There is no use for SELinux as it requires a full userspace rebuild
 CONFIG_SECURITY_SELINUX=n
 
