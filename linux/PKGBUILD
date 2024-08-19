@@ -3,7 +3,7 @@
 
 pkgbase=linux-chimeraos
 pkgver=6.10.6.chos1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://github.com/ChimeraOS/linux/commits/$_srctag"
@@ -42,7 +42,7 @@ validpgpkeys=(
 )
 b2sums=('d71fc405796220e19194d41a108bd798094b1dbae05f4935356afca2a85f2fe0628188ffddf1637c4a0c52685a6a08eb51b3867d3076265bb3ce73104536575a'
         '00dde098ab988db02a0667288546eae32208a30dbcf5edae6905c54edae51969c9a7eec8aa5a25363b0aa7463f716ac621aee8b0c1dc4c7d149e270e851aaa5c'
-        '4208be6e500a9d8ace325cdedcd77c4f907f57577371e0524930bd6d88bff372750ba176820af77f594dff00f98916e0c0f1fb39ea36acbb826e6042c78bc470')
+        '60077dbcba3a9c9ed51af2a11f3227c2bb71c451f3e2708ead13094c20f4ba99ba503bfbf7bd8ce729726dcc7b0a248a78933c9366cba09f9a42b36af2110551')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
