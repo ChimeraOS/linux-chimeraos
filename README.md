@@ -12,3 +12,7 @@ custom ArchLinux repository.
 Feel free to submit Pull Requests if a patch has merit over the current stable
 linux package. Take a look at our discord server to be part of the discussion
 around it
+
+# Patch locations
+We have two types of patches. Patches that are stabilized will be merged our [linux repo](https://github.com/chimeraos/linux). There a branch is kept for each version.
+Those patches are part of the -chos* patch set. Furthermore we have experiments which are located in the patch file. This is one experiment at the time. Changes in this will result in a new pkgrel version.
