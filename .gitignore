@@ -1,4 +1,6 @@
 linux/src/
 linux/pkg/
+linux/*.sig
 linux/*.tar.zst
+linux/*.zst
 linux/linux-chimeraos.tar.gz
