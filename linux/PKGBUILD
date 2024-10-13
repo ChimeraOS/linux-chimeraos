@@ -3,7 +3,7 @@
 
 pkgbase=linux-chimeraos
 pkgver=6.11.3.chos1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://github.com/ChimeraOS/linux/commits/$_srctag"
@@ -30,8 +30,6 @@ options=('!strip')
 _srcname=linux-chimeraos
 source=(
   "linux-chimeraos.tar.gz::https://github.com/ChimeraOS/linux/archive/refs/tags/$_srctag.tar.gz"
-  zen-kernel.patch.zst::https://github.com/zen-kernel/zen-kernel/releases/download/v6.11.3-zen1/linux-v6.11.3-zen1.patch.zst
-  # https://github.com/zen-kernel/zen-kernel/releases/download/v6.11.2-zen1/linux-v6.11.3-zen1.patch.zst.sig
   config  # the main kernel config file
   config-chimera # our config that will be merged
   experiments.patch # experimental kernel patches
@@ -45,8 +43,6 @@ validpgpkeys=(
 )
 b2sums=(
   'c91bcd5588bf65620f1f112b89a8478d9f98052adb6ae5ea2dbef1dbdf897f336c08dff584bd1aad27f4d0467d62b773d83a142ded1e33eda355d37dc9f5f931' # linux-chimeraos.tar.gz
-  'a6dbeb6fe2228859800f1d8869fc38662e42bacb7cc3e3c68b822b6fa2d6db8025ea8bf77729746b97ac73032488eeb50baec217263d60dafd77968960623882' # zen-kernel.patch.zst
-  #'a59c705fb9fbd9117c1e667ddf8c8d8fb0cfaa01281f68cd0fc177cf5242a4d4e87b88615722086a4340857e374a3b53bfd9ab0aa27e316a4a9d5c6f666ca864' # zen-kernel.patch.zst.sig
   '7ad32ef544ac33f08ec4fa7a01c3aa93f7b7b291fdd6d857b857ca035a70af68b5f073bfe0c08a9c211c0f774fc230399bf5f92d9f3da102a6e5676df92e9398' # config
   'ddab1e79be5e6a97fae07d8159acbe8420509d4f8fe94542b685700ee79ba792602b53dc4a61dccd16c2fe0ff4a3a6df76a2ccd6bf6409b86a890128f819265a' # config-chimeraos
   'SKIP' # experiments.patch
