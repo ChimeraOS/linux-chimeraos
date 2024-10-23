@@ -20,7 +20,7 @@ Server = https://chimeraos.github.io/linux-chimeraos/
 Installing the packages from this repo can be done with:
 
 ```shell
-pacman -Sy linux-chimeraos/linux-chimeraos linux-chimeraos/linux-chimeraos-headers
+pacman -Sy linux-chimeraos linux-chimeraos-headers
 ```
 
 # Contributing
