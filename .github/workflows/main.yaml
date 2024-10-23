@@ -5,6 +5,10 @@ on:
     tags: '*'
   workflow_dispatch:
 
+permissions:
+  pages: write
+  id-token: write
+
 env:
   PKGDEST: "/tmp/linux-chimeraos"
   BUILDDIR: "/tmp/build"
@@ -63,6 +67,18 @@ jobs:
           path: |
             ${{ env.PKGDEST }}/*.pkg.tar.zst
           if-no-files-found: error
+      - name: Create repo archive
+        run: |
+          cd $PKGDEST
+          repo-add linux-chimeraos.db.tar.gz *.pkg.tar.zst
+          mv linux-chimeraos.db.tar.gz linux-chimeraos.db
+          mv linux-chimeraos.files.tar.gz linux-chimeraos.files
+          tar -cvf repo.tar ./*
+      - name: Upload repo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: ${{ env.PKGDEST }}/repo.tar
 
   make-release:
     runs-on: ubuntu-latest
@@ -84,3 +100,16 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             ${{ env.PKGDEST }}/*.pkg.tar.zst
+
+  make-repo:
+      needs: [build-kernel]
+      runs-on: ubuntu-latest
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      steps:
+        - name: Setup Pages
+          uses: actions/configure-pages@v5
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v4

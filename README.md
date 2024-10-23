@@ -7,6 +7,22 @@ This repository will use a PKGBUILD to build ArchLinux packages and publish
 them as GitHub releases in binary package form. We currently do not provide a
 custom ArchLinux repository.
 
+## Pacman Repository
+
+The pacman repository created from this repo is published to GitHub Pages by the GitHub Action in this repo. The repository can be configured in `pacman` like this at the bottom of `/etc/pacman.conf`:
+
+```
+[linux-chimeraos]
+SigLevel = Optional TrustAll
+Server = https://chimeraos.github.io/linux-chimeraos/
+```
+
+Installing the packages from this repo can be done with:
+
+```shell
+pacman -Sy linux-chimeraos/linux-chimeraos linux-chimeraos/linux-chimeraos-headers
+```
+
 # Contributing
 
 Feel free to submit Pull Requests if a patch has merit over the current stable
