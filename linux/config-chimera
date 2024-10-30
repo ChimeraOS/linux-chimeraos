@@ -2,8 +2,12 @@
 
 CONFIG_HID_ASUS_ALLY=m
 CONFIG_ASUS_WMI_BIOS=y
+CONFIG_ASUS_ARMOURY=m
+CONFIG_ASUS_WMI=m
+CONFIG_ASUS_WMI_DEPRECATED_ATTRS=y
+
 # Disable radeon module
-# CONFIG_DRM_RADEON is not set
+CONFIG_DRM_RADEON=n
 
 # PARAVIRT options have overhead, even on bare metal boots. They can cause
 # spinlocks to not be inlined as well. Either way, we don't intend to run this
