@@ -1,5 +1,11 @@
 # Chimera specific config flags
 
+# Lenovo-specific drivers
+CONFIG_LEGION_GAMEZONE_WMI=y
+CONFIG_LEGION_DATA_01_WMI=y
+CONFIG_LEGION_OTHER_WMI=y
+
+# ASUS-specific drivers
 CONFIG_HID_ASUS_ALLY=m
 CONFIG_ASUS_WMI_BIOS=y
 CONFIG_ASUS_ARMOURY=m
