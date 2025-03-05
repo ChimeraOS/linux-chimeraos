@@ -1,7 +1,7 @@
-From edf9057aca96335e527e9854e474c85e97697788 Mon Sep 17 00:00:00 2001
+From 8a1a3acc1d65c40cc5162bb8b532296f8ffae0ea Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Tue, 17 Dec 2024 09:31:08 +1300
-Subject: [PATCH 01/28] Tmp: add GA605W & H7606W to AMD-PMF quirks.
+Subject: [PATCH 01/30] Tmp: add GA605W & H7606W to AMD-PMF quirks.
 
 This will not be submitted upstream as the entire
 quirk system is being removed in 6.14 kernel.
@@ -42,10 +42,10 @@ index 7cde5733b9ca..02b9d0b49092 100644
 2.48.1
 
 
-From f2bcf1ee4c0bedfdc7e7611887372b62edd8a172 Mon Sep 17 00:00:00 2001
+From b9d0fb8724e17df9a8409376bb4e71bbfe4bcd4a Mon Sep 17 00:00:00 2001
 From: Mario Limonciello <mario.limonciello@amd.com>
 Date: Tue, 21 Jan 2025 16:03:52 -0600
-Subject: [PATCH 02/28] drm/amd/display: Avoid divide by zero by initializing
+Subject: [PATCH 02/30] drm/amd/display: Avoid divide by zero by initializing
  dummy pitch to 1
 
 If the dummy values in `populate_dummy_dml_surface_cfg()` aren't updated
@@ -74,10 +74,10 @@ index bde4250853b1..f07afe451006 100644
 2.48.1
 
 
-From 4ddc3fe145dd6311ae62826bd9c077ce01388798 Mon Sep 17 00:00:00 2001
+From fafaa5186d146c7aa1a29413d8aeb861b38eba5b Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Fri, 7 Jun 2024 15:58:01 +1200
-Subject: [PATCH 03/28] hid: add VID/PID for ASUS ROG RAIKIRI PRO
+Subject: [PATCH 03/30] hid: add VID/PID for ASUS ROG RAIKIRI PRO
 
 Add the VID/PID for ASUS ROG RAIKIRI PRO. Required in future to control
 the RGB.
@@ -103,10 +103,10 @@ index d1d479ca50a2..d1ab021e4a6a 100644
 2.48.1
 
 
-From 331c06448105f04a87984188f51a4a375b07669c Mon Sep 17 00:00:00 2001
+From 4c17b6fb1dcac636b846e3c493e8828a3c912e38 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Tue, 28 Jan 2025 19:29:27 +1300
-Subject: [PATCH 04/28] hid-asus: check ROG Ally MCU version and warn
+Subject: [PATCH 04/30] hid-asus: check ROG Ally MCU version and warn
 
 ASUS have fixed suspend issues arising from a flag not being cleared in
 the MCU FW in both the ROG Ally 1 and the ROG Ally X.
@@ -274,10 +274,10 @@ index 46e3e42f9eb5..599c836507ff 100644
 2.48.1
 
 
-From 46c6cba3d44024f5c3cc0323d8f285eed00836c6 Mon Sep 17 00:00:00 2001
+From fd5ab28d8ac9fcc517d0f8e02a33bd9fe7f9b7f3 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 1 Sep 2024 14:30:37 +1200
-Subject: [PATCH 05/28] platform/x86: asus-wmi: Refactor Ally suspend/resume
+Subject: [PATCH 05/30] platform/x86: asus-wmi: Refactor Ally suspend/resume
 
 Adjust how the CSEE direct call hack is used.
 
@@ -576,10 +576,10 @@ index 783e2a336861..a32cb8865b2f 100644
 2.48.1
 
 
-From 5d91bf6a14f14d77c9efdd2c9aa179b6dca7deb6 Mon Sep 17 00:00:00 2001
+From 7b838ec59a5186b9602ffe28ac83a1a65939db7a Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Mon, 26 Aug 2024 12:49:35 +1200
-Subject: [PATCH 06/28] hid-asus-ally: Add joystick LED ring support
+Subject: [PATCH 06/30] hid-asus-ally: Add joystick LED ring support
 
 Adds basic support for the joystick RGB LED rings as a multicolour LED
 device with 4 LEDs. As this uses the software-mode for setting the LED
@@ -1235,10 +1235,10 @@ index 66bae5cea4f9..9ebee77638a0 100644
 2.48.1
 
 
-From 6ef4589173fb3ac905db41a19410d177c3c929df Mon Sep 17 00:00:00 2001
+From dd1bb8d1ddc84bcc3bdba615f49fb8546a8da0f4 Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Mon, 24 Feb 2025 19:40:04 +1300
-Subject: [PATCH 07/28] hid-asus-ally: move MCU FW validation to module
+Subject: [PATCH 07/30] hid-asus-ally: move MCU FW validation to module
 
 Signed-off-by: Luke Jones <luke@ljones.dev>
 ---
@@ -1501,10 +1501,10 @@ index 9ebee77638a0..83883f58202b 100644
 2.48.1
 
 
-From a68446a413a996133ce24071da5fe1bfc66724dd Mon Sep 17 00:00:00 2001
+From aa3e8c13707e150d638ea23912634f217221341d Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 2 Oct 2024 23:32:46 +1300
-Subject: [PATCH 08/28] hid-asus-ally: initial Ally-X gamepad bringup
+Subject: [PATCH 08/30] hid-asus-ally: initial Ally-X gamepad bringup
 
 Enable use of the new gamepad device created by the MCU.
 - Triggers
@@ -1980,10 +1980,10 @@ index 2f621e16a9d8..7d172d64b814 100644
 2.48.1
 
 
-From 938e9806ae934f63126d858f3899d5018d83fd41 Mon Sep 17 00:00:00 2001
+From 597451eec08a3efc01d98bcd38676b8780995d8f Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 2 Oct 2024 23:51:36 +1300
-Subject: [PATCH 09/28] hid-asus-ally: initial gamepad configuration
+Subject: [PATCH 09/30] hid-asus-ally: initial gamepad configuration
 
 Add the basics of the gamepad configuration options. Makes the gamepad
 usable.
@@ -2437,10 +2437,10 @@ index 7d172d64b814..66376e6cbd71 100644
 2.48.1
 
 
-From e89dd828e8e4767796b09e275b897394b7150046 Mon Sep 17 00:00:00 2001
+From 235009f57471b766500bca213b6e713c3d9e08bb Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 14:58:33 +1300
-Subject: [PATCH 10/28] hid-asus-ally: add button remap attributes
+Subject: [PATCH 10/30] hid-asus-ally: add button remap attributes
 
 Add the full set of button remapping abilities for plain remap and macro
 remap (hold one button, press another for macro mapped action).
@@ -3161,10 +3161,10 @@ index 66376e6cbd71..c5c6ff8d6f1c 100644
 2.48.1
 
 
-From 963513e079dab875145be5ecec2971856f15b6ef Mon Sep 17 00:00:00 2001
+From a2b061ed55cdff6e882c739491af90f063997046 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Fri, 25 Oct 2024 08:56:54 +0200
-Subject: [PATCH 11/28] hid-asus-ally: add gamepad mode selection
+Subject: [PATCH 11/30] hid-asus-ally: add gamepad mode selection
 
 ---
  drivers/hid/hid-asus-ally.c | 73 +++++++++++++++++++++++++++++++++++++
@@ -3282,10 +3282,10 @@ index c5c6ff8d6f1c..a0b0acd65bfd 100644
 2.48.1
 
 
-From 11a2d9e80a28639e5b38f3a3e2437b08f3942239 Mon Sep 17 00:00:00 2001
+From 828b63810ff915fb5e636dbbdaeea0ca3a93c2f1 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 15:40:09 +1300
-Subject: [PATCH 12/28] hid-asus-ally: Turbo settings for buttons
+Subject: [PATCH 12/30] hid-asus-ally: Turbo settings for buttons
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -3482,10 +3482,10 @@ index a0b0acd65bfd..4e1eccbd99ad 100644
 2.48.1
 
 
-From 142517d33a681f900bdfdb729e6c15f5fdcf5089 Mon Sep 17 00:00:00 2001
+From 0e5a011a797f35d6779407fbd3e6703f145a398e Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 20:46:00 +1300
-Subject: [PATCH 13/28] hid-asus-ally: add vibration intensity settings
+Subject: [PATCH 13/30] hid-asus-ally: add vibration intensity settings
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -3653,10 +3653,10 @@ index 4e1eccbd99ad..160d00690d41 100644
 2.48.1
 
 
-From edcd8c2039c656f8c51782fd50a4566c9c1350d4 Mon Sep 17 00:00:00 2001
+From a71d3402f88c46e902e92566466c67d4b255b4e9 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 21:32:41 +1300
-Subject: [PATCH 14/28] hid-asus-ally: add JS deadzones
+Subject: [PATCH 14/30] hid-asus-ally: add JS deadzones
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -3862,10 +3862,10 @@ index 160d00690d41..b773130c2cf9 100644
 2.48.1
 
 
-From a37464eff420f2bc4cdb9479f295d59f5ba5c56e Mon Sep 17 00:00:00 2001
+From 09f89e6277ade14a7d54ba6779f8f23cd723709e Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 21:37:27 +1300
-Subject: [PATCH 15/28] hid-asus-ally: add trigger deadzones
+Subject: [PATCH 15/30] hid-asus-ally: add trigger deadzones
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -3979,10 +3979,10 @@ index b773130c2cf9..e0be54b4debb 100644
 2.48.1
 
 
-From 95ad085366e88df9f9e52214ec65ba6bced4c950 Mon Sep 17 00:00:00 2001
+From b965879e1d73a54d7d1ef85e39275f80ce7007aa Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 6 Oct 2024 19:49:24 +1300
-Subject: [PATCH 16/28] hid-asus-ally: add anti-deadzones
+Subject: [PATCH 16/30] hid-asus-ally: add anti-deadzones
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -4164,10 +4164,10 @@ index e0be54b4debb..70ef69ac476b 100644
 2.48.1
 
 
-From cfe69dd6d6e3e510afbc3cd96579c73d5d4589d6 Mon Sep 17 00:00:00 2001
+From 49dad17f3684e5bedd48d3883561af60bb8d7e76 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 6 Oct 2024 21:22:40 +1300
-Subject: [PATCH 17/28] hid-asus-ally: add JS response curves
+Subject: [PATCH 17/30] hid-asus-ally: add JS response curves
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -4406,10 +4406,10 @@ index 70ef69ac476b..512e51d2761f 100644
 2.48.1
 
 
-From 49d143b03f97604c5e8f196c31233eaf7e296f5b Mon Sep 17 00:00:00 2001
+From 2673383589e42898950816371e9ce9aae161d347 Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Mon, 10 Feb 2025 17:15:01 +1300
-Subject: [PATCH 18/28] hid-asus-ally: mcu_version attribute
+Subject: [PATCH 18/30] hid-asus-ally: mcu_version attribute
 
 Add the mcu_version sysfs attribute so that userspace has a way to check
 the MCU FW version.
@@ -4465,10 +4465,10 @@ index d41e78c196a0..3e6250a7bd48 100644
 2.48.1
 
 
-From 22d6bb839c67b9325bcb1104e1e01935c948164b Mon Sep 17 00:00:00 2001
+From aedcd0f176b906bb4bebe25eabd0387851b7f760 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 10 Oct 2024 11:15:36 +1300
-Subject: [PATCH 19/28] hid-asus-ally: add calibrations (wip)
+Subject: [PATCH 19/30] hid-asus-ally: add calibrations (wip)
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -4613,10 +4613,10 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
 2.48.1
 
 
-From 602366241f031c0cfd7c6bd817a83bc5dbc88831 Mon Sep 17 00:00:00 2001
+From 1e8f151ef089adbcce9077e9833dad3875e440f8 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 6 Nov 2024 00:27:03 +0300
-Subject: [PATCH 20/28] debug by default
+Subject: [PATCH 20/30] debug by default
 
 ---
  drivers/hid/hid-asus-ally.c | 2 ++
@@ -4639,10 +4639,10 @@ index 5c12d8fd1c8e..72925d034fa4 100644
 2.48.1
 
 
-From bcfa7ccf34848aa2107f7157e850c2e24be9bfce Mon Sep 17 00:00:00 2001
+From 5b4020b68c9eb2ea05e0198fa1c0ccad743ad9af Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:40:46 +1200
-Subject: [PATCH 21/28] platform/x86: asus-wmi: export symbols used for
+Subject: [PATCH 21/30] platform/x86: asus-wmi: export symbols used for
  read/write WMI
 
 Export some rather helpful read/write WMI symbols using a namespace.
@@ -4755,10 +4755,10 @@ index a32cb8865b2f..96ff25b2b51b 100644
 2.48.1
 
 
-From 7f980201336e7f9acee3611246d4f43c81c49108 Mon Sep 17 00:00:00 2001
+From 4d27a6804262f39c5666c70510564d85669bf74f Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:39:43 +1200
-Subject: [PATCH 22/28] platform/x86: asus-armoury: move existing tunings to
+Subject: [PATCH 22/30] platform/x86: asus-armoury: move existing tunings to
  asus-armoury module
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -5588,10 +5588,10 @@ index 96ff25b2b51b..4574e30c53fc 100644
 2.48.1
 
 
-From 7a53b940f60634f73ae714f13fb349dadef66da7 Mon Sep 17 00:00:00 2001
+From ed0a8eaf938abcee5a37b86aed584402b58ec614 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 19 Sep 2024 17:23:35 +1200
-Subject: [PATCH 23/28] platform/x86: asus-armoury: add panel_hd_mode attribute
+Subject: [PATCH 23/30] platform/x86: asus-armoury: add panel_hd_mode attribute
 
 Add panel_hd_mode to toggle the panel mode between single and high
 definition modes.
@@ -5650,10 +5650,10 @@ index 4574e30c53fc..62a9adb1af2f 100644
 2.48.1
 
 
-From 681e933c3c915d66302f888eb3cfccdd410de754 Mon Sep 17 00:00:00 2001
+From eada15936ab357090dcf04bc0a1fb2a97ee77335 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 2 Jun 2024 14:44:31 +1200
-Subject: [PATCH 24/28] platform/x86: asus-armoury: add apu-mem control support
+Subject: [PATCH 24/30] platform/x86: asus-armoury: add apu-mem control support
 
 Implement the APU memory size control under the asus-armoury module using
 the fw_attributes class.
@@ -5817,10 +5817,10 @@ index 62a9adb1af2f..f3494a9efea7 100644
 2.48.1
 
 
-From 59df8cfa5093e54c8d830266ee20e969c72dae81 Mon Sep 17 00:00:00 2001
+From 4db6bdebd296db915c472f832c5c6c7e693db519 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 18 Sep 2024 21:19:12 +1200
-Subject: [PATCH 25/28] platform/x86: asus-armoury: add core count control
+Subject: [PATCH 25/30] platform/x86: asus-armoury: add core count control
 
 Implement Intel core enablement under the asus-armoury module using the
 fw_attributes class.
@@ -6185,10 +6185,10 @@ index f3494a9efea7..e735f35b423c 100644
 2.48.1
 
 
-From dc4e0246539221d6e027d2c76cd596d420854a7c Mon Sep 17 00:00:00 2001
+From dd208f9971e4221a6822a39e2d87e0c09ea28c1b Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Mon, 3 Jun 2024 12:04:41 +1200
-Subject: [PATCH 26/28] platform/x86: asus-wmi: deprecate bios features
+Subject: [PATCH 26/30] platform/x86: asus-wmi: deprecate bios features
 
 With the existence of the asus-armoury module the attributes no-longer
 need to live under the /sys/devices/platform/asus-nb-wmi/ path.
@@ -6776,10 +6776,10 @@ index 1377682461d7..519ab1899d85 100644
 2.48.1
 
 
-From 48458f88c11a28bf8ef36bb36ab504c0be963fe4 Mon Sep 17 00:00:00 2001
+From c714ab8f2eb4ec81f11328813f8aea86092e28a0 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 19 Sep 2024 17:19:37 +1200
-Subject: [PATCH 27/28] platform/x86: asus-armoury: add the ppt_* and nv_*
+Subject: [PATCH 27/30] platform/x86: asus-armoury: add the ppt_* and nv_*
  tuning knobs
 
 Adds the ppt_* and nv_* tuning knobs that are available via WMI methods
@@ -6788,9 +6788,9 @@ and adds proper min/max levels plus defaults.
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
  drivers/platform/x86/asus-armoury.c        |  191 +++-
- drivers/platform/x86/asus-armoury.h        | 1069 +++++++++++++++++++-
+ drivers/platform/x86/asus-armoury.h        | 1100 +++++++++++++++++++-
  include/linux/platform_data/x86/asus-wmi.h |    3 +
- 3 files changed, 1250 insertions(+), 13 deletions(-)
+ 3 files changed, 1281 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
 index 49e1788d8bba..6248c5e16e52 100644
@@ -7053,7 +7053,7 @@ index 49e1788d8bba..6248c5e16e52 100644
  	if (err)
  		return err;
 diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
-index 5d6bef6d2b12..427f0eb0a4de 100644
+index 5d6bef6d2b12..5a10da2a26eb 100644
 --- a/drivers/platform/x86/asus-armoury.h
 +++ b/drivers/platform/x86/asus-armoury.h
 @@ -8,6 +8,7 @@
@@ -7121,7 +7121,7 @@ index 5d6bef6d2b12..427f0eb0a4de 100644
  #define ATTR_GROUP_BOOL_RO(_attrname, _fsname, _wmi, _dispname) \
  	__ATTR_CURRENT_INT_RO(_attrname, _wmi);                 \
  	__ATTR_GROUP_ENUM(_attrname, _fsname, "0;1", _dispname)
-@@ -178,4 +197,1042 @@ static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *attr,
+@@ -178,4 +197,1073 @@ static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *attr,
  		.name = _fsname, .attrs = _attrname##_attrs             \
  	}
  
@@ -7282,6 +7282,37 @@ index 5d6bef6d2b12..427f0eb0a4de 100644
 +				.nv_temp_target_min = 75,
 +				.nv_temp_target_max = 87,
 +			},
++		},
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "FA507N"),
++		},
++		.driver_data = &(struct power_data) {
++			.ac_data = &(struct power_limits) {
++				.ppt_pl1_spl_min = 15,
++				.ppt_pl1_spl_max = 80,
++				.ppt_pl2_sppt_min = 35,
++				.ppt_pl2_sppt_max = 80,
++				.ppt_pl3_fppt_min = 35,
++				.ppt_pl3_fppt_max = 80,
++				.nv_dynamic_boost_min = 5,
++				.nv_dynamic_boost_max = 25,
++				.nv_temp_target_min = 75,
++				.nv_temp_target_max = 87,
++			},
++			.dc_data = &(struct power_limits) {
++				.ppt_pl1_spl_min = 15,
++				.ppt_pl1_spl_def = 45,
++				.ppt_pl1_spl_max = 65,
++				.ppt_pl2_sppt_min = 35,
++				.ppt_pl2_sppt_def = 54,
++				.ppt_pl2_sppt_max = 65,
++				.ppt_pl3_fppt_min = 35,
++				.ppt_pl3_fppt_max = 65,
++				.nv_temp_target_min = 75,
++				.nv_temp_target_max = 87,
++			}
 +		},
 +	},
 +	{
@@ -8182,10 +8213,10 @@ index e735f35b423c..e99cd9a06e2f 100644
 2.48.1
 
 
-From 5ceee63aa6c8248629971be6be2d6d1f21f1077e Mon Sep 17 00:00:00 2001
+From c80363cd61a83348fe0c6b0d8216b826b70cf646 Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Wed, 5 Feb 2025 12:37:47 +1300
-Subject: [PATCH 28/28] backport: fix fw_attr use
+Subject: [PATCH 28/30] backport: fix fw_attr use
 
 Signed-off-by: Luke Jones <luke@ljones.dev>
 ---
@@ -8239,6 +8270,435 @@ index 6248c5e16e52..b49513947c52 100644
  
  	mutex_unlock(&asus_armoury.mutex);
  }
+-- 
+2.48.1
+
+
+From 287772aaab3365de05aa78891b39d1f6601f6663 Mon Sep 17 00:00:00 2001
+From: Denis Benato <benato.denis96@gmail.com>
+Date: Wed, 5 Mar 2025 03:13:45 +0100
+Subject: [PATCH 29/30] platform/x86: asus-armoury: improve xgm support
+
+XG mobile devices can be activated with three different values: add support for them.
+
+When the ACPI returns a value of 0x02 it is not an error and the device will be usable (albeit not at the best pci-e link speed): do not fail and flag that a reboot is necessary to use the device at native speed.
+
+Signed-off-by: Denis Benato <benato.denis96@gmail.com>
+---
+ drivers/platform/x86/asus-armoury.c | 139 +++++++++++++++++++++++++---
+ drivers/platform/x86/asus-armoury.h |   8 ++
+ 2 files changed, 136 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
+index b49513947c52..aeb8b01d0bea 100644
+--- a/drivers/platform/x86/asus-armoury.c
++++ b/drivers/platform/x86/asus-armoury.c
+@@ -24,6 +24,7 @@
+ #include <linux/power_supply.h>
+ #include <linux/types.h>
+ #include <linux/acpi.h>
++#include <linux/pci.h>
+ 
+ #include "asus-armoury.h"
+ #include "firmware_attributes_class.h"
+@@ -91,12 +92,18 @@ struct asus_armoury_priv {
+ 	u32 mini_led_dev_id;
+ 	u32 gpu_mux_dev_id;
+ 
++	enum asus_armoury_egpu_action egpu_last_successful_action;
++
++	struct mutex egpu_mutex;
++
+ 	struct mutex mutex;
+ };
+ 
+ static const struct class *fw_attr_class;
+ 
+ static struct asus_armoury_priv asus_armoury = {
++	.egpu_last_successful_action = asus_armoury_egpu_max,
++	.egpu_mutex = __MUTEX_INITIALIZER(asus_armoury.mutex),
+ 	.mutex = __MUTEX_INITIALIZER(asus_armoury.mutex)
+ };
+ 
+@@ -400,19 +407,27 @@ static ssize_t dgpu_disable_current_value_store(struct kobject *kobj,
+ WMI_SHOW_INT(dgpu_disable_current_value, "%d\n", ASUS_WMI_DEVID_DGPU);
+ ATTR_GROUP_BOOL_CUSTOM(dgpu_disable, "dgpu_disable", "Disable the dGPU");
+ 
+-/* The ACPI call to enable the eGPU also disables the internal dGPU */
+-static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj_attribute *attr,
+-					       const char *buf, size_t count)
++static ssize_t egpu_change_status(enum asus_armoury_egpu_action egpu_action)
+ {
+ 	int result, err;
+ 	u32 enable;
+ 
+-	err = kstrtou32(buf, 10, &enable);
+-	if (err)
+-		return err;
+-
+-	if (enable > 1)
++	switch (egpu_action) {
++	case asus_armoury_egpu_disable:
++		enable = 0x00000000U;
++		break;
++	case asus_armoury_egpu_enable:
++		enable = 0x00000001U;
++		break;
++	case asus_armoury_egpu_enable_special:
++		enable = 0x00000101U;
++		break;
++	case asus_armoury_egpu_enable_special_2:
++		enable = 0x00000201U;
++		break;
++	default:
+ 		return -EINVAL;
++	}
+ 
+ 	err = asus_wmi_get_devstate_dsts(ASUS_WMI_DEVID_EGPU_CONNECTED, &result);
+ 	if (err) {
+@@ -433,16 +448,118 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
+ 		}
+ 	}
+ 
+-	err = armoury_wmi_set_devstate(attr, enable, ASUS_WMI_DEVID_EGPU);
++	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_EGPU, enable, &result);
++	if (err) {
++		pr_err("Failed to enable the eGPU: wmi error %d\n", err);
++		return err;
++	}
++	/* return value 0x01 is a success, 0x02 is a partial activation:
++		* performing a pci rescan will bring up the device in pci-e 3.0 speed,
++		* after a reboot the device will work at full speed. */
++	if (result == 0x01) {
++		pr_debug("Success changing the eGPU status\n");
++	} else if (result == 0x02) {
++		pr_info("Success changing the eGPU status, a reboot is strongly advised\n");
++		asus_set_reboot_and_signal_event();
++	} else {
++		pr_err("Failed to change the eGPU status: wmi result is 0x%x\n", result);
++		return -EIO;
++	}
++
++	asus_armoury.egpu_last_successful_action = egpu_action;
++
++	return result;
++}
++
++/* The ACPI call to enable the eGPU also disables the internal dGPU */
++static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj_attribute *attr,
++							const char *buf, size_t count)
++{
++	int err;
++	u32 requested;
++	enum asus_armoury_egpu_action act;
++	struct pci_bus *b = NULL;
++
++	err = kstrtou32(buf, 10, &requested);
+ 	if (err)
+ 		return err;
+ 
++	switch (requested) {
++	case 0:
++		act = asus_armoury_egpu_disable;
++		break;
++	case 1:
++		act = asus_armoury_egpu_enable;
++		break;
++	case 2:
++		act = asus_armoury_egpu_enable_special;
++		break;
++	case 3:
++		act = asus_armoury_egpu_enable_special_2;
++		break;
++	default:
++		err = -EINVAL;
++		return err;
++	}
++
++	scoped_guard(mutex, &asus_armoury.egpu_mutex)
++		err = egpu_change_status(act);
++	if (err < 0) {
++		pr_err("Failed to set %s: %d\n", attr->attr.name, err);
++		return err;
++	}
++
++	/* Perform a PCI rescan: sometimes this is necessary */
++	pci_lock_rescan_remove();
++	while ((b = pci_find_next_bus(b)) != NULL)
++		pci_rescan_bus(b);
++	pci_unlock_rescan_remove();
++
+ 	sysfs_notify(kobj, NULL, attr->attr.name);
+ 
+ 	return count;
+ }
+-WMI_SHOW_INT(egpu_enable_current_value, "%d\n", ASUS_WMI_DEVID_EGPU);
+-ATTR_GROUP_BOOL_CUSTOM(egpu_enable, "egpu_enable", "Enable the eGPU (also disables dGPU)");
++
++static ssize_t egpu_enable_current_value_show(struct kobject *kobj, struct kobj_attribute *attr,
++					  char *buf)
++{
++	int err;
++	u32 status;
++
++	scoped_guard(mutex, &asus_armoury.egpu_mutex)
++		err = asus_wmi_get_devstate_dsts(ASUS_WMI_DEVID_EGPU, &status);
++	if (err) {
++		pr_warn("Failed to get eGPU connection status: %d\n", err);
++		return err;
++	}
++
++	switch (status & ~ASUS_WMI_DSTS_PRESENCE_BIT) {
++	case 0x00000000U:
++		status = 0;
++		break;
++	case 0x00000001U:
++		status = 1;
++		break;
++	case 0x00000101U:
++		status = 2;
++		break;
++	case 0x00000201U:
++		status = 3;
++		break;
++	default:
++		pr_warn("Unrecognised eGPU status: %u\n", status);
++		return -EINVAL;
++	}
++
++	return sysfs_emit(buf, "%u\n", status);
++}
++
++static ssize_t egpu_enable_possible_values_show(struct kobject *kobj, struct kobj_attribute *attr,
++					    char *buf)
++{
++	return sysfs_emit(buf, "0;1;2;3\n");
++}
++ATTR_GROUP_ENUM_CUSTOM(egpu_enable, "egpu_enable", "Enable the eGPU (also disables dGPU)");
+ 
+ /* Device memory available to APU */
+ 
+diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
+index 5a10da2a26eb..28639a5dc615 100644
+--- a/drivers/platform/x86/asus-armoury.h
++++ b/drivers/platform/x86/asus-armoury.h
+@@ -14,6 +14,14 @@
+ 
+ #define DRIVER_NAME "asus-armoury"
+ 
++enum asus_armoury_egpu_action {
++	asus_armoury_egpu_disable,
++	asus_armoury_egpu_enable,
++	asus_armoury_egpu_enable_special,
++	asus_armoury_egpu_enable_special_2,
++	asus_armoury_egpu_max
++};
++
+ static ssize_t attr_uint_store(struct kobject *kobj, struct kobj_attribute *attr,
+ 			      const char *buf, size_t count, u32 min, u32 max,
+ 			      u32 *store_value, u32 wmi_dev);
+-- 
+2.48.1
+
+
+From 3a90c766fede3687d7cf512b543af6ada146ac9e Mon Sep 17 00:00:00 2001
+From: Denis Benato <benato.denis96@gmail.com>
+Date: Wed, 5 Mar 2025 03:43:44 +0100
+Subject: [PATCH 30/30] platform/x86: asus-armoury: make xg mobile
+ plug-and-play
+
+Use a kthread to make xg mobile plug-and-play.
+The thead presence and activation value is controlled via the auto_xgm option.
+
+Signed-off-by: Denis Benato <benato.denis96@gmail.com>
+---
+ drivers/platform/x86/asus-armoury.c | 105 ++++++++++++++++++++++++++--
+ 1 file changed, 99 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
+index aeb8b01d0bea..e57b61e54a5b 100644
+--- a/drivers/platform/x86/asus-armoury.c
++++ b/drivers/platform/x86/asus-armoury.c
+@@ -25,6 +25,8 @@
+ #include <linux/types.h>
+ #include <linux/acpi.h>
+ #include <linux/pci.h>
++#include <linux/kthread.h>
++#include <linux/delay.h>
+ 
+ #include "asus-armoury.h"
+ #include "firmware_attributes_class.h"
+@@ -94,6 +96,8 @@ struct asus_armoury_priv {
+ 
+ 	enum asus_armoury_egpu_action egpu_last_successful_action;
+ 
++	struct task_struct *egpu_kthread;
++
+ 	struct mutex egpu_mutex;
+ 
+ 	struct mutex mutex;
+@@ -103,6 +107,7 @@ static const struct class *fw_attr_class;
+ 
+ static struct asus_armoury_priv asus_armoury = {
+ 	.egpu_last_successful_action = asus_armoury_egpu_max,
++	.egpu_kthread = NULL,
+ 	.egpu_mutex = __MUTEX_INITIALIZER(asus_armoury.mutex),
+ 	.mutex = __MUTEX_INITIALIZER(asus_armoury.mutex)
+ };
+@@ -120,6 +125,10 @@ struct asus_attr_group {
+ 	u32 wmi_devid;
+ };
+ 
++static int auto_xgm = 0;
++module_param(auto_xgm, int, 1);
++MODULE_PARM_DESC(auto_xgm, "XGm auto-activation value: 0=off, otherwise a value supported by egpu_enable");
++
+ static bool asus_wmi_is_present(u32 dev_id)
+ {
+ 	u32 retval;
+@@ -471,6 +480,16 @@ static ssize_t egpu_change_status(enum asus_armoury_egpu_action egpu_action)
+ 	return result;
+ }
+ 
++/* Perform a PCI rescan: sometimes this is necessary after activating the eGPU */
++static void pci_rescan_after_egpu_change_status(void) {
++	struct pci_bus *b = NULL;
++
++	pci_lock_rescan_remove();
++	while ((b = pci_find_next_bus(b)) != NULL)
++		pci_rescan_bus(b);
++	pci_unlock_rescan_remove();
++}
++
+ /* The ACPI call to enable the eGPU also disables the internal dGPU */
+ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj_attribute *attr,
+ 							const char *buf, size_t count)
+@@ -478,7 +497,6 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
+ 	int err;
+ 	u32 requested;
+ 	enum asus_armoury_egpu_action act;
+-	struct pci_bus *b = NULL;
+ 
+ 	err = kstrtou32(buf, 10, &requested);
+ 	if (err)
+@@ -509,11 +527,7 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
+ 		return err;
+ 	}
+ 
+-	/* Perform a PCI rescan: sometimes this is necessary */
+-	pci_lock_rescan_remove();
+-	while ((b = pci_find_next_bus(b)) != NULL)
+-		pci_rescan_bus(b);
+-	pci_unlock_rescan_remove();
++	pci_rescan_after_egpu_change_status();
+ 
+ 	sysfs_notify(kobj, NULL, attr->attr.name);
+ 
+@@ -1140,6 +1154,65 @@ static bool init_rog_tunables(struct rog_tunables *rog)
+ 	return true;
+ }
+ 
++static int egpu_activation_poll_kthread(void *data) {
++	int err = 0;
++	u32 result;
++
++	while (!kthread_should_stop()) {
++		ssleep(5);
++
++		if (err) continue;
++
++		scoped_guard(mutex, &asus_armoury.egpu_mutex) {
++			
++			/* If the eGPU has been manually disabled avoid re-activating it */
++			if (asus_armoury.egpu_last_successful_action == asus_armoury_egpu_disable)
++				continue;
++
++			err = asus_wmi_get_devstate_dsts(ASUS_WMI_DEVID_EGPU_CONNECTED, &result);
++			if (err) {
++				pr_warn("Failed to get eGPU connection status: %d\n", err);
++				continue;
++			}
++
++			/* eGPU interface is a stub: ignore the following */
++			if ((result & ASUS_WMI_DSTS_PRESENCE_BIT) == 0) continue;
++
++			/* eGPU is not connected: ignore the following */
++			if ((result & ~ASUS_WMI_DSTS_PRESENCE_BIT) == 0) continue;
++
++			err = asus_wmi_get_devstate_dsts(ASUS_WMI_DEVID_EGPU, &result);
++			if (err) {
++				pr_warn("Failed to get eGPU connection status: %d\n", err);
++				continue;
++			}
++
++			/* If the eGPU was activated on the previous boot
++			 * do not perform useless ACPI operations
++			 * and update egpu_last_successful_action
++			 * so that the behavior will match a successfully
++			 * activated eGPU in the current boot skipping a
++			 * repeated and useless ASUS_WMI_DEVID_EGPU check.
++			 */
++			if ((result & ~ASUS_WMI_DSTS_PRESENCE_BIT) != 0) {
++				asus_armoury.egpu_last_successful_action = asus_armoury_egpu_enable;
++			}
++
++			err = egpu_change_status((enum asus_armoury_egpu_action)auto_xgm);
++		}
++
++		if (err < 0) {
++			pr_err("Failed to hotplug activate asus egpu: %d\n", err);
++		} else {
++			pci_rescan_after_egpu_change_status();
++		}
++	}
++
++	pr_info("asus egpu kthread threminated.\n");
++
++	return 0;
++}
++
+ static int __init asus_fw_init(void)
+ {
+ 	char *wmi_uid;
+@@ -1184,11 +1257,30 @@ static int __init asus_fw_init(void)
+ 	if (err)
+ 		return err;
+ 
++	if ((auto_xgm >= 1) && (auto_xgm <= 3)) {
++		pr_info("xgm auto-activation enabled with %d\n", auto_xgm);
++
++		if ((asus_wmi_is_present(ASUS_WMI_DEVID_EGPU)) && (asus_wmi_is_present(ASUS_WMI_DEVID_EGPU_CONNECTED))) {
++			asus_armoury.egpu_kthread = kthread_run(egpu_activation_poll_kthread, NULL, "asus_egpu_kthread");
++			if (IS_ERR(asus_armoury.egpu_kthread)) {
++				pr_err("Failed to create kernel thread: xg auto-activation is disabled\n");
++			}
++		}
++	} else {
++		pr_info("xgm auto-activation has been disabled\n");
++	}
++
+ 	return 0;
+ }
+ 
+ static void __exit asus_fw_exit(void)
+ {
++	if ((auto_xgm >= 1) && (auto_xgm <= 3))
++		if ((asus_armoury.egpu_kthread) && (!IS_ERR(asus_armoury.egpu_kthread)))
++			kthread_stop(asus_armoury.egpu_kthread);
++
++	mutex_lock(&asus_armoury.egpu_mutex);
++
+ 	mutex_lock(&asus_armoury.mutex);
+ 
+ 	sysfs_remove_file(&asus_armoury.fw_attr_kset->kobj, &pending_reboot.attr);
+@@ -1197,6 +1289,7 @@ static void __exit asus_fw_exit(void)
+ 	fw_attributes_class_put();
+ 
+ 	mutex_unlock(&asus_armoury.mutex);
++	mutex_unlock(&asus_armoury.egpu_mutex);
+ }
+ 
+ module_init(asus_fw_init);
 -- 
 2.48.1
 
