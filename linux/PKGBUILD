@@ -2,7 +2,7 @@
 # Maintainer: Joaquín I. Aramendía (samsagax) <samsagaxg@gmail.com>
 
 pkgbase=linux-chimeraos
-pkgver=6.14.2.chos2
+pkgver=6.14.7.chos3
 pkgrel=1
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
@@ -42,7 +42,7 @@ validpgpkeys=(
   C7E7849466FE2358343588377258734B41C31549  # David Runge <dvzrv@archlinux.org>
 )
 b2sums=(
-  'a8c814c1efaae0bbff81a07e3a39a267dc27742272c4194b0f5de02cf20e07b0c2f19182076069f159c49e527788eedcf0a8621f235d37ae5a4bd6c220eb9127' # linux-chimeraos.tar.gz
+  '5120ebf57d948d2c906bcd532cd83a40d8fc7dd3fc5443a7bc580c62e1b5f76ac0506fa2d2588f0b7659da2dc70537c1d2018f1b1032773cd5e63d3c86441432' # linux-chimeraos.tar.gz
   '4a02b3918df70e55fcc9dde84d0f8464311286aebf6ecbfc6c654206fa245064cfdc03b2fe5c16c3704722a8caf7afabaa7cbf6b0d40455808a5e01839b21d76' # config
   '7c0773bb95d2386a07280e566df5ceeb2808adacdb1d033be9ebb3d4d0fc055f00bb4553383d0420d1afb177c243e3556c06a2af8434fb3f8bec43e1dc8c5839' # config-chimeraos
   'SKIP' # experiments.patch
