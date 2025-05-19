@@ -3,7 +3,7 @@
 
 pkgbase=linux-chimeraos
 pkgver=6.14.7.chos4
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux ChimeraOS'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://github.com/ChimeraOS/linux/commits/$_srctag"
@@ -44,7 +44,7 @@ validpgpkeys=(
 b2sums=(
   '02acc2e7b56b8cc6c9fc99daddd5bca3f1b74546f96c48d30fc280103b2d6893a9375d7b06c288c0ba6688baec0831e11355021e9cf689cd3808d9d56243ced4' # linux-chimeraos.tar.gz
   '4a02b3918df70e55fcc9dde84d0f8464311286aebf6ecbfc6c654206fa245064cfdc03b2fe5c16c3704722a8caf7afabaa7cbf6b0d40455808a5e01839b21d76' # config
-  '7c0773bb95d2386a07280e566df5ceeb2808adacdb1d033be9ebb3d4d0fc055f00bb4553383d0420d1afb177c243e3556c06a2af8434fb3f8bec43e1dc8c5839' # config-chimeraos
+  '95508981a09c0af2975654a63502fb3bef9d7984666dc439db6edd9767286c2e60287a6246da1afa91adacf0f9f8ab7a956a818c4252600169ae49768638a0d4' # config-chimeraos
   'SKIP' # experiments.patch
 )
 
